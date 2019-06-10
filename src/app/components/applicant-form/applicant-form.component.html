@@ -1,0 +1,557 @@
+<main class="container-fluid col-lg-9 mt-5 py-4">
+  <div class="jumbotron jumbotron-fluid px-5 py-4 bg-light wow slideInUp" data-wow-duration="1.25s">
+
+    <div [formGroup]="personalForm">
+      <h3 class="fadeInDown wow" data-wow-delay="1s">
+        Personal Details
+        <hr>
+      </h3>
+      <div class="row">
+        <div class="col-lg-3 fadeInUp wow" data-wow-delay="1.3s">
+          <div>
+            <div class="profile">
+              <div class="photo">
+                <input type="file" accept="image/*">
+                <div class="photo__helper">
+                  <div class="photo__frame photo__frame--circle">
+                    <canvas class="photo__canvas"></canvas>
+                    <div class="message is-empty">
+                      <p class="message--desktop">Drop your photo here or browse your
+                        computer.
+                      </p>
+                      <p class="message--mobile">Tap here to select your picture.</p>
+                    </div>
+                    <div class="message is-loading">
+                      <i class="fa fa-2x fa-spin fa-spinner"></i>
+                    </div>
+                    <div class="message is-dragover">
+                      <i class="fa fa-2x fa-cloud-upload"></i>
+                      <p>Drop your photo</p>
+                    </div>
+                    <div class="message is-wrong-file-type">
+                      <p>Only images allowed.</p>
+                      <p class="message--desktop">Drop your photo here or browse your
+                        computer.
+                      </p>
+                      <p class="message--mobile">Tap here to select your picture.</p>
+                    </div>
+                    <div class="message is-wrong-image-size">
+                      <p>Your photo must be larger than 350px.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="photo__options hide">
+                  <div class="photo__zoom">
+                    <input type="range" class="zoom-handler">
+                  </div><a href="javascript:;" class="remove"><i class="fa fa-trash"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-9">
+
+          <div class="row fadeInUp wow" data-wow-delay="1.4s">
+            <div class="col-lg-4">
+              <label for="input-gender">Select a gender</label>
+              <select name="input-gender" id="input-gender" formControlName="gender" class="form-control">
+                <option value="0">Male</option>
+                <option value="1">Female</option>
+              </select>
+              <label class="text-danger" *ngIf="personalForm.controls.gender.errors?.required && personalForm.controls.gender.touched">
+                Gender is required!
+              </label>
+            </div>
+
+            <div class="col-lg-4">
+              <label for="input-title">Select a title</label>
+              <select name="input-title" id="input-title" formControlName="title" class="form-control">
+                <option value="0">Mr</option>
+                <option value="1">Ms</option>
+                <option value="2">Mrs</option>
+              </select>
+              <label class="text-danger" *ngIf="personalForm.controls.title.errors?.required && personalForm.controls.title.touched">
+                Title is required!
+              </label>
+            </div>
+            <div class="col-lg-4">
+              <label for="input-ethnicity">Select ethnicity</label>
+              <select name="input-ethnicity" id="input-ethinicity" formControlName="ethnicity" class="form-control">
+                <option value="0">Black</option>
+                <option value="1">Colored</option>
+                <option value="2">White</option>
+                <option value="3">Asian</option>
+                <option value="4">Indian</option>
+              </select>
+              <label class="text-danger" *ngIf="personalForm.controls.ethnicity.errors?.required && personalForm.controls.ethnicity.touched">
+                Race is required!
+              </label>
+            </div>
+          </div>
+
+          <div class="row fadeInUp wow" data-wow-delay="1.5s">
+            <div class="col-lg-6 mt-3">
+              <label for="input-first-name">First name</label>
+              <input type="text" id="input-first-name" name="input-first-name" formControlName="firstName" class="form-control">
+              <label class="text-danger" *ngIf="personalForm.controls.firstName.errors?.required && personalForm.controls.firstName.touched">
+                First name is required!
+              </label>
+            </div>
+            <div class="col-lg-6 mt-3">
+              <label for="input-last-name">Last name</label>
+              <input type="text" id="input-last-name" name="input-last-name" formControlName="lastName" class="form-control">
+              <label class="text-danger" *ngIf="personalForm.controls.lastName.errors?.required && personalForm.controls.lastName.touched">
+                Last name is required!
+              </label>
+            </div>
+
+            <div class="col-lg-6 mt-3">
+              <label for="input-disability">Do you have a disability</label>
+              <select class="form-control" name="input-disability" id="input-disability" formControlName="disability">
+                <option value="0">Yes</option>
+                <option value="1">No</option>
+              </select>
+              <label class="text-danger" *ngIf="personalForm.controls.disability.errors?.required && personalForm.controls.disability.touched">
+                Disability is required!
+              </label>
+            </div>
+            <div class="col-lg-6 mt-3">
+
+              <label for="input-input-date-of-birth">Birth date</label>
+              <!-- <input type="text" name="input-experience-start-date" id="input-experience-start-date"> -->
+              <div class="form-group">
+                <div class="input-group">
+                  <input ngbDatepicker #dp3="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" formControlName="birthDate" class="form-control" (navigate)="birthDate = $event.next" name="input-input-date-of-birth" id="input-input-date-of-birth" placeholder="YYYY-MM-DD">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp3.toggle()" type="button"></button>
+                  </div>
+
+                </div>
+              </div>
+              <label class="text-danger" *ngIf="personalForm.controls.birthDate.errors?.required && personalForm.controls.birthDate.touched">
+                Birth date is required!
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row fadeInUp wow" data-wow-delay="1.6s">
+        <div class="col-lg-6 mt-3">
+          <label for="input-citizenship">Are you a South African citizen</label>
+          <select formControlName="citizenship" class="form-control" name="input-citizenship" id="input-citizenship">
+            <option value="0">Yes</option>
+            <option value="1">No</option>
+          </select>
+          <label class="text-danger" *ngIf="personalForm.controls.citizenship.errors?.required && personalForm.controls.citizenship.touched">
+            Citizenship is required!
+          </label>
+        </div>
+        <div class="col-lg-6 mt-3">
+          <label for="input-id-number">ID number</label>
+          <input type="text" id="input-id-number" name="input-id-number" formControlName="idNumber" class="form-control">
+          <label class="text-danger" *ngIf="personalForm.controls.idNumber.errors?.required && personalForm.controls.idNumber.touched">
+            ID Number is required!
+          </label>
+        </div>
+        <div class="col-lg-6 mt-3">
+          <label for="input-residential-suburb">Residential suburb</label>
+          <input type="text" formControlName="residentialSuburb" class="form-control" name="input-residential-suburb" id="input-residential-suburb">
+          <label class="text-danger" *ngIf="personalForm.controls.residentialSuburb.errors?.required && personalForm.controls.residentialSuburb.touched">
+            Residential suburb is required!
+          </label>
+        </div>
+        <div class="col-lg-6 mt-3">
+          <label for="input-residential-town">Residential town</label>
+          <input type="text" formControlName="residentialTown" class="form-control" name="input-residential-town" id="input-residential-town">
+          <label class="text-danger" *ngIf="personalForm.controls.residentialTown.errors?.required && personalForm.controls.residentialTown.touched">
+            Residential town is required!
+          </label>
+        </div>
+        <div class="col-lg-6 mt-3">
+          <label for="input-residential-province">Residential province</label>
+          <select type="text" formControlName="residentialProvince" class="form-control" name="input-residential-province" id="input-residential-province">
+            <option *ngFor="let p of provinces" [value]="p.id">{{ p.label }}</option>
+          </select>
+          <label class="text-danger" *ngIf="personalForm.controls.residentialProvince.errors?.required && personalForm.controls.residentialProvince.touched">
+            Residential province is required!
+          </label>
+        </div>
+        <div class="col-lg-6 mt-3">
+          <label for="input-residential-country">Residential country</label>
+          <select formControlName="residentialCountry" class="form-control" name="input-residential-country" id="input-residential-country">
+            <option *ngFor="let c of countries" [value]="c.id">{{ c.label }}</option>
+          </select>
+          <label class="text-danger" *ngIf="personalForm.controls.residentialCountry.errors?.required && personalForm.controls.residentialCountry.touched">
+            Residential country is required!
+          </label>
+        </div>
+        <div class="col-lg-6 mt-3">
+          <label for="input-relocate">Are you willing to relocate</label>
+          <select name="input-relocate" id="input-relocate" class="form-control">
+            <option value="0">Yes</option>
+            <option value="1">No</option>
+          </select>
+        </div>
+        <div class="col-lg-6 mt-3">
+          <label for="input-phone-number">Phone number</label>
+          <input type="text" formControlName="phoneNumber" class="form-control" name id="input-phone-number">
+          <label class="text-danger" *ngIf="personalForm.controls.phoneNumber.errors?.required && personalForm.controls.phoneNumber.touched">
+            Phone number is required!
+          </label>
+        </div>
+        <div class="col-lg-6 mt-3">
+          <label for="input-email">Email address</label>
+          <input type="email" formControlName="emailAddress" class="form-control" name="input-email" id="input-email">
+          <label class="text-danger" *ngIf="personalForm.controls.emailAddress.errors?.required && personalForm.controls.emailAddress.touched">
+            Email is required!
+          </label>
+        </div>
+      </div>
+
+      <h3 class="fadeInDown wow">
+        <hr>
+        Preferences
+        <hr>
+      </h3>
+      <div class="row fadeInUp wow w-100">
+        <div class="col-lg-6 mt-3">
+          <label for="input-nature-of-employment">Nature of employment</label>
+          <ng-multiselect-dropdown name="natureDropdownList" [placeholder]="" [data]="natureDropDownListObj" formControlName="natureDropdownList" [settings]="dropdownSettings" [disabled]="disabled" (onSelect)="onItemSelect($event)">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+
+      <h3 class="fadeInDown wow w-100">
+        <hr>
+        Other
+        <hr>
+      </h3>
+      <div class="row fadeInUp wow">
+        <div class="col-lg-6 mt-3">
+          <label for="input-relationship">Relationship with us</label>
+          <select formControlName="relationship" class="form-control" name="input-relationship" id="input-relationship">
+            <option value="0">Current Employee</option>
+            <option value="1">Citizen</option>
+          </select>
+        </div>
+
+        <div class="col-lg-6 mt-3">
+          <label for="input-criminal-record">Do you have a criminal record</label>
+          <select formControlName="criminalRecord" class="form-control" name="input-criminal-record" id="input-criminal-record">
+            <option value="0">Yes</option>
+            <option value="1">No</option>
+          </select>
+        </div>
+
+
+        <div class="col-12">
+
+        </div>
+        <div class="col-lg-6 mt-3">
+          <label for="input-criminal-record">Do you have a drivers licence</label>
+
+
+          <ng-multiselect-dropdown name="licenceDropdownList" [placeholder]="''" [data]="licenceDropDownListObj" formControlName="licenceDropdownList" [settings]="dropdownSettings" [disabled]="disabled" (onSelect)="onItemSelect($event)">
+          </ng-multiselect-dropdown>
+
+          <!-- <small id="driversLicenceHelp" class="form-text text-muted">Select those that are applicable</small> -->
+        </div>
+
+        <div class="col-lg-6 mt-3">
+          <label for="input-languages">Select the languages you are profecient in</label>
+          <ng-multiselect-dropdown name="languageDropdownList" [placeholder]="''" [data]="languageDropDownListObj" formControlName="languageDropdownList" [settings]="dropdownSettings" [disabled]="disabled" (onSelect)="onItemSelect($event)">
+          </ng-multiselect-dropdown>
+          <!-- <small id="languagesHelp" class="form-text text-muted">Select those that are applicable</small> -->
+        </div>
+
+        <div class="col-lg-6 mt-3">
+          <label for="input-hear-about-us">How did you hear about us</label>
+          <select formControlName="heardAboutUs" class="form-control" name="input-hear-about-us" id="input-hear-about-us">
+            <option value="Google">Google</option>
+            <option value="Official Website">Official Website</option>
+            <option value="Word of mouth">Word of mouth</option>
+            <option value="News paper">News paper</option>
+            <option value="Radio">Radio</option>
+          </select>
+        </div>
+
+        <div class="col-lg-6 mt-3">
+          <label for="input-marketing-info">Do you want to receive marketing info from us</label>
+          <select formControlName="marketingInfo" class="form-control" name="input-marketing-info" id="input-marketing-info">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+
+        <div class="col-lg-6 mt-3 ">
+          <!-- <label for="input-cv-file">Please upload your CV</label> -->
+          <div class="upload-btn-wrapper">
+            <button class="btn btn-outline-primary ">Upload CV</button>
+            <input type="file" formControlName="cvFile" class="form-control" name="input-cv-file" (change)="onFileChange($event)" id="input-cv-file">
+          </div>
+          <div class="text-muted">
+            {{ this.cvFileName }}
+          </div>
+          <!-- <a href="{{ this.cvFile }}"  (click)="openDoc()">Open</a> -->
+        </div>
+
+
+      </div>
+    </div>
+
+
+
+    <div class="row mt-3 slideInUp wow">
+
+
+    </div>
+    <div class="row mt-3 slideInUp wow" id="experience">
+      <h3 class="fadeInDown wow w-100">
+        <hr>
+        Experience
+        <hr>
+      </h3>
+      <div class="w-100" id="table-container">
+        <table class="table table-striped" *ngIf="experience.length > 0">
+          <thead class="bg-primary text-white text-uppercase">
+            <tr>
+              <td>Job Title</td>
+              <td>Company</td>
+              <td>Country</td>
+              <td>Start Date</td>
+              <td>End Date</td>
+              <td>
+                <a class="btn btn-light btn-add text-capitalize" (click)="open(experienceContent)">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                  <strong> Add</strong>
+                </a>
+              </td>
+            </tr>
+          </thead>
+          <tbody class="table-hover">
+            <tr *ngFor="let i of experience">
+              <td>{{ i.jobTitle }}</td>
+              <td>{{ i.company }}</td>
+              <td>{{ i.country }}</td>
+              <td>{{ i.startDate }}</td>
+              <td>{{ i.endDate }}</td>
+              <td></td>
+            </tr>
+
+
+
+          </tbody>
+        </table>
+
+        <div *ngIf="experience.length == 0" class="w-100 text-center">
+          <h4><i>There is no records of prior work history, please add some.</i></h4>
+          <button type="button" class="btn btn-outline-primary border-0" style="display: block; margin: 0 auto" (click)="open(experienceContent)">ADD EXPERIENCE</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3 slideInUp wow" id="education">
+      <h3 class="fadeInDown wow w-100">
+        <hr>
+        Education
+        <hr>
+      </h3>
+      <div class="w-100" id="table-container">
+        <table class="table table-striped" *ngIf="education.length > 0">
+          <thead class="bg-primary text-white text-uppercase">
+            <tr>
+              <td>Institution</td>
+              <td>Country</td>
+              <td>Qualification Name</td>
+              <td>Qualification Type</td>
+              <td>
+                <a class="btn btn-light btn-add text-capitalize" (click)="open(educationContent)">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                  <strong> Add</strong>
+                </a>
+              </td>
+            </tr>
+          </thead>
+          <tbody class="table-hover">
+            <tr *ngFor="let i of education">
+              <td>{{i.institution}}</td>
+              <td>{{i.institutionCountry}}</td>
+              <td>{{i.qualificationName}}</td>
+              <td>{{i.qualificationType}}</td>
+              <td></td>
+            </tr>
+
+
+
+          </tbody>
+        </table>
+        <div *ngIf="education.length == 0" class="w-100 text-center">
+          <h4><i>There is no records of prior educational history, please add some.</i></h4>
+          <button type="button" class="btn btn-outline-primary border-0" style="display: block; margin: 0 auto" (click)="open(educationContent)">ADD EDUCATION</button>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row mx-0 mt-4 slideInUp wow">
+      <div class="float-right w-100">
+        <button class="btn btn-primary float-right ml-3 w-25" type="button" (click)="saveDetails()">Save</button>
+        <button class="btn btn-danger float-right ml-3 w-25">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- modals here -->
+  <ng-template #experienceContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">Add Experience</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <form [formGroup]="experienceForm">
+        <div class="row">
+          <div class="col-lg-4 mt-3">
+            <label for="input-experience-job-title">Job title</label>
+            <input formControlName="jobTitle" type="text" class="form-control" name="input-experience-job-title" id="input-experience-job-title">
+          </div>
+          <div class="col-lg-4 mt-3">
+            <label for="input-experience-company">Company Name</label>
+            <input formControlName="company" type="text" class="form-control" name="input-experience-company" id="input-experience-company">
+          </div>
+
+          <div class="col-lg-4 mt-3">
+            <label for="input-experience-country">Country</label>
+            <input formControlName="country" type="text" class="form-control" name="input-experience-country" id="input-experience-country">
+          </div>
+
+          <div class="col-lg-4 mt-3">
+            <label for="input-experience-start-date">Start Date</label>
+            <!-- <input type="text" name="input-experience-start-date" id="input-experience-start-date"> -->
+            <div class="form-group">
+
+              <div class="input-group">
+                <input ngbDatepicker #dp1="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" class="form-control" formControlName="startDate" (navigate)="date = $event.next" name="input-experience-start-date" id="input-experience-start-date">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp1.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mt-3">
+            <label for="input-experience-end-date">End Date</label>
+            <!-- <input type="text" name="input-experience-end-date" id="input-experience-end-date"> -->
+            <div class="form-group">
+              <div class="input-group">
+                <input ngbDatepicker #dp2="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" class="form-control" formControlName="endDate" (navigate)="date = $event.next" name="input-experience-start-date" id="input-experience-start-date">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp2.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mt-3">
+            <!-- <input formControlName="currentJob" type="checkbox" name="input-experience-current-workplace" id="input-experience-current-job">
+            <label >Current place of work?</label> -->
+            <div class="custom-control custom-checkbox mb-3 h-100 d-flex align-items-center">
+              <div class="v-align-center">
+                <input formControlName="currentJob" type="checkbox" class="custom-control-input cb-v-align" name="input-experience-current-workplace" id="input-experience-current-workplace">
+                <label class="custom-control-label" for="input-experience-current-workplace">Current Place of Work?</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mt-3">
+            <label for="input-experience-description">Reason For Leaving</label>
+            <textarea formControlName="reasonFortoLeaving" type="text" class="form-control" name="input-experience-description" id="input-experience-reason-for-leaving"></textarea>
+          </div>
+
+          <div class="col-lg-6 mt-3">
+            <label for="input-experience-responsibilities">Responsibiities</label>
+            <textarea formControlName="responsibilities" type="text" class="form-control" name="input-experience-responsibilities" id="input-experience-responsibilities"></textarea>
+          </div>
+
+          <!-- <div class="col-lg-4">
+              <label for="input-experience-current-workplace">Is this your current place of work?</label>
+              <input type="text" name="input-experience-current-workplace" id="input-experience-current-workplace">
+            </div> -->
+        </div>
+      </form>
+
+    </div>
+
+    <div class="modal-footer">
+
+      <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="saveExperience()">Save</button>
+
+    </div>
+
+  </ng-template>
+
+  <ng-template #educationContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">Add Education</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="educationForm">
+        <div class="row">
+          <div class="col-lg-6 mt-3">
+            <label for="input-education-institution">Institution Name</label>
+            <input formControlName="institution" type="text" class="form-control" name="input-education-institution" id="input-education-institution">
+          </div>
+
+          <div class="col-lg-6 mt-3">
+            <label for="input-education-country">Country</label>
+            <input formControlName="country" type="text" class="form-control" name="input-education-country" id="input-education-country">
+          </div>
+
+          <div class="col-lg-6 mt-3">
+            <label for="input-education-institution">Qualification Name</label>
+            <input formControlName="qualificationName" type="text" class="form-control" name="input-education-qualification-name" id="input-education-qualification-name">
+          </div>
+
+          <div class="col-lg-6 mt-3">
+            <label for="input-education-institution">Qualification Type</label>
+            <select formControlName="qualificationType" class="form-control" name="input-education-qualification-type" id="input-education-qualification-type">
+              <option value=""></option>
+              <option [value]="q.id" *ngFor="let q of qualification">{{ q.label }}</option>
+            </select>
+          </div>
+
+
+          <div class="col-lg-6 mt-3">
+            <label for="input-education-start-date">Start Date</label>
+            <input formControlName="startDate" type="text" class="form-control" name="input-education-start-date" id="input-education-start-date">
+          </div>
+
+          <div class="col-lg-6 mt-3">
+            <label for="input-education-end-date">End Date</label>
+            <input formControlName="endDate" type="text" class="form-control" name="input-education-end-date" id="input-education-end-date">
+          </div>
+
+          <div class="col-lg-6 mt-3">
+            <label for="input-education-qualification-description">Qualification Description</label>
+            <textarea formControlName="qualificationDesc" type="text" class="form-control" name="input-education-qualification-description" id="input-education-qualification-description"></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="saveEducation()">Save</button>
+    </div>
+  </ng-template>
+  <!-- close modals here -->
+
+  <app-loader *ngIf="isLoading"></app-loader>
+</main>

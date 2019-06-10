@@ -1,0 +1,45 @@
+{
+    "_applicant_Id": "",
+    "applicantGender": "",
+    "applicantTitle": "",
+    "applicantEthnicity": "",
+    "applicantFirstName": "",
+    "applicantLastName": "",
+    "applicantProfilePicture": "",
+    "applicantAdress": [
+        {
+            "_applicant_Id": "",
+            "_applicantAddress_Id": "",
+            "adressStreetName": "",
+            "adressStreetNumber": "",
+            "addressSuburb": "",
+            "addressCity": "",
+            "addressProvince": "",
+            "addressPostalCode": ""
+        }
+    ],
+    "applicantExperience": [
+        {
+            "_applicant_Id": "",
+            "_applicantExperience_Id": ""
+        }
+    ],
+    "applicantQualification": [
+        {
+            "_applicant_Id": "",
+            "_applicantQualification_Id": ""
+        }
+    ],
+    "applicantProject": [
+        {
+            "_applicant_Id": "",
+            "_applicantProject_Id": ""
+        }
+    ],
+    "applicantAchievement": [
+        {
+            "_applicant_Id": "",
+            "_applicantAchievement_Id": ""
+        }
+    ]
+}

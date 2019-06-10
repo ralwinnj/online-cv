@@ -1,0 +1,119 @@
+<div class="row mx-0">
+  <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+    <div class="card card-signin my-5">
+      <div class="card-body">
+        <h5 class="card-title text-center">Sign Up</h5>
+        <form [formGroup]="signUpForm" class="form-signin">
+          <div class="form-label-group">
+            <label for="inputFirstName">First name</label>
+            <input formControlName="firstName" type="text" id="inputFirstName" class="form-control" placeholder="First name" required autofocus>
+            <label class="text-danger" *ngIf="signUpForm.controls.firstName.errors?.required && signUpForm.controls.firstName.touched">
+              First name is required!
+            </label>
+          </div>
+
+          <div class="form-label-group">
+            <label for="inputLastName">Last name</label>
+            <input formControlName="lastName" type="text" id="inputLastName" class="form-control" placeholder="Last name" required>
+            <label class="text-danger" *ngIf="signUpForm.controls.lastName.errors?.required && signUpForm.controls.lastName.dirty">
+              Last name is required!
+            </label>
+          </div>
+
+          <div class="form-label-group">
+            <label for="inputCitizenship">Citizenship</label>
+            <select formControlName="citizenship" type="text" id="inputCitizenship" class="form-control" placeholder="Citizenship" required>
+              <option [value]="i.id" *ngFor="let i of citizenshipVal"> {{ i.label }}</option>
+            </select>
+            <label class="text-danger" *ngIf="signUpForm.controls.citizenship.errors?.required && signUpForm.controls.citizenship.touched">
+              Citizenship selection is required !
+            </label>
+          </div>
+
+          <div class="form-label-group">
+            <label for="inputLastName">ID number</label>
+            <input formControlName="idNumber" type="text" id="inputIdNumber" class="form-control" placeholder="ID number" required>
+            <label class="text-danger" *ngIf="signUpForm.controls.idNumber.errors?.required&& signUpForm.controls.idNumber.touched">
+              ID number is required!
+            </label>
+          </div>
+
+          <div class="form-label-group">
+            <label for="inputLastName">Cell number</label>
+            <input formControlName="phone" type="text" id="inputPhone" class="form-control" placeholder="Cell number" required>
+            <label class="text-danger" *ngIf="signUpForm.controls.phone.errors?.required && signUpForm.controls.phone.touched">
+              Cell number is required!
+            </label>
+          </div>
+
+          <div class="form-label-group">
+            <label for="inputEmail">Email address</label>
+            <input formControlName="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+            <label class="text-danger" *ngIf="signUpForm.controls.email.errors?.required && signUpForm.controls.email.touched">
+              Email is required!
+            </label>
+            <label class="text-danger" *ngIf="signUpForm.controls.email.errors?.email && signUpForm.controls.email.touched">
+              Enter a valid email address!
+            </label>
+          </div>
+
+          <div class="form-label-group">
+            <label for="inputPassword">Password</label>
+            <input formControlName="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <label class="text-danger" *ngIf="signUpForm.controls.password.errors?.required && signUpForm.controls.password.touched">
+              Password is required!
+            </label>
+            <!-- <label class="col" [ngClass]="signUpForm.controls.password.touched && signUpForm.controls.password.errors?.required || signUpForm.controls.password.errors?.minlength  ? 'text-danger' : 'text-success'">
+              <i class="material-icons">{{ signUpForm.controls.password.errors?.required ||
+                signUpForm.controls.password.errors?.minlength ? 'cancel' :
+                'check_circle' }}</i>
+              Must be at least 8 characters!
+            </label>
+            <label class="col" [ngClass]="signUpForm.controls.password.touched && signUpForm.controls.password.errors?.required || signUpForm.controls.password.errors?.hasNumber  ? 'text-danger' : 'text-success'">
+              <i class="material-icons">{{ signUpForm.controls.password.errors?.required ||
+                signUpForm.controls.password.errors?.hasNumber ? 'cancel' :
+                'check_circle' }}</i>
+              Must contain at least 1 number!
+            </label>
+            <label class="col" [ngClass]="signUpForm.controls.password.touched && signUpForm.controls.password.errors?.required || signUpForm.controls.password.errors?.hasCapitalCase  ? 'text-danger' : 'text-success'">
+              <i class="material-icons">{{ signUpForm.controls.password.errors?.required ||
+                signUpForm.controls.password.errors?.hasCapitalCase ? 'cancel' :
+                'check_circle' }}</i>
+              Must contain at least 1 in Capital Case!
+            </label>
+            <label class="col" [ngClass]="signUpForm.controls.password.touched && signUpForm.controls.password.errors?.required || signUpForm.controls.password.errors?.hasSmallCase  ? 'text-danger' : 'text-success'">
+              <i class="material-icons">{{ signUpForm.controls.password.errors?.required ||
+                signUpForm.controls.password.errors?.hasSmallCase ? 'cancel' :
+                'check_circle' }}</i>
+              Must contain at least 1 Letter in Small Case!
+            </label>
+            <label class="col" [ngClass]="signUpForm.controls.password.touched && signUpForm.controls.password.errors?.required || signUpForm.controls.password.errors?.hasSpecialCharacters ? 'text-danger' : 'text-success'">
+              <i class="material-icons">{{ signUpForm.controls.password.errors?.required ||
+                signUpForm.controls.password.errors?.hasSpecialCharacters ? 'cancel' :
+                'check_circle' }}</i>
+              Must contain at least 1 Special Character!
+            </label> -->
+          </div>
+
+          <div class="form-label-group">
+            <label for="inputPassword">Confirm Password</label>
+            <input formControlName="confirmPassword" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <label class="text-danger" *ngIf="signUpForm.controls.confirmPassword.errors?.required && signUpForm.controls.confirmPassword.touched">
+              Confirm password is required
+            </label>
+            <label class="text-danger" *ngIf="signUpForm.controls.confirmPassword.errors?.NoPassswordMatch && signUpForm.controls.confirmPassword.touched">
+              Passwords do not match
+            </label>
+          </div>
+
+          <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" (click)="submitForm();">Sign in</button>
+          <!-- <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" (click)="openModal();">Open Modal</button> -->
+          <hr class="my-4">
+          <!-- <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit" (click)="submitForm();"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
+          <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button> -->
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-loader *ngIf="isLoading"></app-loader>
+</div>

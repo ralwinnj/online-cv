@@ -1,0 +1,326 @@
+<main class="container-fluid col-lg-9 mt-5 py-4" *ngIf="applicantData">
+  <div class="jumbotron jumbotron-fluid px-5 py-4 bg-light wow slideInUp" data-wow-duration="1.25s">
+    <p>
+
+      {{ applicantData | json }}
+    </p> 
+    <h3 class="fadeInDown wow" data-wow-delay="1s">
+      {{ applicantData.app.firstName }} {{ applicantData.app.lastName }} Details
+      <hr>
+    </h3>
+    <dl class="row">
+
+      <dt class="col-sm-4">Full name</dt>
+      <dd class="col-sm-8">{{ applicantData.firstName }} {{ applicantData.lastName }}</dd>
+
+      <dt class="col-sm-4">ID number</dt>
+      <dd class="col-sm-8">{{ applicantData.idNumber }}</dd>
+
+      <dt class="col-sm-4">Birth date</dt>
+      <dd class="col-sm-8">{{ applicantData.birthDate.year }}-{{ applicantData.birthDate.month }}-{{ applicantData.birthDate.day }}</dd>
+
+      <dt class="col-sm-4">Gender</dt>
+      <dd class="col-sm-8">{{ applicantData.gender }}</dd>
+
+      <dt class="col-sm-4">Ethnicity</dt>
+      <dd class="col-sm-8">{{ applicantData.ethnicity }}</dd>
+
+      <dt class="col-sm-4">Address</dt>
+      <dd class="col-sm-8">{{ applicantData.address }}</dd>
+
+      <dt class="col-sm-4">Citizenship</dt>
+      <dd class="col-sm-8">{{ applicantData.citizenship }}</dd>
+
+      <dt class="col-sm-4">Disablity</dt>
+      <dd class="col-sm-8">{{ applicantData.disability }}</dd>
+
+      <dt class="col-sm-4">Phone number</dt>
+      <dd class="col-sm-8">{{ applicantData.phoneNumber }}</dd>
+
+      <dt class="col-sm-4">Email address</dt>
+      <dd class="col-sm-8">{{ applicantData.emailAddress }}</dd>
+
+      <dt class="col-sm-4">Nature of employment</dt>
+      <dd class="col-sm-8">{{ applicantData.natureOfEmployment.join(', ') }}</dd>
+
+      <dt class="col-sm-4">Relationship with us</dt>
+      <dd class="col-sm-8">{{ applicantData.relationship }}</dd>
+
+      <dt class="col-sm-4">Do you have a criminal record</dt>
+      <dd class="col-sm-8">{{ applicantData.criminalRecord }}</dd>
+
+      <dt class="col-sm-4">Drivers licence</dt>
+      <dd class="col-sm-8">{{ applicantData.driversLicence.join(', ') }}</dd>
+
+      <dt class="col-sm-4">Languages</dt>
+      <dd class="col-sm-8">{{ applicantData.languages.join(', ') }}</dd>
+
+      <dt class="col-sm-4">How did you hear about us</dt>
+      <dd class="col-sm-8">{{ applicantData.hearAboutUs }}</dd>
+
+      <dt class="col-sm-4">Receive marketing info</dt>
+      <dd class="col-sm-8">{{ applicantData.marketingInfo }}</dd>
+
+
+
+
+
+
+
+      <!-- 
+        natureOfEmployment: this.personalForm.value.natureOfEmployment,
+        relationship: this.personalForm.value.relationship,
+        criminalRecord: this.personalForm.value.criminalRecord,
+        driversLicence: this.personalForm.value.driversLicence,
+        languages: this.personalForm.value.languages,
+        hearAboutUs: this.personalForm.value.hearAboutUs,
+        marketingInfo: this.personalForm.value.marketingInfo,
+        experience: this.experience,
+        education: this.education
+       -->
+
+    </dl>
+
+
+    <div class="row mt-3 slideInUp wow" id="experience">
+      <h3 class="fadeInDown wow w-100">
+        <hr>
+        Experience
+        <hr>
+      </h3>
+      <div class="w-100" id="table-container">
+        <table class="table table-striped" *ngIf="applicantData.exp.length > 0">
+          <thead class="bg-primary text-white text-uppercase">
+            <tr>
+              <td>Title</td>
+              <td>Company</td>
+              <td>Location</td>
+              <td>
+                <a class="btn btn-light btn-add text-capitalize" (click)="open(experienceContent)">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                  <strong> Add</strong>
+                </a>
+              </td>
+            </tr>
+          </thead>
+          <tbody class="table-hover">
+            <tr *ngFor="let i of applicantData.experience; index as idx;">
+              <td>
+                {{i.title}}
+              </td>
+              <td>{{i.company}}</td>
+              <td>{{i.location}}</td>
+              <td>
+                <div class="btn-group float-right" role="group" aria-label="Experience Action Button Group">
+                  <button class="btn btn-outline-primary" (click)="edit(i, applicantData.experience)">
+                    <i class="fas fa-pen"></i>
+                  </button>
+
+                  <button class="btn btn-outline-primary" (click)="delete(idx, applicantData.experience)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+
+
+
+          </tbody>
+        </table>
+
+        <div *ngIf="applicantData.experience.length == 0" class="w-100 text-center">
+          <h4><i>There is no records of prior work history, please add some.</i></h4>
+          <button type="button" class="btn btn-outline-primary border-0" style="display: block; margin: 0 auto" (click)="open(experienceContent)">ADD EXPERIENCE</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3 slideInUp wow" id="education">
+      <h3 class="fadeInDown wow w-100">
+        <hr>
+        Education
+        <hr>
+      </h3>
+      <div class="w-100" id="table-container">
+        <table class="table table-striped" *ngIf="applicantData.education.length > 0">
+          <thead class="bg-primary text-white text-uppercase">
+            <tr>
+              <td>Institution</td>
+              <td>Field of Study</td>
+              <td>Year</td>
+              <td>Qualification</td>
+              <td>
+                <a class="btn btn-light btn-add text-capitalize" (click)="open(educationContent)">
+                  <i class="fa fa-plus" aria-hidden="true">
+                  </i>
+                  <strong> Add</strong>
+                </a>
+              </td>
+            </tr>
+          </thead>
+          <tbody class="table-hover">
+            <tr *ngFor="let i of applicantData.education">
+              <td>
+                {{i.institution}}
+              </td>
+              <td>{{i.fieldOfStudy}}</td>
+              <td>{{i.yearCompleted}}</td>
+              <td>{{i.qualificationType}}</td>
+              <td>
+                <div class="btn-group float-right" role="group" aria-label="Education Action Button Group">
+                  <button class="btn btn-outline-primary " (click)="edit(i, applicantData.education)">
+                    <i class="fas fa-pen"></i>
+                  </button>
+                  <button class="btn btn-outline-primary " (click)="delete(idx, applicantData.education)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+
+                </div>
+              </td>
+            </tr>
+
+
+
+          </tbody>
+        </table>
+        <div *ngIf="applicantData.education.length == 0" class="w-100 text-center">
+          <h4><i>There is no records of prior educational history, please add some.</i></h4>
+          <button type="button" class="btn btn-outline-primary border-0" style="display: block; margin: 0 auto" (click)="open(educationContent)">ADD EDUCATION</button>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row mx-0 mt-4 slideInUp wow">
+      <div class="float-right w-100">
+        <button class="btn btn-primary float-right ml-3 w-25" type="button" (click)="submitApplication()">Submit Application</button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- modals here -->
+  <ng-template #experienceContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">Add Experience</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <form [formGroup]="experienceForm">
+        <div class="row">
+          <div class="col-lg-4 mt-3">
+            <label for="input-experience-title">Title</label>
+            <input formControlName="title" type="text" class="form-control" name="input-experience-title" id="input-experience-title">
+          </div>
+          <div class="col-lg-4 mt-3">
+            <label for="input-experience-company">Company Name</label>
+            <input formControlName="company" type="text" class="form-control" name="input-experience-company" id="input-experience-company">
+          </div>
+
+          <div class="col-lg-4 mt-3">
+            <label for="input-experience-location">Location</label>
+            <input formControlName="location" type="text" class="form-control" name="input-experience-location" id="input-experience-location">
+          </div>
+
+          <div class="col-lg-4 mt-3">
+            <label for="input-experience-start-date">Start Date</label>
+            <!-- <input type="text" name="input-experience-start-date" id="input-experience-start-date"> -->
+            <div class="form-group">
+
+              <div class="input-group">
+                <input ngbDatepicker #dp1="ngbDatepicker" class="form-control" formControlName="startDate" (navigate)="date = $event.next" name="input-experience-start-date" id="input-experience-start-date">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp1.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mt-3">
+            <label for="input-experience-end-date">End Date</label>
+            <!-- <input type="text" name="input-experience-end-date" id="input-experience-end-date"> -->
+            <div class="form-group">
+              <div class="input-group">
+                <input ngbDatepicker #dp2="ngbDatepicker" class="form-control" formControlName="endDate" (navigate)="date = $event.next" name="input-experience-start-date" id="input-experience-start-date">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp2.toggle()" type="button"></button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-lg-4 mt-3">
+            <label for="input-experience-current-workplace">Is this your current place of work?</label>
+            <input formControlName="currentPlaceOfWork" type="checkbox" class="form-control" name="input-experience-current-workplace" id="input-experience-current-workplace">
+          </div>
+
+          <div class="col-lg-8 mt-3">
+            <label for="input-experience-description">Description</label>
+            <textarea formControlName="description" type="text" class="form-control" name="input-experience-description" id="input-experience-description"></textarea>
+          </div>
+
+          <!-- <div class="col-lg-4">
+                <label for="input-experience-current-workplace">Is this your current place of work?</label>
+                <input type="text" name="input-experience-current-workplace" id="input-experience-current-workplace">
+              </div> -->
+        </div>
+      </form>
+
+    </div>
+
+    <div class="modal-footer">
+
+      <button type="button" class="btn btn-dark" (click)="modal.close('Save click')">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="saveExperience()">Save</button>
+
+    </div>
+
+  </ng-template>
+
+  <ng-template #educationContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">Add Education</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <!-- <div [formGroup]="educationForm"></div> -->
+      <form [formGroup]="educationForm">
+        <div class="row">
+          <div class="col-lg-6 mt-3">
+            <label for="input-education-year-completed">Year Completed</label>
+            <input formControlName="yearCompleted" type="text" class="form-control" name="input-education-year-completed" id="input-education-year-completed">
+          </div>
+          <div class="col-lg-6 mt-3">
+            <label for="input-education-institution">Institution Name</label>
+            <input formControlName="institution" type="text" class="form-control" name="input-education-institution" id="input-education-institution">
+          </div>
+
+          <div class="col-lg-6 mt-3">
+            <label for="input-education-field-of-study">Field of Study</label>
+            <input formControlName="fieldOfStudy" type="text" class="form-control" name="input-education-field-of-study" id="input-education-field-of-study">
+          </div>
+
+          <div class="col-lg-6 mt-3">
+            <label for="input-education-qualification-type">Qualification Type</label>
+            <select formControlName="qualificationType" class="form-control" name="input-education-qualification-type" id="input-education-qualification-type">
+              <option value="q" *ngFor="let q of qualifications">{{ q }}</option>
+            </select>
+          </div>
+
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="modal.close('Save click')">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="saveEducation()">Save</button>
+    </div>
+  </ng-template>
+  <!-- close modals here -->
+</main>
+<app-loader *ngIf="isLoading"></app-loader>
