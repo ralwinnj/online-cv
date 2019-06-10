@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxResponsiveStackTableModule } from 'ngx-responsive-stack-table';
 
 import { AppRoutingModule, AppModuleList } from './app-routing.module';
 
@@ -32,9 +33,10 @@ import { AlertModalComponent } from './components/shared/alert-modal/alert-modal
     }),
     HttpClientModule,
     ReactiveFormsModule,
+    NgxResponsiveStackTableModule,
     NgbModalModule,
     NgbDatepickerModule,
-    NgbAlertModule
+    NgbAlertModule,
   ],
   providers: [
     ApiService,

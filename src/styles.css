@@ -2,4 +2,5 @@
 @import './assets/css/animate.css';
 @import './assets/css/bootstrap.min.css';
 /* @import './assets/assets/fontawesome/css/all.min.css'; */
+@import "../node_modules/ngx-responsive-stack-table/ngx-responsive-stack-table.css";
 @import './assets/css/main.css';
