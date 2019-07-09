@@ -89,8 +89,8 @@ export class CustomData {
 
     // 5.
     public static disability = [
-        { id: 0, label: 'Yes' },
-        { id: 1, label: 'No' }
+        { id: 0, label: 'No' },
+        { id: 1, label: 'Yes' }
     ]
 
     // 6.
@@ -109,12 +109,12 @@ export class CustomData {
     public static qualifications = [
         { id: 0, label: 'Matric' },
         { id: 1, label: 'Certificate' },
-        { id: 2, label: 'N 1' },
-        { id: 3, label: 'N 2' },
-        { id: 4, label: 'N 3' },
-        { id: 5, label: 'N 4' },
-        { id: 6, label: 'N 5' },
-        { id: 7, label: 'N 6' },
+        { id: 2, label: 'N1' },
+        { id: 3, label: 'N2' },
+        { id: 4, label: 'N3' },
+        { id: 5, label: 'N4' },
+        { id: 6, label: 'N5' },
+        { id: 7, label: 'N6' },
         { id: 8, label: 'Diploma' },
         { id: 9, label: 'Bachelors' },
         { id: 10, label: 'Masters' },
@@ -128,6 +128,11 @@ export class CustomData {
         { id: 1, label: 'Unemployed' },
     ]
 
+    public static relationship = [
+        { id: 0, label: 'Citizen' },
+        { id: 1, label: 'Current Employee' },
+    ]
+
     // 9.
     public static citizenship = [
         { id: 0, label: 'South African citizen' },
@@ -135,7 +140,21 @@ export class CustomData {
     ]
 
     public static title = [
-        {id: 0, label: ""}
+        { id: 0, label: "" }
+    ]
+
+    public static skills = [
+        { id: 0, label: 'MS Word' },
+        { id: 1, label: 'MS PowerPoint' },
+        { id: 2, label: 'MS Excel' },
+        { id: 3, label: 'MS Outlook' },
+        { id: 4, label: 'Other' },
+    ]
+
+    public static competencies = [
+        { id: 0, label: 'Beginner' },
+        { id: 1, label: 'Intermediate' },
+        { id: 2, label: 'Advanced' },
     ]
 
     constructor(public modalService: NgbModal) {
@@ -143,27 +162,40 @@ export class CustomData {
     }
 
     public static getValue(type, id) {
+        console.log('custom-data getValue', type, id)
         switch (type.toLowerCase()) {
             case 'province':
-                return this.province.find(e => e.id === id);
-            case 'country':
-                return this.country.find(e => e.id === id);
-            case 'gender':
-                return this.gender.find(e => e.id === id);
-            case 'race':
-                return this.gender.find(e => e.id === id);
-            case 'disability':
-                return this.disability.find(e => e.id === id);
-            case 'disabilitynatuture':
-                return this.disabilityNature.find(e => e.id === id);
-            case 'qualifications':
-                return this.disabilityNature.find(e => e.id === id);
-            case 'employmentstatus':
-                return this.employmentStatus.find(e => e.id === id)
-            default:
+                return this.province.find(e => e.id === parseInt(id));
                 break;
+            case 'country':
+                return this.country.find(e => e.id === parseInt(id));
+                break;
+            case 'gender':
+                return this.gender.find(e => e.id === parseInt(id));
+                break;
+            case 'race':
+                return this.race.find(e => e.id === parseInt(id));
+                break;
+            case 'disability':
+                return this.disability.find(e => e.id === parseInt(id));
+                break;
+            case 'disabilitynatuture':
+                return this.disabilityNature.find(e => e.id === parseInt(id));
+                break;
+            case 'qualifications':
+                return this.qualifications.find(e => e.id === parseInt(id));
+                break;
+            case 'employmentstatus':
+                return this.employmentStatus.find(e => e.id === parseInt(id));
+                break;
+            case 'relationship':
+                return this.relationship.find(e => e.id === parseInt(id));
+                break;
+            default:
+                return;
         }
     }
+
 
 
     createLoginSample = {

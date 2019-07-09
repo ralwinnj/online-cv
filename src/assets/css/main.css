@@ -3,11 +3,11 @@ body {
 }
 
 a {
-  color: #00fff5;
+  color: #038387c4;
 }
 
 a:hover {
-  color: #0dded5e0;
+  color: #038387;
 }
 
 .preview {
@@ -520,11 +520,10 @@ a:hover {
 }
 
 .btn-add:hover {
-  color: #038387;
-  background-color: #e2e6ea;
-  border-color: #dae0e5;
+    color: #038387;
+    background-color: #06a4a9fc;
+    border-color: #dae0e5;
 }
-
 header, footer {
   position: fixed;
   width: 100%;
@@ -698,6 +697,7 @@ select.form-control {
 
 .table th, .table td {
   padding: 0.5rem;
+  vertical-align: middle  ;
 }
 
 .navbar {
@@ -723,3 +723,73 @@ select.form-control {
 .cb-align {}
 
 .lbl-align {}
+
+
+ngb-datepicker-navigation-select>.custom-select {
+    background-position: right 0.5rem center;
+    background-color: white;
+}
+
+ngb-datepicker-navigation-select>.custom-select:focus {
+    box-shadow: 0 0 0 0.0rem rgba(26,26,26,0.25);
+}
+
+.ngb-dp-header.bg-light {
+    border-radius: 0;
+    border:  0;
+}
+
+.ngb-dp-week.ngb-dp-weekdays.bg-light {
+    border: none;
+    background-color: #038387 !important;
+
+}
+
+.ngb-dp-week.ngb-dp-weekdays.bg-light * {
+    color: white !important
+}
+
+button.btn.btn-link.ngb-dp-arrow-btn {
+    outline-width: 0;
+    padding: 0rem 1rem;
+}
+
+ngb-datepicker.dropdown-menu.show {
+    border-color: rgba(3, 131, 135, 1) !important;
+}
+
+[ngbDatepickerDayView] {
+    border-radius: 0;
+}
+
+.btn-light:focus, .btn-light.focus {
+    box-shadow: 0 0 0 0.2rem rgba(3, 131, 135, 0.5);
+    outline-width: 0;
+} 
+
+button:focus {
+  outline: none;
+}
+
+.btn-action {
+
+}
+
+.btn.action:hover {
+
+}
+
+.btn-action:focus {
+
+}
+
+.btn-action {
+
+}
+
+
+.signin-link-container a {
+  display: block;
+  padding: 0;
+  text-align: center;
+}

@@ -10,6 +10,16 @@ import { PageNotFoundComponent } from './components/shared/page-not-found/page-n
 import { CreateAccountComponent } from './components/create-account/create-account.component';
 import { ThankYouComponent } from './components/shared/thank-you/thank-you.component';
 import { AlertModalComponent } from './components/shared/alert-modal/alert-modal.component';
+import { ComputerLiteracyModalComponent } from './components/shared/computer-literacy-modal/computer-literacy-modal.component';
+import { GeneralModalComponent } from './components/shared/general-modal/general-modal.component';
+import { CriminalRecordModalComponent } from './components/shared/criminal-record-modal/criminal-record-modal.component';
+import { DisciplinaryRecordModalComponent } from './components/shared/disciplinary-record-modal/disciplinary-record-modal.component';
+import { ExperienceModalComponent } from './components/shared/experience-modal/experience-modal.component';
+import { PoliticalOfficeModalComponent } from './components/shared/political-office-modal/political-office-modal.component';
+import { ProfessionalMembershipModalComponent } from './components/shared/professional-membership-modal/professional-membership-modal.component';
+import { QualificationModalComponent } from './components/shared/qualification-modal/qualification-modal.component';
+import { ReferenceModalComponent } from './components/shared/reference-modal/reference-modal.component';
+import { MapsSearchComponent } from './components/shared/maps-search/maps-search.component';
 
 const routes: Routes = [
   {
@@ -66,5 +76,28 @@ export const AppModuleList = [
   PageNotFoundComponent,
   CreateAccountComponent,
   ThankYouComponent,
-  AlertModalComponent
+  MapsSearchComponent,
+  AlertModalComponent,
+  ComputerLiteracyModalComponent,
+  GeneralModalComponent,
+  CriminalRecordModalComponent,
+  DisciplinaryRecordModalComponent,
+  ExperienceModalComponent,
+  PoliticalOfficeModalComponent,
+  ProfessionalMembershipModalComponent,
+  QualificationModalComponent,
+  ReferenceModalComponent
 ];
+export const AppModals = [
+  AlertModalComponent,
+  ComputerLiteracyModalComponent,
+  GeneralModalComponent,
+  CriminalRecordModalComponent,
+  DisciplinaryRecordModalComponent,
+  ExperienceModalComponent,
+  PoliticalOfficeModalComponent,
+  ProfessionalMembershipModalComponent,
+  QualificationModalComponent,
+  ReferenceModalComponent
+]
+

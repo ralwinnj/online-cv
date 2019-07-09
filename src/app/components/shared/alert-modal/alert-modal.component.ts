@@ -11,6 +11,7 @@ export class AlertModalComponent implements OnInit {
   @Input() public message;
   @Input() public object;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
+  
   constructor(public modal: NgbModal, public activeModal: NgbActiveModal) { }
 
   ngOnInit() {
@@ -23,5 +24,7 @@ export class AlertModalComponent implements OnInit {
     this.passEntry.emit({ title: this.title, message: this.message });
     this.activeModal.dismiss('Cross click');
   }
+
+
 
 }

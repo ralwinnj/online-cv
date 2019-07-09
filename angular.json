@@ -28,7 +28,8 @@
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
-              "node_modules/crypto-js/crypto-js.js"
+              "node_modules/crypto-js/crypto-js.js",
+              "node_modules/jquery/dist/jquery.min.js"
             ],
             "es5BrowserSupport": true
           },

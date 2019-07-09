@@ -6,16 +6,14 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxResponsiveStackTableModule } from 'ngx-responsive-stack-table';
 
-import { AppRoutingModule, AppModuleList } from './app-routing.module';
+import { AppRoutingModule, AppModuleList, AppModals } from './app-routing.module';
 
-import { NgbModalModule, NgbDatepickerModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbDatepickerModule, NgbAlertModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ToastrModule } from 'ngx-toastr';
 
 import { ApiService } from './shared/api.service';
 import { EncrDecrService } from './shared/encr-decr.service';
-
-import { AlertModalComponent } from './components/shared/alert-modal/alert-modal.component';
 
 @NgModule({
   declarations: [
@@ -26,14 +24,10 @@ import { AlertModalComponent } from './components/shared/alert-modal/alert-modal
     BrowserModule,
     AppRoutingModule,
     NgMultiSelectDropDownModule.forRoot(),
-    ToastrModule.forRoot({
-      timeOut: 3000,
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
-    }),
     HttpClientModule,
     ReactiveFormsModule,
     NgxResponsiveStackTableModule,
+    // NgbTooltip,
     NgbModalModule,
     NgbDatepickerModule,
     NgbAlertModule,
@@ -43,6 +37,8 @@ import { AlertModalComponent } from './components/shared/alert-modal/alert-modal
     EncrDecrService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AlertModalComponent]
+  entryComponents: [
+    AppModals
+  ]
 })
 export class AppModule { }

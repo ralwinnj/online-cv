@@ -1,4 +1,6 @@
 
+import * as $ from 'jquery';
+import * as jQuery from 'jquery';
 
 /**
  * Initiate wow.js plugin

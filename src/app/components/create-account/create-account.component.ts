@@ -104,7 +104,7 @@ export class CreateAccountComponent implements OnInit {
             switch (this.responseData.StatusCode) {
               case 200:
                 // request successful nav to next page
-                this.openModal('Success', this.responseData.Message || 'User successfully created.', this.responseData, 'signin');
+                this.openModal(`Account for ${this.signUpForm.value.firstName} ${this.signUpForm.value.lastName} created successfully` , this.responseData.Message || 'User successfully created.', this.responseData, 'signin');
 
                 console.log(200);
                 break;

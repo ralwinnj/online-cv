@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Add Computer Skill</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="computerLiteracyForm">
+    <div class="row">
+      <div class="col-lg-6 mt-3">
+        <label for="input-skill">Skill</label>
+        <select formControlName="skill" type="text" class="form-control" name="input-skill" id="input-skill">
+          <option *ngFor="let i of skills" [value]="i.label">{{ i.label }}</option>
+        </select>
+        <label class="text-danger" *ngIf="computerLiteracyForm.controls.skill.errors?.required && computerLiteracyForm.controls.skill.touched">
+          Skill is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label for="input-competency">Level of Competency</label>
+        <select formControlName="competency" class="form-control" name="input-competency" id="input-competency">
+          <option [value]="i.label" *ngFor="let i of competencies">{{ i.label }}</option>
+        </select>
+        <label class="text-danger" *ngIf="computerLiteracyForm.controls.competency.errors?.required && computerLiteracyForm.controls.competency.touched">
+          Level of competency is required!
+        </label>
+      </div>
+
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+</div>

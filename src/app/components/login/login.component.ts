@@ -49,7 +49,6 @@ export class LoginComponent implements OnInit {
 
       setTimeout(() => {
 
-
         const data = {
           "Email": this.loginForm.value.email,
           "Password": this.loginForm.value.password

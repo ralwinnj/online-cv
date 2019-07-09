@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Add Professional Membership</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="professionalMebershipForm">
+    <div class="row">
+      <div class="col-lg-6 mt-3">
+        <label>Professional Body</label>
+        <input formControlName="professionalBody" type="text" class="form-control">
+
+        <label class="text-danger" *ngIf="professionalMebershipForm.controls.professionalBody.errors?.required && professionalMebershipForm.controls.professionalBody.touched">
+          Professional Body is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label>Membership Number</label>
+        <input formControlName="membershipNumber" class="form-control">
+
+        <label class="text-danger" *ngIf="professionalMebershipForm.controls.membershipNumber.errors?.required && professionalMebershipForm.controls.membershipNumber.touched">
+          Membership Number is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label>Expiry Date</label>
+        <div class="input-group">
+          <input ngbDatepicker #dp1="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" class="form-control" formControlName="expiryDate" (navigate)="date = $event.next" placeholder="YYYY-MM-DD">
+          <div class="input-group-append">
+            <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp1.toggle()" type="button"></button>
+          </div>
+        </div>
+        <label class="text-danger" *ngIf="professionalMebershipForm.controls.expiryDate.errors?.required && professionalMebershipForm.controls.expiryDate.touched">
+          Exprity Date is required!
+        </label>
+      </div>
+
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+</div>

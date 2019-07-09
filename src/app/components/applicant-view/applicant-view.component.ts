@@ -4,42 +4,58 @@ import { FormBuilder } from '@angular/forms';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { AlertModalComponent } from '../shared/alert-modal/alert-modal.component';
+import { CustomData } from 'src/app/shared/custom-data';
+
 @Component({
   selector: 'app-applicant-view',
   templateUrl: './applicant-view.component.html',
   styleUrls: ['./applicant-view.component.css']
 })
-export class ApplicantViewComponent implements OnInit{
+export class ApplicantViewComponent implements OnInit {
   applicantData;
   experienceForm;
   educationForm;
   isLoading = true;
   responseData: any;
-
-  constructor(private modalService: NgbModal, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private api: ApiService) { }
-
+  myEmail:   string = '';
+  constructor(
+    private modalService: NgbModal,
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private api: ApiService) { 
+      
+      // this.applicantData = JSON.parse(localStorage.getItem('oja_usr'));
+    }
   ngOnInit() {
     this.experienceForm = this.fb.group({
-      title: [],
-      company: [],
-      location: [],
-      currentPlaceOfWork: [],
-      startDate: [],
-      endDate: [],
-      description: [],
-      
+      idNumber: [null],
+      jobTitle: [null],
+      company: [null],
+      country: [null],
+      startDate: [new Date()],
+      endDate: [new Date()],
+      currentJob: [false],
+      createdAt: [new Date()],
+      responsibilities: [null],
+      reasonFortoLeaving: [null],
     });
-    
     this.educationForm = this.fb.group({
-      yearCompleted: [],
-      institution: [],
-      fieldOfStudy: [],
-      qualificationType: [],
+      idNumber: [null],
+      institution: [null],
+      institutionCountry: [null],
+      qualificationTypeId: [null],
+      qualificationName: [null],
+      startDate: [new Date()],
+      endDate: [new Date()],
+      qualificationDesc: [null],
     });
-    
-    this.isLoading = false
+    this.isLoading = false;
+    this.route.queryParams.subscribe(params => {
+      this.myEmail = params['email'];
+    });
+    console.log('oja_usr data: ', this.applicantData);
     this.getApplicantDetails();
-    
   }
 
 
@@ -164,5 +180,10 @@ export class ApplicantViewComponent implements OnInit{
         callback();
       }
     })
+  }
+
+  getValue(type, id) {
+    console.log('am i working.... ');
+    return CustomData.getValue(type, id);
   }
 }

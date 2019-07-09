@@ -1,15 +1,20 @@
-import { EncrDecrService } from './../../shared/encr-decr.service';
+import { ReferenceModalComponent } from './../shared/reference-modal/reference-modal.component';
+import { CriminalRecordModalComponent } from './../shared/criminal-record-modal/criminal-record-modal.component';
+import { DisciplinaryRecordModalComponent } from './../shared/disciplinary-record-modal/disciplinary-record-modal.component';
+import { ProfessionalMembershipModalComponent } from './../shared/professional-membership-modal/professional-membership-modal.component';
+import { ComputerLiteracyModalComponent } from './../shared/computer-literacy-modal/computer-literacy-modal.component';
+import { QualificationModalComponent } from './../shared/qualification-modal/qualification-modal.component';
 import { ApiService } from './../../shared/api.service';
 import { CustomData } from 'src/app/shared/custom-data';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
-import { NgbModal, ModalDismissReasons, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic/src/platform_providers';
 import { AlertModalComponent } from '../shared/alert-modal/alert-modal.component';
 
-// import '../../../assets/js/scripts.js'
+import '../../../assets/js/scripts.js';
+import { ExperienceModalComponent } from '../shared/experience-modal/experience-modal.component';
 
 @Component({
   selector: 'app-applicant-form',
@@ -25,12 +30,12 @@ export class ApplicantFormComponent implements OnInit {
   educationForm: FormGroup;
   experienceForm: FormGroup;
   birthDate: Date;
-  customSelect;
+  customSelect: typeof CustomData;
 
   personal: {};
 
   personals = [];
-
+  myEmail;
   experience: {
     idNumber: string,
     jobTitle: string;
@@ -44,19 +49,19 @@ export class ApplicantFormComponent implements OnInit {
   }[] = [];
 
   education: {
-    idNumber: string;
-    institution: string;
+    idNumber: any;
+    institute: any;
     institutionCountry: any;
-    qualificationType: any;
-    qualificationName: string;
+    qualificationTypeId: any;
+    qualificationName: any;
     startDate: Date;
     endDate: Date;
-    qualificationDesc: string
+    qualificationDesc: any;
   }[] = [];
 
-  qualification;
+  qualification: { id: number; label: string; }[];
 
-  cvFileName: string;
+  cvFileName;
 
   cvFile;
 
@@ -77,29 +82,43 @@ export class ApplicantFormComponent implements OnInit {
   ShowFilter = false;
   limitSelection = false;
   dropdownSettings: any = {};
-  loginData;
+  loginData: any;
   responseData;
-  applicantData;
+  applicantData: any;
   languages: any = [];
   natureOfEmp: any = [];
   licences: any = [];
 
+  qualificationList = [
+    // {id: 1, nameOfInstitute: "CTI", nameOfQualification: "Diploma in computer programming", typeOfQualification: "Diploma", yearObtained: 2012}
+  ];
+  professionalMembershipList = [];
+  computerLiteracyList = [];
+  experienceList = [];
+  disciplinaryRecordList = [];
+  criminalRecordList = [];
+  referenceList = [];
+
+  // politicalOfficeList = [];
+
+
 
   constructor(
     private modalService: NgbModal,
-    private calendar: NgbCalendar,
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private api: ApiService,
-    private encrDecr: EncrDecrService) {
+    private api: ApiService, 
+    //private ngbTooltip: NgbTooltip
+    ) {
   }
 
   ngOnInit() {
     this.initForm();
     this.initPage();
+
     this.route.queryParams.subscribe(params => {
-      // val = params['email'];
+      this.myEmail = params['email'];
       console.log(params['email']);
       if (params['email'] !== undefined) {
         this.toDisable = false;
@@ -115,33 +134,39 @@ export class ApplicantFormComponent implements OnInit {
   public initForm() {
 
     this.personalForm = this.fb.group({
-      gender: [null, Validators.compose([Validators.required])],
-      title: [null, Validators.compose([Validators.required])],
-      ethnicity: [null, Validators.compose([Validators.required])],
-      firstName: [null, Validators.compose([Validators.required])],
-      lastName: [null, Validators.compose([Validators.required])],
-      disability: [null, Validators.compose([Validators.required])],
-      birthDate: [null, Validators.compose([Validators.required])],
-      citizenship: [null, Validators.compose([Validators.required])],
-      idNumber: [{ value: null, disabled: false }, Validators.compose([Validators.required])],
-      address: [null, Validators.compose([Validators.required])],
-      residentialSuburb: [null, Validators.compose([Validators.required])],
-      residentialTown: [null, Validators.compose([Validators.required])],
-      residentialProvince: [null, Validators.compose([Validators.required])],
-      residentialCountry: [null, Validators.compose([Validators.required])],
-      phoneNumber: [{ value: null, disabled: false }, Validators.compose([Validators.required])],
-      emailAddress: [{ value: null, disabled: false }, Validators.compose([Validators.required, Validators.email])],
-      natureOfEmployment: [null, Validators.compose([Validators.required])],
+      gender: ['', Validators.compose([Validators.required])],
+      title: ['', Validators.compose([Validators.required])],
+      firstName: ['', Validators.compose([Validators.required])],
+      lastName: ['', Validators.compose([Validators.required])],
+      race: ['', Validators.compose([Validators.required])],
+      dependant: [false, Validators.compose([Validators.required])],
+      dependentAge: [''],
+      disability: [false, Validators.compose([Validators.required])],
+      disabilityNature: [''],
+      citizenship: ['', Validators.compose([Validators.required])],
+      idNumber: ['', Validators.compose([Validators.required])],
+      nationality: ['', Validators.compose([Validators.required])],
+      workPermitNumber: [''],
+      sarsRegistered: [true, Validators.compose([Validators.required])],
+      sarsTaxNumber: [''],
+      driversLicence: [false, Validators.compose([Validators.required])],
+      driversLicenceType: [''],
+      address: ['', Validators.compose([Validators.required])],
+      language: [this.languageSelectedItems, Validators.compose([Validators.required])],
+      phoneNumber: ['', Validators.compose([Validators.required])],
+      emailAddress: [{ value: '', disabled: false }, Validators.compose([Validators.required, Validators.email])],
+      createAt: [new Date(), Validators.compose([Validators.required])],
+      natureOfEmployment: ['', Validators.compose([Validators.required])],
       natureDropdownList: [this.natureSelectedItems],
       licenceDropdownList: [this.licenceSelectedItems],
       languageDropdownList: [this.languageSelectedItems],
-      relationship: [null, Validators.compose([Validators.required])],
-      criminalRecord: [null, Validators.compose([Validators.required])],
-      driversLicence: [null, Validators.compose([Validators.required])],
-      languages: [null, Validators.compose([Validators.required])],
-      heardAboutUs: [null, Validators.compose([Validators.required])],
-      marketingInfo: [null, Validators.compose([Validators.required])],
-      cvFile: [null, Validators.compose([Validators.required])]
+      relationship: ['', Validators.compose([Validators.required])],
+      criminalRecord: ['', Validators.compose([Validators.required])],
+      languages: ['', Validators.compose([Validators.required])],
+      heardAboutUs: ['', Validators.compose([Validators.required])],
+      marketingInfo: ['', Validators.compose([Validators.required])],
+      cvFile: ['', Validators.compose([Validators.required])],
+      birthDate: [''],
     });
 
     this.experienceForm = this.fb.group({
@@ -151,7 +176,7 @@ export class ApplicantFormComponent implements OnInit {
       country: [null],
       startDate: [new Date()],
       endDate: [new Date()],
-      currentJob: [null],
+      currentJob: [false],
       createdAt: [new Date()],
       responsibilities: [null],
       reasonFortoLeaving: [null],
@@ -160,7 +185,7 @@ export class ApplicantFormComponent implements OnInit {
     this.educationForm = this.fb.group({
       idNumber: [null],
       institution: [null],
-      InstitutionCountry: [null],
+      institutionCountry: [null],
       qualificationTypeId: [null],
       qualificationName: [null],
       startDate: [new Date()],
@@ -221,9 +246,9 @@ export class ApplicantFormComponent implements OnInit {
     this.customSelect = CustomData;
   }
 
-  getApplicantDetails(callback?) {
+  getApplicantDetails(callback?: { (): void; (): void; }) {
     let val = this.route.snapshot.paramMap.get('email');
-    let data;
+    let data: { email: string; };
     this.route.queryParams.subscribe(params => {
       val = params['email'];
       data = {
@@ -240,9 +265,17 @@ export class ApplicantFormComponent implements OnInit {
               case 200:
                 // request successful nav to next page
                 console.log(200);
-                console.log("Console.... ", this.responseData.Result);
                 this.toDisable = true;
+                // localStorage.removeItem('oja_usr');
+                // localStorage.removeItem('applicant_list');
+                // localStorage.removeItem('applicant_data');
+                // localStorage.setItem('oja_usr', JSON.stringify(this.responseData.Result[0]));
+
                 this.setFormValues(this.responseData.Result[0]);
+
+                if (callback) {
+                  callback();
+                }
                 break;
               case 300:
                 // request came back with multiple records when it should not nav to login page
@@ -292,10 +325,11 @@ export class ApplicantFormComponent implements OnInit {
 
   }
 
-  setFormValues(data) {
+  setFormValues(data: { app: { gender: any; race: any; firstName: any; lastName: any; disability: any; idNumber: any; suburb: any; residentialTown: any; residentialProvince: any; residentialCountry: any; cellNo: any; relationshipWithUs: any; criminalRecord: any; heardAboutUs: any; marketingInfo: any; }; }) {
     let myForm = this.personalForm;
     this.route.queryParams.subscribe(params => {
       const email = params['email'];
+      console.log({ year: parseInt(data.app.idNumber.substring(0, 2)), month: parseInt(data.app.idNumber.substring(2, 4)), day: parseInt(data.app.idNumber.substring(4, 6)) });
       myForm.patchValue({
         gender: data.app.gender,
         ethnicity: data.app.race,
@@ -303,6 +337,7 @@ export class ApplicantFormComponent implements OnInit {
         lastName: data.app.lastName,
         disability: data.app.disability,
         idNumber: data.app.idNumber,
+        birthDate: { year: parseInt("19" + data.app.idNumber.substring(0, 2)), month: parseInt(data.app.idNumber.substring(2, 4)), day: parseInt(data.app.idNumber.substring(4, 6)) },
         residentialSuburb: data.app.suburb,
         residentialTown: data.app.residentialTown,
         residentialProvince: data.app.residentialProvince,
@@ -318,7 +353,7 @@ export class ApplicantFormComponent implements OnInit {
 
   }
 
-  open(content) {
+  open(content: any) {
     console.log('content is : ', content)
     this.modalService.open(content, {
       ariaLabelledBy: "modal-title",
@@ -348,95 +383,25 @@ export class ApplicantFormComponent implements OnInit {
   public saveExperience() {
     this.isLoading = true;
     setTimeout(() => {
-      const data = {
+      const edata = {
         idNumber: this.personalForm.value.idNumber,
         jobTitle: this.experienceForm.value.jobTitle,
         company: this.experienceForm.value.company,
-        country: this.experienceForm.value.country,
-        startDate: this.experienceForm.value.startDate,
-        endDate: this.experienceForm.value.endDate,
+        country: parseInt(this.experienceForm.value.country),
+        employStatus: 0,
+        startDate: new Date(`${this.experienceForm.value.startDate.year || "1900"} ${this.experienceForm.value.startDate.month || "1"} ${this.experienceForm.value.startDate.day || "1"} 12:00:00`),
+        endDate: new Date(`${this.experienceForm.value.endDate.year || "1900"} ${this.experienceForm.value.endDate.month || "1"} ${this.experienceForm.value.endDate.day || "1"} 12:00:00`),
         currentJob: this.experienceForm.value.currentJob,
+        createdAt: new Date(),
         reasonFortoLeaving: this.experienceForm.value.reasonFortoLeaving,
         responsibilities: this.experienceForm.value.responsibilities,
       }
 
-      this.experience.push(data);
-      this.experienceForm.reset();
-      
-      alert('Thank you. Experience added successfully.');
+
+      console.log('Data to be pushed', edata);
+      // alert('Thank you. Experience added successfully.');
       this.isLoading = false;
-      /* this.api.EducationAdd(data)
-      .subscribe(
-        data => {
-          this.responseData = data;
-          console.log('the response data: ', this.responseData);
-          switch (this.responseData.StatusCode) {
-            case 200:
-              // request successful nav to next page
-              // this.openModal(
-              //   'Success',
-              //   this.responseData.Message || 'User successfully created.',
-              //   this.responseData, () => {
-              //   });
-              alert('Thank you. Experience added successfully.');
-              console.log(200);
-              break;
-
-            case 400:
-              // request had validation errors
-              alert(this.responseData.Message);
-              console.log(400);
-              break;
-
-            case 500:
-              // request came back with a server error
-              alert(this.responseData.Message);
-              console.log(500);
-              break;
-
-            default:
-              break;
-          }
-
-        },
-        error => {
-          this.openModal('Error', error.message, error);
-          // this.isLoading = false;
-        },
-        () => {
-          this.isLoading = false;
-
-          console.log('done loading');
-        }
-      ); */
-
-    }, 1500);
-  }
-
-  public saveEducation() {
-    this.isLoading = true;
-    setTimeout(() => {
-      const data = {
-        idNumber: this.personalForm.value.idNumber,
-        institution: this.educationForm.value.institution,
-        institutionCountry: this.educationForm.value.institutionCountry,
-        qualificationType: this.educationForm.value.qualificationType,
-        qualificationName: this.educationForm.value.qualificationName,
-        startDate: this.educationForm.value.startDate,
-        endDate: this.educationForm.value.endDate,
-        qualificationDesc: this.educationForm.value.qualificationDesc
-      }
-
-      this.education.push(data);
-
-
-      console.log('Data pushed', data);
-      alert('Thank you. Education added successfully.');
-      this.isLoading = false;
-
-
-
-      /* this.api.EducationAdd(data)
+      this.api.ExperienceAdd(edata)
         .subscribe(
           data => {
             this.responseData = data;
@@ -449,7 +414,9 @@ export class ApplicantFormComponent implements OnInit {
                 //   this.responseData.Message || 'User successfully created.',
                 //   this.responseData, () => {
                 //   });
-                alert('Thank you. Education added successfully.');
+                alert('Thank you. Experience added successfully.');
+                this.experience.push(edata);
+                this.experienceForm.reset();
                 console.log(200);
                 break;
 
@@ -479,7 +446,70 @@ export class ApplicantFormComponent implements OnInit {
 
             console.log('done loading');
           }
-        ); */
+        );
+
+    }, 1500);
+  }
+
+  public saveEducation() {
+    this.isLoading = true;
+    setTimeout(() => {
+      const edata = {
+        idNumber: this.personalForm.value.idNumber,
+        institute: this.educationForm.value.institution,
+        institutionCountry: this.educationForm.value.institutionCountry,
+        qualificationTypeId: this.educationForm.value.qualificationTypeId,
+        qualificationName: this.educationForm.value.qualificationName,
+        startDate: new Date(`${this.educationForm.value.startDate.year || "1900"}-${this.educationForm.value.startDate.month || "1"}-${this.educationForm.value.startDate.day || "1"}`),
+        endDate: new Date(`${this.educationForm.value.endDate.year || "1900"}-${this.educationForm.value.endDate.month || "1"}-${this.educationForm.value.endDate.day || "1"}`),
+        qualificationDesc: this.educationForm.value.qualificationDesc
+      }
+      console.log('Data to be pushed', edata);
+      console.log('Data from edu form', this.educationForm);
+
+      this.api.EducationAdd(edata)
+        .subscribe(
+          data => {
+            this.responseData = data;
+            console.log('the response data: ', this.responseData);
+            switch (this.responseData.StatusCode) {
+              case 200:
+                // request successful
+                alert('Thank you. Education added successfully.');
+                this.education.push(edata);
+                this.isLoading = false;
+
+                console.log(200, 'The education object : ', this.education, this.experience, this.personal, this.educationForm);
+                // this.educationForm.reset();
+                break;
+
+              case 400:
+                // request had validation errors
+                alert(this.responseData.Message);
+                console.log(400);
+                break;
+
+              case 500:
+                // request came back with a server error
+                alert(this.responseData.Message);
+                console.log(500);
+                break;
+
+              default:
+                break;
+            }
+
+          },
+          error => {
+            this.openModal('Error', error.message, error);
+            // this.isLoading = false;
+          },
+          () => {
+            this.isLoading = false;
+
+            console.log('done loading');
+          }
+        );
 
     }, 500);
 
@@ -490,19 +520,19 @@ export class ApplicantFormComponent implements OnInit {
     console.log('submitting....')
     this.isLoading = true;
     setTimeout(() => {
-      let languages;
-      let natureOfEmp;
-      let licences;
+      let languages: any;
+      let natureOfEmp: any;
+      let licences: any;
 
       if (this.personalForm.value.languageDropdownList) {
-        this.personalForm.value.languageDropdownList.forEach(el => {
+        this.personalForm.value.languageDropdownList.forEach((el: { item_text: any; }) => {
           this.languages.push(el.item_text);
         });
         languages = this.languages.join(', ');
       }
 
       if (this.personalForm.value.natureDropdownList) {
-        this.personalForm.value.natureDropdownList.forEach(el => {
+        this.personalForm.value.natureDropdownList.forEach((el: { item_text: any; }) => {
           this.natureOfEmp.push(el.item_text);
         });
         natureOfEmp = this.natureOfEmp.join(', ');
@@ -510,7 +540,7 @@ export class ApplicantFormComponent implements OnInit {
       console.log('nature of employment: ', natureOfEmp);
 
       if (this.personalForm.value.licenceDropdownList) {
-        this.personalForm.value.licenceDropdownList.forEach(el => {
+        this.personalForm.value.licenceDropdownList.forEach((el: { item_text: any; }) => {
           this.licences.push(el.item_text);
         });
         licences = this.licences.join(', ');
@@ -543,10 +573,6 @@ export class ApplicantFormComponent implements OnInit {
         marketingInfo: this.personalForm.value.marketingInfo,
         KeyExpertise: ''
       }
-
-      // // this.personals.push(this.personal);
-      // localStorage.setItem('applicant_data', JSON.stringify(this.personal));
-      // localStorage.setItem('applicant_list', JSON.stringify(this.personals));
 
       console.log('personal details', this.personal);
       console.log('experience details', this.experience);
@@ -586,7 +612,8 @@ export class ApplicantFormComponent implements OnInit {
         heardAboutUs: this.personalForm.value.heardAboutUs,
         marketingInfo: this.personalForm.value.marketingInfo,
       }
-      console.log('Data', data)
+      console.log('Data', data);
+      let ctx = this
       this.api.editApplicant(data)
         .subscribe(
           data => {
@@ -595,16 +622,21 @@ export class ApplicantFormComponent implements OnInit {
             switch (this.responseData.StatusCode) {
               case 200:
                 // request successful nav to next page
-                this.openModal('Success', 'User details successfully Updated.', this.responseData, () => {
-                  const val = this.personalForm.value.email;
-                  console.log("Value is : " + val);
-                   this.router.navigate(
-                    ['applicant-view'],
-                    {
-                      queryParams: {
-                        email: val
-                      }
-                    });
+                this.openModal('Success', 'User details successfully Updated.', ctx.responseData, () => {
+                  const val = ctx.personalForm.value.emailAddress;
+                  console.log("Value is : " + val, ctx);
+                  let successSave = function () {
+                    console.log('naving...')
+                    ctx.router.navigate(
+                      ['applicant-view'],
+                      {
+                        queryParams: {
+                          email: val
+                        }
+                      });
+                  };
+                  this.getApplicantDetails(() => { successSave() });
+
                 });
 
                 console.log(200);
@@ -651,7 +683,7 @@ export class ApplicantFormComponent implements OnInit {
     }, 1500);
   }
 
-  onFileChange(e) {
+  onFileChange(e: { srcElement: { files: any[]; }; }) {
     const fileObj = document.getElementById("input-cv-file");
     console.log(fileObj, e);
     this.cvFileName = e.srcElement.files[0].name;
@@ -665,7 +697,7 @@ export class ApplicantFormComponent implements OnInit {
     window.open(this.cvFile);
   }
 
-  private getBase64(file) {
+  private getBase64(file: Blob) {
     var reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
@@ -700,18 +732,163 @@ export class ApplicantFormComponent implements OnInit {
     console.log(this.personalForm.value);
   }
 
-  openModal(title, message, object, callback?) {
+  openModal(title: string, message: string, object: any[], callback?: { (): void; (): void; }) {
 
     const modalRef = this.modalService.open(AlertModalComponent);
     modalRef.componentInstance.title = title || 'Title Comes Here';
     modalRef.componentInstance.message = message || 'Message Comes Here';
     modalRef.componentInstance.object = object || [];
-    modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
+    modalRef.componentInstance.passEntry.subscribe((receivedEntry: any) => {
       console.log(receivedEntry);
       if (callback) {
         callback();
       }
     })
+  }
+
+  getValue(id, obj) {
+    console.log('am i working.... ')
+    return CustomData.getValue(id, obj);
+  }
+
+  openModalForm(type, data?, callback?) {
+    let modalRef;
+    switch (type.toLowerCase()) {
+      case 'computer-literacy':
+        modalRef = this.modalService.open(ComputerLiteracyModalComponent, { centered: true });
+        if (data !== null) {
+          modalRef.componentInstance.dataIn = data;
+        }
+        modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
+          console.log("dataReceived: ", receivedDataOut);
+          if (receivedDataOut != null || receivedDataOut.length > 0) {
+            receivedDataOut.forEach(el => {
+              this.computerLiteracyList.push(el);
+            });
+          }
+          // use the data here to update list and add any nonexistent elements
+          if (callback) {
+            callback();
+          }
+        });
+
+        break;
+      case 'qualification':
+        modalRef = this.modalService.open(QualificationModalComponent, { centered: true });
+        if (data !== null) {
+          modalRef.componentInstance.dataIn = data;
+        }
+        modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
+          console.log("dataReceived: ", receivedDataOut);
+          if (receivedDataOut != null || receivedDataOut.length > 0) {
+
+            receivedDataOut.forEach(el => {
+              this.qualificationList.push(el);
+            });
+
+          }
+          if (callback) {
+            callback();
+          }
+        });
+        break;
+      case 'professional-membership':
+        modalRef = this.modalService.open(ProfessionalMembershipModalComponent, { centered: true });
+        if (data != null) {
+          modalRef.componentInstance.dataIn = data;
+        }
+        modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
+          console.log("dataReceived: ", receivedDataOut);
+          this.updateReceived(receivedDataOut);
+          if (receivedDataOut != null || receivedDataOut.length > 0) {
+            receivedDataOut.forEach(el => {
+              this.professionalMembershipList.push(el);
+            });
+          }
+          if (callback) {
+            callback();
+          }
+        })
+        break;
+      case 'experience':
+        modalRef = this.modalService.open(ExperienceModalComponent, { centered: true });
+        if (data != null) {
+          modalRef.componentInstance.dataIn = data;
+        }
+        modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
+          console.log("dataReceived: ", receivedDataOut);
+          this.updateReceived(receivedDataOut);
+          if (receivedDataOut != null || receivedDataOut.length > 0) {
+            receivedDataOut.forEach(el => {
+              this.experienceList.push(el);
+            });
+          }
+          if (callback) {
+            callback();
+          }
+        })
+        break;
+      case 'disciplinary-record':
+        modalRef = this.modalService.open(DisciplinaryRecordModalComponent, { centered: true });
+        if (data != null) {
+          modalRef.componentInstance.dataIn = data;
+        }
+        modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
+          console.log("dataReceived: ", receivedDataOut);
+          this.updateReceived(receivedDataOut);
+          if (receivedDataOut != null || receivedDataOut.length > 0) {
+            receivedDataOut.forEach(el => {
+              this.disciplinaryRecordList.push(el);
+            });
+          }
+          if (callback) {
+            callback();
+          }
+        })
+        break;
+      case 'criminal-record':
+        modalRef = this.modalService.open(CriminalRecordModalComponent, { centered: true });
+        if (data != null) {
+          modalRef.componentInstance.dataIn = data;
+        }
+        modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
+          console.log("dataReceived: ", receivedDataOut);
+          this.updateReceived(receivedDataOut);
+          if (receivedDataOut != null || receivedDataOut.length > 0) {
+            receivedDataOut.forEach(el => {
+              this.criminalRecordList.push(el);
+            });
+          }
+          if (callback) {
+            callback();
+          }
+        })
+        break;
+      case 'reference':
+        modalRef = this.modalService.open(ReferenceModalComponent, { centered: true });
+        if (data != null) {
+          modalRef.componentInstance.dataIn = data;
+        }
+        modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
+          console.log("dataReceived: ", receivedDataOut);
+          this.updateReceived(receivedDataOut);
+          if (receivedDataOut != null || receivedDataOut.length > 0) {
+            receivedDataOut.forEach(el => {
+              this.referenceList.push(el);
+            });
+          }
+          if (callback) {
+            callback();
+          }
+        })
+        break;
+      default:
+        break;
+    }
+  }
+
+  updateReceived(received) {
+
   }
 
 

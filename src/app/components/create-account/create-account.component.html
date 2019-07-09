@@ -3,6 +3,7 @@
     <div class="card card-signin my-5">
       <div class="card-body">
         <h5 class="card-title text-center">Sign Up</h5>
+        <hr>
         <form [formGroup]="signUpForm" class="form-signin">
           <div class="form-label-group">
             <label for="inputFirstName">First name</label>
@@ -105,8 +106,10 @@
               Passwords do not match
             </label>
           </div>
-
-          <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" (click)="submitForm();">Sign in</button>
+          <div class="pb-3 signin-link-container">
+            <a routerLink="signin">Already have an account? Click here.</a>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" (click)="submitForm();">Sign Up</button>
           <!-- <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" (click)="openModal();">Open Modal</button> -->
           <hr class="my-4">
           <!-- <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit" (click)="submitForm();"><i class="fab fa-google mr-2"></i> Sign in with Google</button>

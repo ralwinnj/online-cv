@@ -1,0 +1,52 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Add Qualification</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="qualificationForm">
+    <div class="row">
+      <div class="col-lg-6 mt-3">
+        <label for="input-name-of-institute">Name of Institute</label>
+        <input formControlName="nameOfInstitute" type="text" class="form-control" name="input-name-of-institute" id="input-name-of-institute">
+
+        <label class="text-danger" *ngIf="qualificationForm.controls.nameOfInstitute.errors?.required && qualificationForm.controls.nameOfInstitute.touched">
+          Name of institute is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label for="input-name-of-qualification">Name of Qualification</label>
+        <input formControlName="nameOfQualification" class="form-control" name="input-name-of-qualification" id="input-name-of-qualification">
+
+        <label class="text-danger" *ngIf="qualificationForm.controls.nameOfQualification.errors?.required && qualificationForm.controls.nameOfQualification.touched">
+          Name of Qualification is required!
+        </label>
+      </div>
+      <div class="col-lg-6 mt-3">
+          <label for="input-type-of-qualification">Type of Qualification</label>
+          <select formControlName="typeOfQualification" class="form-control" name="input-type-of-qualification" id="input-type-of-qualification">
+           <option [value]="i.label" *ngFor="let i of qualifications">{{ i.label }}</option> 
+          </select> 
+          <label class="text-danger" *ngIf="qualificationForm.controls.typeOfQualification.errors?.required && qualificationForm.controls.typeOfQualification.touched">
+            Type of Qualification is required!
+          </label>
+        </div>
+      <div class="col-lg-6 mt-3">
+        <label for="input-year-obtained">Year Obtained</label>
+        <select formControlName="yearObtained" class="form-control" name="input-year-obtained" id="input-year-obtained">
+         <option [value]="i" *ngFor="let i of years">{{ i }}</option> 
+        </select> 
+        <label class="text-danger" *ngIf="qualificationForm.controls.yearObtained.errors?.required && qualificationForm.controls.yearObtained.touched">
+          Year Obtained is required!
+        </label>
+      </div>
+
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+</div>
