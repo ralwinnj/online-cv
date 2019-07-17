@@ -8,15 +8,15 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./criminal-record-modal.component.css']
 })
 export class CriminalRecordModalComponent implements OnInit {
-
-  constructor(private fb: FormBuilder, private modal: NgbActiveModal) { }
-
+  criminalRecordForm: FormGroup;
+  dataList: any = [];
   @Input() fkApplicantId: number;
   @Input() dataIn: any;
   @Output() dataOut: EventEmitter<any> = new EventEmitter();
-
-  criminalRecordForm: FormGroup;
-  dataList: any = [];
+  constructor(
+    private fb: FormBuilder,
+    private modal: NgbActiveModal
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -24,6 +24,7 @@ export class CriminalRecordModalComponent implements OnInit {
 
   initForm() {
     this.criminalRecordForm = this.fb.group({
+      id: [null],
       record: [false, Validators.compose([Validators.required])],
       typeOfCriminalAct: ['', Validators.compose([Validators.required])],
       dateFinalized: [''],
@@ -46,11 +47,14 @@ export class CriminalRecordModalComponent implements OnInit {
   }
 
   save() {
-    this.dataList.push(this.criminalRecordForm.value);
-    this.dataOut.emit(this.dataList);
-
-    this.resetForm();
-
+    if (this.criminalRecordForm.valid) {
+      this.dataList = [];
+      this.dataList.push(this.criminalRecordForm.value);
+      this.dataOut.emit(this.dataList);
+      this.resetForm();
+    } else {
+      console.log('Form is invalid');
+    }
     console.log("Data List: ", this.dataList, this.dataOut);
   }
 

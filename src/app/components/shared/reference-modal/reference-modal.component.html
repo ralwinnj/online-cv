@@ -1,3 +1,56 @@
-<p>
-  reference-modal works!
-</p>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Add Reference</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="referenceForm">
+
+    <div class="row">
+      <div class="col-lg-6 mt-3">
+        <label>Full Name</label>
+        <input formControlName="name" type="text" class="form-control">
+        <label class="text-danger" *ngIf="referenceForm.controls.name.errors?.required && referenceForm.controls.name.touched">
+          Full Name is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label>Relationship</label>
+        <input formControlName="relationship" type="text" class="form-control">
+        <label class="text-danger" *ngIf="referenceForm.controls.relationship.errors?.required && referenceForm.controls.relationship.touched">
+          Relationship is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label>Tel Number (office hours)</label>
+        <input formControlName="telNumber" type="text" class="form-control">
+        <label class="text-danger" *ngIf="referenceForm.controls.telNumber.errors?.required && referenceForm.controls.telNumber.touched">
+          Tel Number is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label>Cell Number</label>
+        <input formControlName="cellNumber" type="text" class="form-control">
+        <label class="text-danger" *ngIf="referenceForm.controls.cellNumber.errors?.required && referenceForm.controls.cellNumber.touched">
+          Cell Number is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label>Email</label>
+        <input formControlName="email" type="email" class="form-control">
+        <label class="text-danger" *ngIf="referenceForm.controls.email.errors?.required && referenceForm.controls.email.touched">
+          Email is required!
+        </label>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+</div>

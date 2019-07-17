@@ -1,5 +1,5 @@
-<button type="button" class="btn btn-primary" (click)="openModalForm('computer-literacy')">Save</button>
-<div class="jumbotron jumbotron-fluid px-5 py-4 bg-light wow slideInUp" data-wow-duration="1.25s">
+<!-- <button type="button" class="btn btn-primary" (click)="openModalForm('computer-literacy')">Save</button> -->
+<div class="jumbotron jumbotron-fluid px-5 py-4 mt-4 bg-light wow slideInUp" data-wow-duration="1.25s">
   <div id="post-details">
 
     <div class="fadeInDown wow" data-wow-delay="1s">
@@ -265,19 +265,16 @@
 
       <div class="fadeInUp wow">
         <div id="table-container">
-          <table class="table table-striped" *ngIf="qualificationList.length > 0">
+          <a class="btn btn-light btn-add text-capitalize float" (click)="openModalForm('qualification')" *ngIf="qualificationList.length > 0">
+            <i class="fa fa-plus my-float" aria-hidden="true"></i>
+          </a>
+          <table class="table table-striped" *ngIf="qualificationList.length > 0" NgxResponsiveStackTable>
             <thead class="bg-primary text-white text-uppercase">
               <tr>
-                <td>Institute</td>
-                <td>Qualification</td>
-                <td>Type</td>
-                <td>Year</td>
-                <td>
-                  <a class="btn btn-light btn-add text-capitalize" (click)="openModalForm('qualification')">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    <strong> Add</strong>
-                  </a>
-                </td>
+                <th>Institute</th>
+                <th>Qualification</th>
+                <th>Type</th>
+                <th colspan="2">Year</th>
               </tr>
             </thead>
             <tbody class="table-hover">
@@ -286,7 +283,9 @@
                 <td>{{ i.nameOfQualification }}</td>
                 <td>{{ i.typeOfQualification}}</td>
                 <td>{{ i.yearObtained }}</td>
-                <td><a class="btn-action" click="console.log('Clicked!')"><i class="fas fa-trash"></i></a></td>
+                <td>
+                  <!-- <a class="btn-action" href="#"><i class="fas fa-trash"></i></a> -->
+                </td>
               </tr>
             </tbody>
           </table>
@@ -309,18 +308,16 @@
 
       <div class="fadeInUp wow">
         <div id="table-container">
-          <table class="table table-striped" *ngIf="professionalMembershipList.length > 0">
+          <a class="btn btn-light btn-add text-capitalize float" (click)="openModalForm('professional-membership')" *ngIf="professionalMembershipList.length > 0">
+            <i class="fa fa-plus my-float" aria-hidden="true"></i>
+          </a>
+          <table class="table table-striped" *ngIf="professionalMembershipList.length > 0" NgxResponsiveStackTable>
             <thead class="bg-primary text-white text-uppercase">
               <tr>
-                <td>Professional Body</td>
-                <td>Membership No.</td>
-                <td>Expiry Date</td>
-                <td>
-                  <a class="btn btn-light btn-add text-capitalize" (click)="openModalForm('professional-membership')">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    <strong> Add</strong>
-                  </a>
-                </td>
+                <th>Professional Body</th>
+                <th>Membership No.</th>
+                <th colspan="2">Expiry Date</th>
+
               </tr>
             </thead>
             <tbody class="table-hover">
@@ -328,7 +325,9 @@
                 <td>{{ i.professionalBody }}</td>
                 <td>{{ i.membershipNumber }}</td>
                 <td>{{ i.expiryDate }}</td>
-                <td><a class="btn-action"><i class="fas fa-trash"></i></a></td>
+                <td>
+                  <!-- <a class="btn-action"><i class="fas fa-trash"></i></a> -->
+                </td>
               </tr>
             </tbody>
           </table>
@@ -351,24 +350,23 @@
 
       <div class="fadeInUp wow">
         <div id="table-container">
-          <table class="table table-striped" *ngIf="computerLiteracyList.length > 0">
+          <a class="btn btn-light btn-add text-capitalize float" (click)="openModalForm('computer-literacy')" *ngIf="computerLiteracyList.length > 0">
+            <i class="fa fa-plus my-float" aria-hidden="true"></i>
+          </a>
+          <table class="table table-striped" *ngIf="computerLiteracyList.length > 0" NgxResponsiveStackTable>
             <thead class="bg-primary text-white text-uppercase">
               <tr>
-                <td>Skill</td>
-                <td>Compentency</td>
-                <td>
-                  <a class="btn btn-light btn-add text-capitalize" (click)="openModalForm('computer-literacy')">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    <strong> Add</strong>
-                  </a>
-                </td>
+                <th>Skill</th>
+                <th colspan="2">Compentency</th>
               </tr>
             </thead>
             <tbody class="table-hover">
               <tr *ngFor="let i of computerLiteracyList">
                 <td>{{ i.skill }}</td>
                 <td>{{ i.competency }}</td>
-                <td><a class="btn-action"><i class="fas fa-trash"></i></a></td>
+                <td>
+                  <!-- <a class="btn-action"><i class="fas fa-trash"></i></a> -->
+                </td>
               </tr>
             </tbody>
           </table>
@@ -391,19 +389,17 @@
 
       <div class="fadeInUp wow">
         <div id="table-container">
-          <table class="table table-striped" *ngIf="experienceList.length > 0">
+          <a class="btn btn-light btn-add text-capitalize float" (click)="openModalForm('experience')" *ngIf="experienceList.length > 0">
+            <i class="fa fa-plus my-float" aria-hidden="true"></i>
+          </a>
+          <table class="table table-striped" *ngIf="experienceList.length > 0" NgxResponsiveStackTable>
             <thead class="bg-primary text-white text-uppercase">
               <tr>
                 <td>Employer</td>
                 <td>Position</td>
                 <td>From</td>
-                <td>To</td>
-                <td>
-                  <a class="btn btn-light btn-add text-capitalize" (click)="openModalForm('experience')">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    <strong> Add</strong>
-                  </a>
-                </td>
+                <td colspan="2">To</td>
+
               </tr>
             </thead>
             <tbody class="table-hover">
@@ -412,7 +408,9 @@
                 <td>{{ i.position }}</td>
                 <td>{{ i.startDate }}</td>
                 <td>{{ i.endDate }}</td>
-                <td><a class="btn-action"><i class="fas fa-trash"></i></a></td>
+                <td>
+                  <!-- <a class="btn-action"><i class="fas fa-trash"></i></a> -->
+                </td>
               </tr>
             </tbody>
           </table>
@@ -435,19 +433,16 @@
 
       <div class="fadeInUp wow">
         <div id="table-container">
-          <table class="table table-striped" *ngIf="disciplinaryRecordList.length > 0">
+          <a class="btn btn-light btn-add text-capitalize float" *ngIf="disciplinaryRecordList.length > 0" (click)="openModalForm('disciplinary-record')">
+            <i class="fa fa-plus my-float" aria-hidden="true"></i>
+          </a>
+          <table class="table table-striped" *ngIf="disciplinaryRecordList.length > 0" NgxResponsiveStackTable>
             <thead class="bg-primary text-white text-uppercase">
               <tr>
-                <td>Institution</td>
-                <td>Type of Misconduct</td>
-                <td>Date Finalized</td>
-                <td>Award/Sanction</td>
-                <td>
-                  <a class="btn btn-light btn-add text-capitalize" (click)="openModalForm('disciplinary-record')">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    <strong> Add</strong>
-                  </a>
-                </td>
+                <th>Institution</th>
+                <th>Misconduct</th>
+                <th>Date Finalized</th>
+                <th colspan="2">Award/Sanction</th>
               </tr>
             </thead>
             <tbody class="table-hover">
@@ -455,16 +450,20 @@
                 <td>{{ i.nameOfInstitute }}</td>
                 <td>{{ i.typeOfMisconduct }}</td>
                 <td>{{ i.dateFinalized }}</td>
-                <td>{{ i.awardSaction }}</td>
-                <td><a class="btn-action"><i class="fas fa-trash"></i></a></td>
+                <td>{{ i.awardSanction }}</td>
+                <td>
+                  <!-- <a class="btn-action"><i class="fas fa-trash"></i></a> -->
+                </td>
               </tr>
             </tbody>
           </table>
           <div *ngIf="disciplinaryRecordList.length == 0" class="w-100 text-center">
             <p>
-              Are you facing <i>OR</i> do you envisage having to face any disciplinary action <i>OR</i> have you ever been dismissed from any employment?
-              <br>
-              <i>If yes, please add using the button below.</i>
+              <i>
+                Are you facing <strong>OR</strong> do you envisage having to face any disciplinary action <strong>OR</strong> have you ever been dismissed from any employment?
+                <br>
+                <strong>If yes, please add using the button below.</strong>
+              </i>
             </p>
             <button type="button" class="btn btn-outline-primary border-0" style="display: block; margin: 0 auto" (click)="openModalForm('disciplinary-record')">ADD
             </button>
@@ -484,29 +483,34 @@
 
       <div class="fadeInUp wow">
         <div id="table-container">
-          <table class="table table-striped" *ngIf="computerLiteracyList.length > 0">
+          <a class="btn btn-light btn-add text-capitalize float" (click)="openModalForm('criminal-record')" *ngIf="criminalRecordList.length > 0">
+            <i class="fa fa-plus my-float" aria-hidden="true"></i>
+          </a>
+          <table class="table table-striped" *ngIf="criminalRecordList.length > 0" NgxResponsiveStackTable>
             <thead class="bg-primary text-white text-uppercase">
               <tr>
-                <td>Skill</td>
-                <td>Compentency</td>
-                <td>
-                  <a class="btn btn-light btn-add text-capitalize" (click)="openModalForm('computer-literacy')">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    <strong> Add</strong>
-                  </a>
-                </td>
+                <th>Skill</th>
+                <th colspan="2">Compentency</th>
               </tr>
             </thead>
             <tbody class="table-hover">
-              <tr *ngFor="let i of computerLiteracyList">
+              <tr *ngFor="let i of criminalRecordList">
                 <td>{{ i.skill }}</td>
                 <td>{{ i.competency }}</td>
-                <td><a class="btn-action"><i class="fas fa-trash"></i></a></td>
+                <td>
+                  <!--<a class="btn-action"><i class="fas fa-trash"></i></a> -->
+                </td>
               </tr>
             </tbody>
           </table>
-          <div *ngIf="computerLiteracyList.length == 0" class="w-100 text-center">
-            <p><i>There is no records of computer literacy, please add some.</i></p>
+          <div *ngIf="criminalRecordList.length == 0" class="w-100 text-center">
+            <p>
+              <i>
+                Are you facing <b>OR</b> do you envisage having to face criminal charges <b>OR</b> do you have a criminal record?
+                <br>
+                <b>If yes, please add using the button below.</b>
+              </i>
+            </p>
             <button type="button" class="btn btn-outline-primary border-0" style="display: block; margin: 0 auto" (click)="openModalForm('criminal-record')">ADD</button>
           </div>
         </div>
@@ -514,9 +518,117 @@
     </div>
     <!-- END > Criminal Record -->
     <!--  ---------------------- -->
+    <!-- References -->
+    <div class="col-lg-12">
+      <h5 class="fadeInDown wow">
+        <hr>
+        References
+        <hr>
+      </h5>
 
+      <div class="fadeInUp wow">
+        <div id="table-container">
+          <a class="btn btn-light btn-add text-capitalize float" (click)="openModalForm('reference')" *ngIf="referenceList.length > 0">
+            <i class="fa fa-plus my-float" aria-hidden="true"></i>
+          </a>
+          <table class="table table-striped" *ngIf="referenceList.length > 0" NgxResponsiveStackTable>
+            <thead class="bg-primary text-white text-uppercase">
+              <tr>
+                <td>Name</td>
+                <td>Relationship</td>
+                <td>Tel No.</td>
+                <td>Cell No.</td>
+                <td colspan="2">Email</td>
+              </tr>
+            </thead>
+            <tbody class="table-hover">
+              <tr *ngFor="let i of referenceList">
+                <td>{{ i.name }}</td>
+                <td>{{ i.relationship }}</td>
+                <td>{{ i.telNumber }}</td>
+                <td>{{ i.cellNumber }}</td>
+                <td>{{ i.email }}</td>
+                <td>
+                  <!-- <a class="btn-action"><i class="fas fa-trash"></i></a> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="referenceList.length == 0" class="w-100 text-center">
+            <p>
+              <i>
+                You currently do not have any references listed.
+              </i>
+            </p>
+            <button type="button" class="btn btn-outline-primary border-0" style="display: block; margin: 0 auto" (click)="openModalForm('reference')">ADD</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END > References -->
+    <!--  ---------------------- -->
+    <!-- Criminal Record -->
+    <!-- <div class="col-lg-12">
+      <h5 class="fadeInDown wow">
+        <hr>
+        General
+        <hr>
+      </h5>
+      <div class="row">
+        <div class="col-12">
+          <div>
+            <label for="">Do you have any physical or mental conditions that would preventyou from performing the functions attached to this position?</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+            <label class="custom-control-label" for="customRadioInline1">Toggle this custom radio</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+            <label class="custom-control-label" for="customRadioInline2">Or toggle this other custom radio</label>
+          </div>
+        </div>
 
-
+      </div>
+    </div> -->
+  </div>
+  <div [formGroup]="personalForm" class="col-lg-12">
+    <h5 class="fadeInDown wow">
+      <hr>
+      Other
+      <hr>
+    </h5>
+    <div class="row">
+      <div class="col-lg-6 mt-3">
+        <label>Nature of employment</label>
+        <ng-multiselect-dropdown name="natureDropdownList" [placeholder]="" [data]="natureDropDownListObj" formControlName="natureDropdownList" [settings]="dropdownSettings" [disabled]="disabled" (onSelect)="onItemSelect($event)">
+        </ng-multiselect-dropdown>
+      </div>
+      <div class="col-lg-6 mt-3">
+        <label>Relationship with us</label>
+        <select formControlName="relationship" class="form-control">
+          <option value="0">Current Employee</option>
+          <option value="1">Citizen</option>
+        </select>
+      </div>
+      <div class="col-lg-6 mt-3">
+        <label>How did you hear about us</label>
+        <select formControlName="heardAboutUs" class="form-control">
+          <option value="Google">Google</option>
+          <option value="Official Website">Official Website</option>
+          <option value="Word of mouth">Word of mouth</option>
+          <option value="News paper">News paper</option>
+          <option value="Radio">Radio</option>
+        </select>
+      </div>
+      <div class="col-lg-6 mt-3">
+        <label>Do you want to receive marketing info from us</label>
+        <select formControlName="marketingInfo" class="form-control">
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </div>
+    </div>
   </div>
   <hr>
   <div class="row mx-0 mt-4 slideInUp wow">

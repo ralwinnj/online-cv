@@ -1,5 +1,6 @@
 body {
   background-color: #038387;
+  font-weight: 400;
 }
 
 a {
@@ -520,10 +521,11 @@ a:hover {
 }
 
 .btn-add:hover {
-    color: #038387;
-    background-color: #06a4a9fc;
-    border-color: #dae0e5;
+  color: #038387;
+  background-color: #06a4a9fc;
+  border-color: #dae0e5;
 }
+
 header, footer {
   position: fixed;
   width: 100%;
@@ -697,7 +699,7 @@ select.form-control {
 
 .table th, .table td {
   padding: 0.5rem;
-  vertical-align: middle  ;
+  vertical-align: middle;
 }
 
 .navbar {
@@ -724,72 +726,100 @@ select.form-control {
 
 .lbl-align {}
 
-
 ngb-datepicker-navigation-select>.custom-select {
-    background-position: right 0.5rem center;
-    background-color: white;
+  background-position: right 0.5rem center;
+  background-color: white;
 }
 
 ngb-datepicker-navigation-select>.custom-select:focus {
-    box-shadow: 0 0 0 0.0rem rgba(26,26,26,0.25);
+  box-shadow: 0 0 0 0.0rem rgba(26, 26, 26, 0.25);
 }
 
 .ngb-dp-header.bg-light {
-    border-radius: 0;
-    border:  0;
+  border-radius: 0;
+  border: 0;
 }
 
 .ngb-dp-week.ngb-dp-weekdays.bg-light {
-    border: none;
-    background-color: #038387 !important;
-
+  border: none;
+  background-color: #038387 !important;
 }
 
 .ngb-dp-week.ngb-dp-weekdays.bg-light * {
-    color: white !important
+  color: white !important
 }
 
 button.btn.btn-link.ngb-dp-arrow-btn {
-    outline-width: 0;
-    padding: 0rem 1rem;
+  outline-width: 0;
+  padding: 0rem 1rem;
 }
 
 ngb-datepicker.dropdown-menu.show {
-    border-color: rgba(3, 131, 135, 1) !important;
+  border-color: rgba(3, 131, 135, 1) !important;
 }
 
 [ngbDatepickerDayView] {
-    border-radius: 0;
+  border-radius: 0;
 }
 
 .btn-light:focus, .btn-light.focus {
-    box-shadow: 0 0 0 0.2rem rgba(3, 131, 135, 0.5);
-    outline-width: 0;
-} 
+  box-shadow: 0 0 0 0.2rem rgba(3, 131, 135, 0.5);
+  outline-width: 0;
+}
 
 button:focus {
   outline: none;
 }
 
 .btn-action {
-
+  float: right;
+  color: #d9534f;
 }
 
-.btn.action:hover {
-
+.btn-action:hover {
+  color: #ff0700 !important;
 }
 
-.btn-action:focus {
-
+.btn-action>i {
+  zoom: 130%;
 }
-
-.btn-action {
-
-}
-
 
 .signin-link-container a {
   display: block;
   padding: 0;
   text-align: center;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.table th, .table td {
+  font-size: 0.7rem
+}
+
+.float {
+  position: relative;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  top: 20px;
+  right: -7px;
+  border-radius: 50%;
+  text-align: center;
+  background-color: #038387;
+  box-shadow: white -2px 2px;
+  color: #fff3dc !important;
+}
+
+.my-float {
+  margin-top: 10px;
+  margin-left: -20px;
+}
+
+@media only screen and (max-width: 767px) {
+  .float {
+    top: -15px;
+    right: -5px;
+  }
 }

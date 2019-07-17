@@ -108,9 +108,9 @@ export class ApplicantFormComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private api: ApiService, 
+    private api: ApiService,
     //private ngbTooltip: NgbTooltip
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -755,7 +755,7 @@ export class ApplicantFormComponent implements OnInit {
     let modalRef;
     switch (type.toLowerCase()) {
       case 'computer-literacy':
-        modalRef = this.modalService.open(ComputerLiteracyModalComponent, { centered: true });
+        modalRef = this.modalService.open(ComputerLiteracyModalComponent, { centered: true, size: 'lg' });
         if (data !== null) {
           modalRef.componentInstance.dataIn = data;
         }
@@ -765,8 +765,9 @@ export class ApplicantFormComponent implements OnInit {
             receivedDataOut.forEach(el => {
               this.computerLiteracyList.push(el);
             });
+          } else {
+            this.computerLiteracyList = receivedDataOut;
           }
-          // use the data here to update list and add any nonexistent elements
           if (callback) {
             callback();
           }
@@ -774,18 +775,18 @@ export class ApplicantFormComponent implements OnInit {
 
         break;
       case 'qualification':
-        modalRef = this.modalService.open(QualificationModalComponent, { centered: true });
+        modalRef = this.modalService.open(QualificationModalComponent, { centered: true, size: 'lg' });
         if (data !== null) {
           modalRef.componentInstance.dataIn = data;
         }
         modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
           console.log("dataReceived: ", receivedDataOut);
           if (receivedDataOut != null || receivedDataOut.length > 0) {
-
             receivedDataOut.forEach(el => {
               this.qualificationList.push(el);
             });
-
+          } else {
+            this.qualificationList = receivedDataOut;
           }
           if (callback) {
             callback();
@@ -793,7 +794,7 @@ export class ApplicantFormComponent implements OnInit {
         });
         break;
       case 'professional-membership':
-        modalRef = this.modalService.open(ProfessionalMembershipModalComponent, { centered: true });
+        modalRef = this.modalService.open(ProfessionalMembershipModalComponent, { centered: true, size: 'lg' });
         if (data != null) {
           modalRef.componentInstance.dataIn = data;
         }
@@ -804,6 +805,8 @@ export class ApplicantFormComponent implements OnInit {
             receivedDataOut.forEach(el => {
               this.professionalMembershipList.push(el);
             });
+          } else {
+            this.professionalMembershipList = receivedDataOut;
           }
           if (callback) {
             callback();
@@ -811,7 +814,7 @@ export class ApplicantFormComponent implements OnInit {
         })
         break;
       case 'experience':
-        modalRef = this.modalService.open(ExperienceModalComponent, { centered: true });
+        modalRef = this.modalService.open(ExperienceModalComponent, { centered: true, size: 'lg' });
         if (data != null) {
           modalRef.componentInstance.dataIn = data;
         }
@@ -822,6 +825,8 @@ export class ApplicantFormComponent implements OnInit {
             receivedDataOut.forEach(el => {
               this.experienceList.push(el);
             });
+          } else {
+            this.experienceList = receivedDataOut;
           }
           if (callback) {
             callback();
@@ -829,7 +834,7 @@ export class ApplicantFormComponent implements OnInit {
         })
         break;
       case 'disciplinary-record':
-        modalRef = this.modalService.open(DisciplinaryRecordModalComponent, { centered: true });
+        modalRef = this.modalService.open(DisciplinaryRecordModalComponent, { centered: true, size: 'lg' });
         if (data != null) {
           modalRef.componentInstance.dataIn = data;
         }
@@ -840,6 +845,8 @@ export class ApplicantFormComponent implements OnInit {
             receivedDataOut.forEach(el => {
               this.disciplinaryRecordList.push(el);
             });
+          } else {
+            this.disciplinaryRecordList = receivedDataOut;
           }
           if (callback) {
             callback();
@@ -847,7 +854,7 @@ export class ApplicantFormComponent implements OnInit {
         })
         break;
       case 'criminal-record':
-        modalRef = this.modalService.open(CriminalRecordModalComponent, { centered: true });
+        modalRef = this.modalService.open(CriminalRecordModalComponent, { centered: true, size: 'lg' });
         if (data != null) {
           modalRef.componentInstance.dataIn = data;
         }
@@ -858,6 +865,8 @@ export class ApplicantFormComponent implements OnInit {
             receivedDataOut.forEach(el => {
               this.criminalRecordList.push(el);
             });
+          } else {
+            this.criminalRecordList = receivedDataOut;
           }
           if (callback) {
             callback();
@@ -865,10 +874,11 @@ export class ApplicantFormComponent implements OnInit {
         })
         break;
       case 'reference':
-        modalRef = this.modalService.open(ReferenceModalComponent, { centered: true });
+        modalRef = this.modalService.open(ReferenceModalComponent, { centered: true, size: 'lg' });
         if (data != null) {
           modalRef.componentInstance.dataIn = data;
         }
+        console.log()
         modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
           console.log("dataReceived: ", receivedDataOut);
           this.updateReceived(receivedDataOut);
@@ -876,6 +886,8 @@ export class ApplicantFormComponent implements OnInit {
             receivedDataOut.forEach(el => {
               this.referenceList.push(el);
             });
+          } else {
+            this.referenceList = receivedDataOut;
           }
           if (callback) {
             callback();

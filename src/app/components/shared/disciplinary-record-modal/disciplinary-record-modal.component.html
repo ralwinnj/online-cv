@@ -1,3 +1,64 @@
-<p>
-  disciplinary-record-modal works!
-</p>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Add Disciplinary Record</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="disciplinaryRecordForm">
+    <div class="row">
+      <div class="col-lg-6 mt-3">
+        <label>Institution</label>
+        <input formControlName="nameOfInstitute" type="text" class="form-control">
+        <label class="text-danger" *ngIf="disciplinaryRecordForm.controls.nameOfInstitute.errors?.required && disciplinaryRecordForm.controls.nameOfInstitute.touched">
+          Institution is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label>Type of misconduct / transgression</label>
+        <input formControlName="typeOfMisconduct" type="text" class="form-control">
+        <label class="text-danger" *ngIf="disciplinaryRecordForm.controls.typeOfMisconduct.errors?.required && disciplinaryRecordForm.controls.typeOfMisconduct.touched">
+          Institution is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label>Date finalized</label>
+        <input formControlName="dateFinalized" class="form-control">
+        <label class="text-danger" *ngIf="disciplinaryRecordForm.controls.dateFinalized.errors?.required && disciplinaryRecordForm.controls.dateFinalized.touched">
+          Date finalized is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label>Award / Sanction</label>
+        <input formControlName="awardSanction" class="form-control">
+        <label class="text-danger" *ngIf="disciplinaryRecordForm.controls.awardSanction.errors?.required && disciplinaryRecordForm.controls.awardSanction.touched">
+          Award / Sanction is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label>Did you resign from your job pending finalization of the disciplinary proceedings? </label>
+        <select formControlName="resign" class="form-control">
+          <option value="false">No</option>
+          <option value="true">Yes</option>
+        </select>
+        <label class="text-danger" *ngIf="disciplinaryRecordForm.controls.resign.errors?.required && disciplinaryRecordForm.controls.resign.touched">
+          Resign is required!
+        </label>
+      </div>
+
+      <div class="col-lg-6 mt-3">
+        <label>If yes, elaborate</label>
+        <br> <span style="visibility: hidden;">?</span>
+        <textarea formControlName="resignReason" class="form-control"></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+</div>

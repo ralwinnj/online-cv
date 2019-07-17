@@ -62,8 +62,6 @@ export class QualificationModalComponent implements OnInit {
     } else {
       console.log('Form is invalid');
     }
-
-
     console.log("Data List: ", this.dataList, this.dataOut);
   }
 

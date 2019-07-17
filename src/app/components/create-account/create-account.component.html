@@ -6,8 +6,8 @@
         <hr>
         <form [formGroup]="signUpForm" class="form-signin">
           <div class="form-label-group">
-            <label for="inputFirstName">First name</label>
-            <input formControlName="firstName" type="text" id="inputFirstName" class="form-control" placeholder="First name" required autofocus>
+            <label>First name</label>
+            <input formControlName="firstName" type="text" class="form-control" placeholder="First name" autofocus>
             <label class="text-danger" *ngIf="signUpForm.controls.firstName.errors?.required && signUpForm.controls.firstName.touched">
               First name is required!
             </label>
@@ -15,15 +15,15 @@
 
           <div class="form-label-group">
             <label for="inputLastName">Last name</label>
-            <input formControlName="lastName" type="text" id="inputLastName" class="form-control" placeholder="Last name" required>
+            <input formControlName="lastName" type="text" class="form-control" placeholder="Last name">
             <label class="text-danger" *ngIf="signUpForm.controls.lastName.errors?.required && signUpForm.controls.lastName.dirty">
               Last name is required!
             </label>
           </div>
 
           <div class="form-label-group">
-            <label for="inputCitizenship">Citizenship</label>
-            <select formControlName="citizenship" type="text" id="inputCitizenship" class="form-control" placeholder="Citizenship" required>
+            <label>Citizenship</label>
+            <select formControlName="citizenship" type="text" class="form-control" placeholder="Citizenship">
               <option [value]="i.id" *ngFor="let i of citizenshipVal"> {{ i.label }}</option>
             </select>
             <label class="text-danger" *ngIf="signUpForm.controls.citizenship.errors?.required && signUpForm.controls.citizenship.touched">
@@ -32,24 +32,24 @@
           </div>
 
           <div class="form-label-group">
-            <label for="inputLastName">ID number</label>
-            <input formControlName="idNumber" type="text" id="inputIdNumber" class="form-control" placeholder="ID number" required>
+            <label>ID number</label>
+            <input formControlName="idNumber" type="text" class="form-control">
             <label class="text-danger" *ngIf="signUpForm.controls.idNumber.errors?.required&& signUpForm.controls.idNumber.touched">
               ID number is required!
             </label>
           </div>
 
           <div class="form-label-group">
-            <label for="inputLastName">Cell number</label>
-            <input formControlName="phone" type="text" id="inputPhone" class="form-control" placeholder="Cell number" required>
+            <label>Cell number</label>
+            <input formControlName="phone" type="text" class="form-control" placeholder="Cell number">
             <label class="text-danger" *ngIf="signUpForm.controls.phone.errors?.required && signUpForm.controls.phone.touched">
               Cell number is required!
             </label>
           </div>
 
           <div class="form-label-group">
-            <label for="inputEmail">Email address</label>
-            <input formControlName="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+            <label>Email address</label>
+            <input formControlName="email" type="email" class="form-control" placeholder="Email address">
             <label class="text-danger" *ngIf="signUpForm.controls.email.errors?.required && signUpForm.controls.email.touched">
               Email is required!
             </label>
@@ -59,8 +59,8 @@
           </div>
 
           <div class="form-label-group">
-            <label for="inputPassword">Password</label>
-            <input formControlName="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <label>Password</label>
+            <input formControlName="password" type="password" class="form-control">
             <label class="text-danger" *ngIf="signUpForm.controls.password.errors?.required && signUpForm.controls.password.touched">
               Password is required!
             </label>
@@ -97,8 +97,8 @@
           </div>
 
           <div class="form-label-group">
-            <label for="inputPassword">Confirm Password</label>
-            <input formControlName="confirmPassword" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <label>Confirm Password</label>
+            <input formControlName="confirmPassword" type="password" class="form-control">
             <label class="text-danger" *ngIf="signUpForm.controls.confirmPassword.errors?.required && signUpForm.controls.confirmPassword.touched">
               Confirm password is required
             </label>
@@ -109,6 +109,7 @@
           <div class="pb-3 signin-link-container">
             <a routerLink="signin">Already have an account? Click here.</a>
           </div>
+          <a routerLink="/applicant-form">click here!</a>
           <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" (click)="submitForm();">Sign Up</button>
           <!-- <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" (click)="openModal();">Open Modal</button> -->
           <hr class="my-4">

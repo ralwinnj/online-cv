@@ -5,13 +5,13 @@
   </button>
 </div>
 <div class="modal-body">
-  <form [formGroup]="professionalMebershipForm">
+  <form [formGroup]="professionalMembershipForm">
     <div class="row">
       <div class="col-lg-6 mt-3">
         <label>Professional Body</label>
         <input formControlName="professionalBody" type="text" class="form-control">
 
-        <label class="text-danger" *ngIf="professionalMebershipForm.controls.professionalBody.errors?.required && professionalMebershipForm.controls.professionalBody.touched">
+        <label class="text-danger" *ngIf="professionalMembershipForm.controls.professionalBody.errors?.required && professionalMembershipForm.controls.professionalBody.touched">
           Professional Body is required!
         </label>
       </div>
@@ -20,7 +20,7 @@
         <label>Membership Number</label>
         <input formControlName="membershipNumber" class="form-control">
 
-        <label class="text-danger" *ngIf="professionalMebershipForm.controls.membershipNumber.errors?.required && professionalMebershipForm.controls.membershipNumber.touched">
+        <label class="text-danger" *ngIf="professionalMembershipForm.controls.membershipNumber.errors?.required && professionalMembershipForm.controls.membershipNumber.touched">
           Membership Number is required!
         </label>
       </div>
@@ -33,7 +33,7 @@
             <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp1.toggle()" type="button"></button>
           </div>
         </div>
-        <label class="text-danger" *ngIf="professionalMebershipForm.controls.expiryDate.errors?.required && professionalMebershipForm.controls.expiryDate.touched">
+        <label class="text-danger" *ngIf="professionalMembershipForm.controls.expiryDate.errors?.required && professionalMembershipForm.controls.expiryDate.touched">
           Exprity Date is required!
         </label>
       </div>

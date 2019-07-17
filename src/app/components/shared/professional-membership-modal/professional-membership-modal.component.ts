@@ -9,16 +9,15 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ProfessionalMembershipModalComponent implements OnInit {
 
-  fkApplicantId: Number = null;
+  fkApplicantId: Number;
+  professionalMembershipForm: FormGroup;
   @Input() dataList: any;
   @Output() dataOut: EventEmitter<any> = new EventEmitter();
-
   constructor(
     private fb: FormBuilder,
     private modal: NgbActiveModal
   ) { }
 
-  professionalMembershipForm: FormGroup;
   ngOnInit() {
     this.initForm();
   }

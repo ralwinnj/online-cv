@@ -44,6 +44,17 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.api.createLogin().subscribe(
+      (data) => {
+        console.log('This is the data: ', data)
+      },
+      (error) => {
+        console.log('Error : ', error)
+      },
+      () => {
+        console.log('Done!');
+      });
+
     this.isLoading = false;
     this.initForm();
   }
@@ -86,13 +97,13 @@ export class CreateAccountComponent implements OnInit {
     this.isLoading = true;
     setTimeout(() => {
       var data = {
-        "IdNumber": this.signUpForm.value.idNumber,
-        "Email": this.signUpForm.value.email,
-        "Password": this.signUpForm.value.password,
-        "Citizenship": parseInt(this.signUpForm.value.citizenship),
-        "FirstName": this.signUpForm.value.firstName,
-        "LastName": this.signUpForm.value.lastName,
-        "PhoneNumber": this.signUpForm.value.phone
+        firstName: this.signUpForm.value.firstName,
+        lastName: this.signUpForm.value.lastName,
+        idNumber: this.signUpForm.value.idNumber,
+        citizenship: parseInt(this.signUpForm.value.citizenship),
+        phoneNumber: this.signUpForm.value.phone,
+        email: this.signUpForm.value.email,
+        password: this.signUpForm.value.password,
       }
       // this.router.navigate(['applicant-form']);
       console.log(data);
@@ -104,7 +115,7 @@ export class CreateAccountComponent implements OnInit {
             switch (this.responseData.StatusCode) {
               case 200:
                 // request successful nav to next page
-                this.openModal(`Account for ${this.signUpForm.value.firstName} ${this.signUpForm.value.lastName} created successfully` , this.responseData.Message || 'User successfully created.', this.responseData, 'signin');
+                this.openModal(`Account for ${this.signUpForm.value.firstName} ${this.signUpForm.value.lastName} created successfully`, this.responseData.Message || 'User successfully created.', this.responseData, 'signin');
 
                 console.log(200);
                 break;
