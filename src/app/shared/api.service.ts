@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import * as mdl from '../models/app-models';
 import { Injectable } from '@angular/core';
 
 const headers = new HttpHeaders()
@@ -20,43 +20,42 @@ export class ApiService {
     this.API_URL = 'https://localhost:44351/api/';
   }
 
-
-  postApplicantDocument(id, data) {
+  postApplicantDocument(id:number, data: mdl.IApplicantDocument) {
     return this.http.post(`${this.API_URL}applicantdocuments/${id}`, data, reqOptions);
   }
-  getApplicantDocumnent(id) {
+  getApplicantDocumnent(id:number) {
     return this.http.get(`${this.API_URL}applicantdocuments/${id}`, reqOptions);
   }
-  putApplicantDocumnent(id, data) {
+  putApplicantDocumnent(id:number, data: mdl.IApplicantDocument) {
     return this.http.put(`${this.API_URL}applicantdocuments/${id}`, data, reqOptions);
   }
-  deleteApplicantDocumnent(id) {
+  deleteApplicantDocumnent(id:number) {
     return this.http.delete(`${this.API_URL}applicantdocuments/${id}`, reqOptions);
   }
 
 
-  postApplicant(id, data) {
+  postApplicant(id:number, data: mdl.IApplicant) {
     return this.http.post(`${this.API_URL}applicants/${id}`, data, reqOptions);
   }
-  getApplicants(id?) {
+  getApplicants(id?:number) {
     if (id) {
       return this.http.get(`${this.API_URL}applicants/${id}`, reqOptions);
     } else {
       return this.http.get(`${this.API_URL}applicants`, reqOptions);
     }
   }
-  putApplicant(id, data) {
+  putApplicant(id:number, data: mdl.IApplicant) {
     return this.http.put(`${this.API_URL}applicants/${id}`, data, reqOptions);
   }
-  deleteApplicant(id) {
+  deleteApplicant(id:number) {
     return this.http.delete(`${this.API_URL}applicants/${id}`, reqOptions);
   }
 
 
-  postApplicantVacancy(id, data) {
+  postApplicantVacancies(id:number, data: mdl.IApplicantVacancy) {
     return this.http.post(`${this.API_URL}applicantvacancies`, data, reqOptions);
   }
-  getApplicantVacancies(id?) {
+  getApplicantVacancies(id?:number) {
     if (id) {
       return this.http.get(`${this.API_URL}applicantvacancies/${id}`);
     } else {
@@ -64,150 +63,150 @@ export class ApiService {
     }
   }
 
-  postComputerLiteracy(id, data) {
-    return this.http.post(`${this.API_URL}computerliteracies/${id}`, data, reqOptions)
+  postComputerLiteracies(id:number, data: mdl.IComputerLiteracy) {
+    return this.http.post(`${this.API_URL}computerliteracies/${id}`, data, reqOptions);
   }
-  getComputerLiteracies(id?) {
+  getComputerLiteracies(id?:number) {
     if (id) {
       return this.http.get(`${this.API_URL}computerliteracies/${id}`, reqOptions);
     } else {
       return this.http.get(`${this.API_URL}computerliteracies`, reqOptions);
     }
   }
-  putComputerLiteracies(id, data) {
+  putComputerLiteracies(id:number, data: mdl.IComputerLiteracy) {
     return this.http.put(`${this.API_URL}computerliteracies`, data,reqOptions );
   }
 
   /* Criminal Record API */
-  getCriminalRecords(id?) {
+  getCriminalRecords(id?:number) {
     if (id) {
       return this.http.get(`${this.API_URL}criminalrecords/${id}`, reqOptions);
     } else {
       return this.http.get(`${this.API_URL}criminalrecords`);
     }
   }
-  postCriminalRecords(id, data) {
+  postCriminalRecords(id:number, data: mdl.ICriminalRecord) {
     return this.http.post(`${this.API_URL}/criminalrecords/${id}`, data, reqOptions);
   }
-  putCriminalRecords(id, data){
+  putCriminalRecords(id:number, data: mdl.ICriminalRecord){
     return this.http.post(`${this.API_URL}/criminalrecords/${id}`, data, reqOptions);
   }
-  deleteCriminalRecords(id){
+  deleteCriminalRecords(id:number){
     return this.http.delete(`${this.API_URL}/criminalrecords/${id}`, reqOptions);
   }
 
   /* Disciplinary Record API */
-  getDisciplinaryRecords(id?) {
+  getDisciplinaryRecords(id?:number) {
     if (id) {
       return this.http.get(`${this.API_URL}disciplinary/${id}`, reqOptions);
     } else {
       return this.http.get(`${this.API_URL}disciplinary`);
     }
   }
-  postDisciplinaryRecords(id, data) {
+  postDisciplinaryRecords(id:number, data: mdl.IDisciplinaryRecord) {
     return this.http.post(`${this.API_URL}/disciplinary/${id}`, data, reqOptions);
   }
-  putDisciplinaryRecords(id, data){
+  putDisciplinaryRecords(id:number, data: mdl.IDisciplinaryRecord){
     return this.http.post(`${this.API_URL}/disciplinary/${id}`, data, reqOptions);
   }
-  deleteDisciplinaryRecords(id){
+  deleteDisciplinaryRecords(id:number){
     return this.http.delete(`${this.API_URL}/disciplinary/${id}`, reqOptions);
   }
 
   /* Experiences API */
-  getExperiences(id?) {
+  getExperiences(id?:number) {
     if (id) {
       return this.http.get(`${this.API_URL}experiences/${id}`, reqOptions);
     } else {
       return this.http.get(`${this.API_URL}experiences`);
     }
   }
-  postExperiences(id, data) {
+  postExperiences(id:number, data: mdl.IExperience) {
     return this.http.post(`${this.API_URL}/experiences/${id}`, data, reqOptions);
   }
-  putExperiences(id, data){
+  putExperiences(id:number, data: mdl.IExperience){
     return this.http.post(`${this.API_URL}/experiences/${id}`, data, reqOptions);
   }
-  deleteExperiences(id){
+  deleteExperiences(id:number){
     return this.http.delete(`${this.API_URL}/experiences/${id}`, reqOptions);
   }
 
   /* Generals API */
-  getGenerals(id?) {
+  getGenerals(id?:number) {
     if (id) {
       return this.http.get(`${this.API_URL}generals/${id}`, reqOptions);
     } else {
       return this.http.get(`${this.API_URL}generals`);
     }
   }
-  postGenerals(id, data) {
+  postGenerals(id:number, data: mdl.IGeneral) {
     return this.http.post(`${this.API_URL}/generals/${id}`, data, reqOptions);
   }
-  putGenerals(id, data){
+  putGenerals(id:number, data: mdl.IGeneral){
     return this.http.post(`${this.API_URL}/generals/${id}`, data, reqOptions);
   }
-  deleteGenerals(id){
+  deleteGenerals(id:number){
     return this.http.delete(`${this.API_URL}/generals/${id}`, reqOptions);
   }
 
 
 
   /* ProfessionalMemberships API */
-  getProfessionalMemberships(id?) {
+  getProfessionalMemberships(id?:number) {
     if (id) {
       return this.http.get(`${this.API_URL}professsionalmemberships/${id}`, reqOptions);
     } else {
       return this.http.get(`${this.API_URL}professsionalmemberships`);
     }
   }
-  postProfessionalMemberships(id, data) {
+  postProfessionalMemberships(id:number, data) {
     return this.http.post(`${this.API_URL}/professsionalmemberships/${id}`, data, reqOptions);
   }
-  putProfessionalMemberships(id, data){
+  putProfessionalMemberships(id:number, data){
     return this.http.post(`${this.API_URL}/professsionalmemberships/${id}`, data, reqOptions);
   }
-  deleteProfessionalMemberships(id){
+  deleteProfessionalMemberships(id:number){
     return this.http.delete(`${this.API_URL}/professsionalmemberships/${id}`, reqOptions);
   }
 
   /* Qualifications API */
-  getQualifications(id?) {
+  getQualifications(id?:number) {
     if (id) {
       return this.http.get(`${this.API_URL}qualifications/${id}`, reqOptions);
     } else {
       return this.http.get(`${this.API_URL}qualifications`);
     }
   }
-  postQualifications(id, data) {
+  postQualifications(id:number, data) {
     return this.http.post(`${this.API_URL}/qualifications/${id}`, data, reqOptions);
   }
-  putQualifications(id, data){
+  putQualifications(id:number, data){
     return this.http.post(`${this.API_URL}/qualifications/${id}`, data, reqOptions);
   }
-  deleteQualifications(id){
+  deleteQualifications(id:number){
     return this.http.delete(`${this.API_URL}/qualifications/${id}`, reqOptions);
   }
 
   /* Reference API */
-  getReference(id?) {
+  getReference(id?:number) {
     if (id) {
       return this.http.get(`${this.API_URL}references/${id}`, reqOptions);
     } else {
       return this.http.get(`${this.API_URL}references`);
     }
   }
-  postReference(id, data) {
+  postReference(id:number, data) {
     return this.http.post(`${this.API_URL}/references/${id}`, data, reqOptions);
   }
-  putReference(id, data){
+  putReference(id:number, data){
     return this.http.post(`${this.API_URL}/references/${id}`, data, reqOptions);
   }
-  deleteReference(id){
+  deleteReference(id:number){
     return this.http.delete(`${this.API_URL}/references/${id}`, reqOptions);
   }
 
   /* Vacancies API */
-  getVacancies(id?) {
+  getVacancies(id?:number) {
     if (id) {
       return this.http.get(`${this.API_URL}vacancies/${id}`, reqOptions);
     } else {
@@ -217,7 +216,7 @@ export class ApiService {
   postVacancies(data) {
     return this.http.post(`${this.API_URL}/vacancies`, data, reqOptions);
   }
-  deleteVacancies(id){
+  deleteVacancies(id:number){
     return this.http.delete(`${this.API_URL}/vacancies/${id}`, reqOptions);
   }
 
@@ -227,7 +226,7 @@ export class ApiService {
   createUser(data) {
     return this.http.post(`${this.API_URL}users`, data, reqOptions);
   }
-  deleteUser(id) {
+  deleteUser(id:number) {
     return this.http.delete(`${this.API_URL}users`, reqOptions);
   }
 
@@ -235,7 +234,7 @@ export class ApiService {
   ValidateLogin1(data) {
     return this.http.post(`${this.API_URL}logins`, data, reqOptions);
   }
-  updatePassword1(id, data){
+  updatePassword1(id:number, data){
     console.log('TODO add this code soon!');
   }
 
@@ -248,8 +247,8 @@ export class ApiService {
     return this.http.post(`${this.API_URL}login`, data, reqOptions);
   }
 
-  GetApplicant(body) {
-    return this.http.post(`${this.API_URL}getapplicant`, body, reqOptions);
+  GetApplicant(data) {
+    return this.http.post(`${this.API_URL}getapplicant`, data, reqOptions);
   }
 
   updateApplicant(data, id) {
