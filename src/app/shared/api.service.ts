@@ -159,10 +159,10 @@ export class ApiService {
       return this.http.get(`${this.API_URL}professsionalmemberships`);
     }
   }
-  postProfessionalMemberships(id:number, data) {
+  postProfessionalMemberships(id:number, data: mdl.IProfessionalMembership) {
     return this.http.post(`${this.API_URL}/professsionalmemberships/${id}`, data, reqOptions);
   }
-  putProfessionalMemberships(id:number, data){
+  putProfessionalMemberships(id:number, data: mdl.IProfessionalMembership){
     return this.http.post(`${this.API_URL}/professsionalmemberships/${id}`, data, reqOptions);
   }
   deleteProfessionalMemberships(id:number){
@@ -177,10 +177,10 @@ export class ApiService {
       return this.http.get(`${this.API_URL}qualifications`);
     }
   }
-  postQualifications(id:number, data) {
+  postQualifications(id:number, data: mdl.IQualification) {
     return this.http.post(`${this.API_URL}/qualifications/${id}`, data, reqOptions);
   }
-  putQualifications(id:number, data){
+  putQualifications(id:number, data: mdl.IQualification){
     return this.http.post(`${this.API_URL}/qualifications/${id}`, data, reqOptions);
   }
   deleteQualifications(id:number){
@@ -195,10 +195,10 @@ export class ApiService {
       return this.http.get(`${this.API_URL}references`);
     }
   }
-  postReference(id:number, data) {
+  postReference(id:number, data: mdl.IReference) {
     return this.http.post(`${this.API_URL}/references/${id}`, data, reqOptions);
   }
-  putReference(id:number, data){
+  putReference(id:number, data: mdl.IReference){
     return this.http.post(`${this.API_URL}/references/${id}`, data, reqOptions);
   }
   deleteReference(id:number){
@@ -213,7 +213,7 @@ export class ApiService {
       return this.http.get(`${this.API_URL}vacancies`);
     }
   }
-  postVacancies(data) {
+  postVacancies(data: mdl.IReference) {
     return this.http.post(`${this.API_URL}/vacancies`, data, reqOptions);
   }
   deleteVacancies(id:number){
@@ -223,7 +223,7 @@ export class ApiService {
 
 
   /* Users */
-  createUser(data) {
+  createUser(data: mdl.IRegister) {
     return this.http.post(`${this.API_URL}users`, data, reqOptions);
   }
   deleteUser(id:number) {
@@ -231,21 +231,22 @@ export class ApiService {
   }
 
   /* Login API */
-  ValidateLogin1(data) {
+  validateLogin(data: mdl.ILogin) {
     return this.http.post(`${this.API_URL}logins`, data, reqOptions);
   }
-  updatePassword1(id:number, data){
+  updatePassword1(id:number, data: mdl.IUpdatePassword){
     console.log('TODO add this code soon!');
+    console.log(data);
   }
 
 
-  createLogin(data?) {
-    return this.http.post(`${this.API_URL}users`, data, reqOptions);
-  }
+  // createLogin(data?) {
+  //   return this.http.post(`${this.API_URL}users`, data, reqOptions);
+  // }
 
-  ValidateLogin(data) {
-    return this.http.post(`${this.API_URL}login`, data, reqOptions);
-  }
+  // ValidateLogin(data) {
+  //   return this.http.post(`${this.API_URL}login`, data, reqOptions);
+  // }
 
   GetApplicant(data) {
     return this.http.post(`${this.API_URL}getapplicant`, data, reqOptions);
