@@ -119,7 +119,7 @@ export class LoginComponent implements OnInit {
             }
           );
 
-      }, 2000);
+      }, 500);
     } else {
       this.isLoading = false;
       this.openModal('Information', 'Please complete the form fields marked in red.', []);
