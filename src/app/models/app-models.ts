@@ -24,6 +24,7 @@ export interface IApplicant {
   title: string;
   firstName: string;
   lastName: string;
+  gender: string;
   race: string;
   dependant?: boolean;
   dependantAge?: string;
@@ -40,8 +41,12 @@ export interface IApplicant {
   address: string;
   language: string;
   phoneNumber: string;
+  natureOfEmployment: string;
+  relationship: string;
+  heardAboutUs: string;
+  marketingInfo: boolean;
+  birthDate: Date;
   createdAt?: Date;
-
 }
 
 export interface IApplicantDocument {
