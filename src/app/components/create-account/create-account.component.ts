@@ -1,13 +1,14 @@
 import { AlertModalComponent } from './../shared/alert-modal/alert-modal.component';
 import { ApiService } from './../../shared/api.service';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { CustomValidators } from 'src/app/shared/custom-validators';
 
 import { CustomData } from 'src/app/shared/custom-data';
+import * as mdl from '../../models/app-models';
 
 
 @Component({
@@ -19,10 +20,10 @@ export class CreateAccountComponent implements OnInit {
 
   /** Properties */
   isLoading = true;
-  signUpForm;
+  signUpForm: FormGroup;
   citizenshipVal = CustomData.citizenship;
   specialChar = new RegExp("(?=.[!@#\$%\^&])", "g");
-  responseData;
+  responseData: any;
   navObj = {
     path: '',
     params: [
@@ -44,16 +45,7 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.api.createLogin().subscribe(
-      (data) => {
-        console.log('This is the data: ', data)
-      },
-      (error) => {
-        console.log('Error : ', error)
-      },
-      () => {
-        console.log('Done!');
-      });
+
 
     this.isLoading = false;
     this.initForm();
@@ -80,10 +72,10 @@ export class CreateAccountComponent implements OnInit {
         Validators.minLength(8)
       ])],
       confirmPassword: ["", Validators.compose([Validators.required,])],
-      phone: ["", Validators.compose([Validators.required])],
+      phoneNumber: ["", Validators.compose([Validators.required])],
       firstName: ["", Validators.compose([Validators.required])],
       lastName: ["", Validators.compose([Validators.required])],
-      citizenship: ["", Validators.compose([Validators.required])],
+      citizenship: [null, Validators.compose([Validators.required])],
       idNumber: ["", Validators.compose([Validators.required])],
     },
       {
@@ -96,50 +88,50 @@ export class CreateAccountComponent implements OnInit {
     console.log('submitting....', this.signUpForm)
     this.isLoading = true;
     setTimeout(() => {
-      var data = {
+      var data: mdl.IRegister  = {
         firstName: this.signUpForm.value.firstName,
         lastName: this.signUpForm.value.lastName,
         idNumber: this.signUpForm.value.idNumber,
-        citizenship: parseInt(this.signUpForm.value.citizenship),
-        phoneNumber: this.signUpForm.value.phone,
+        citizenship: this.signUpForm.value.citizenship,
+        phoneNumber: this.signUpForm.value.phoneNumber,
         email: this.signUpForm.value.email,
         password: this.signUpForm.value.password,
       }
       // this.router.navigate(['applicant-form']);
       console.log(data);
-      this.api.createLogin(data)
+      this.api.createUser(data)
         .subscribe(
           data => {
             this.responseData = data;
             console.log('the response data: ', this.responseData);
-            switch (this.responseData.StatusCode) {
+            switch (this.responseData.statusCode) {
               case 200:
                 // request successful nav to next page
-                this.openModal(`Account for ${this.signUpForm.value.firstName} ${this.signUpForm.value.lastName} created successfully`, this.responseData.Message || 'User successfully created.', this.responseData, 'signin');
+                this.openModal(`Account for ${this.signUpForm.value.firstName} ${this.signUpForm.value.lastName} created successfully`, this.responseData.message || 'User successfully created.', this.responseData, 'signin');
 
                 console.log(200);
                 break;
               case 300:
                 // request came back with multiple records when it should not nav to login page
-                this.openModal('Record Already Exists', this.responseData.Message || 'A user with either that email address or ID number already exists', this.responseData);
+                this.openModal('Record Already Exists', this.responseData.message || 'A user with either that email address or ID number already exists', this.responseData);
                 console.log(300);
                 break;
 
               case 400:
                 // request had validation errors
-                this.openModal('Validation Error', this.responseData.Message || 'A few validation errors have occured, please review your form and try again', this.responseData);
+                this.openModal('Validation Error', this.responseData.message || 'A few validation errors have occured, please review your form and try again', this.responseData);
                 console.log(400);
                 break;
 
               case 404:
                 // request came back with no data
-                this.openModal('Record Not Found', this.responseData.Message, this.responseData);
+                this.openModal('Record Not Found', this.responseData.message, this.responseData);
                 console.log(404);
                 break;
 
               case 500:
                 // request came back with a server error
-                this.openModal('Server Error', this.responseData.Message, this.responseData);
+                this.openModal('Server Error', this.responseData.message, this.responseData);
                 console.log(500);
                 break;
 

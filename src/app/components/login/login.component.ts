@@ -6,6 +6,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router, NavigationExtras } from '@angular/router';
 import { CustomValidators } from 'src/app/shared/custom-validators';
 import { AlertModalComponent } from '../shared/alert-modal/alert-modal.component';
+import * as mdl from '../../models/app-models';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -49,54 +50,56 @@ export class LoginComponent implements OnInit {
 
       setTimeout(() => {
 
-        const data = {
-          "Email": this.loginForm.value.email,
-          "Password": this.loginForm.value.password
+        const data: mdl.ILogin = {
+          email: this.loginForm.value.email,
+          password: this.loginForm.value.password
         };
-        this.api.ValidateLogin(data)
+        this.api.validateLogin(data)
           .subscribe(
             data => {
               this.responseData = data;
               console.log('the response data: ', this.responseData);
-              switch (this.responseData.StatusCode) {
+              switch (this.responseData.statusCode) {
                 case 200:
                   // request successful nav to next page
                   // this.openModal(
                   //   'Success',
-                  //   this.responseData.Message || 'User successfully created.',
+                  //   this.responseData.message || 'User successfully created.',
                   //   this.responseData, () => {
                   //   });
-                  const val = this.loginForm.value.email;
+                  // const val = this.loginForm.value.email;
+                  window.localStorage.setItem("user", this.responseData.result.fkApplicantId);
                   this.router.navigate(
-                    ['applicant-form'],
-                    {
-                      queryParams: {
-                        email: this.loginForm.value.email
-                      }
-                    });
+                    ['applicant-form']);
                   console.log(200);
                   break;
                 case 300:
                   // request came back with multiple records when it should not nav to login page
-                  this.openModal('Record Already Exists', this.responseData.Message || 'A user with either that email address or ID number already exists', this.responseData);
+                  this.openModal('Record Already Exists', this.responseData.message || 'A user with either that email address or ID number already exists', this.responseData);
                   console.log(300);
                   break;
 
                 case 400:
                   // request had validation errors
-                  this.openModal('Validation Error', this.responseData.Message || 'A few validation errors have occured, please review your form and try again', this.responseData);
+                  this.openModal('Validation Error', this.responseData.message || 'A few validation errors have occured, please review your form and try again', this.responseData);
                   console.log(400);
                   break;
 
                 case 404:
                   // request came back with no data
-                  this.openModal('Record Not Found', this.responseData.Message, this.responseData);
+                  this.openModal('Record Not Found', this.responseData.message, this.responseData);
+                  console.log(404);
+                  break;
+
+                case 409:
+                  // request came back with no data
+                  this.openModal('Error', this.responseData.message, this.responseData);
                   console.log(404);
                   break;
 
                 case 500:
                   // request came back with a server error
-                  this.openModal('Server Error', this.responseData.Message, this.responseData);
+                  this.openModal('Server Error', this.responseData.message, this.responseData);
                   console.log(500);
                   break;
 
@@ -141,5 +144,5 @@ export class LoginComponent implements OnInit {
 
   }
 
-  
+
 }

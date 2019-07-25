@@ -24,7 +24,8 @@
           <div class="form-label-group">
             <label>Citizenship</label>
             <select formControlName="citizenship" type="text" class="form-control" placeholder="Citizenship">
-              <option [value]="i.id" *ngFor="let i of citizenshipVal"> {{ i.label }}</option>
+              <option [value]="true">Yes</option>
+              <option [value]="false">No</option>
             </select>
             <label class="text-danger" *ngIf="signUpForm.controls.citizenship.errors?.required && signUpForm.controls.citizenship.touched">
               Citizenship selection is required !
@@ -41,8 +42,8 @@
 
           <div class="form-label-group">
             <label>Cell number</label>
-            <input formControlName="phone" type="text" class="form-control" placeholder="Cell number">
-            <label class="text-danger" *ngIf="signUpForm.controls.phone.errors?.required && signUpForm.controls.phone.touched">
+            <input formControlName="phoneNumber" type="text" class="form-control" placeholder="Cell number">
+            <label class="text-danger" *ngIf="signUpForm.controls.phoneNumber.errors?.required && signUpForm.controls.phoneNumber.touched">
               Cell number is required!
             </label>
           </div>
