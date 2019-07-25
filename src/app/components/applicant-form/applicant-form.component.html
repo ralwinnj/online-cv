@@ -74,20 +74,9 @@
       <div class="col-lg-9">
 
         <div class="row fadeInUp wow" data-wow-delay="1.4s">
-          <!-- <div class="col-lg-4">
-              <label for="input-gender">Select a gender</label>
-              <select name="input-gender" id="input-gender" formControlName="gender" class="form-control">
-                <option value="0" selected>Male</option>
-                <option value="1">Female</option>
-              </select>
-              <label class="text-danger" *ngIf="personalForm.controls.gender.errors?.required && personalForm.controls.gender.touched">
-                Gender is required!
-              </label>
-            </div> -->
-
           <div class="col-lg-4">
-            <label for="input-title">Title</label>
-            <select name="input-title" id="input-title" formControlName="title" class="form-control">
+            <label>Title</label>
+            <select formControlName="title" class="form-control">
               <option value="0" selected="selected">Mr</option>
               <option value="1">Ms</option>
               <option value="2">Mrs</option>
@@ -97,31 +86,30 @@
             </label>
           </div>
           <div class="col-lg-4">
-            <label for="input-first-name">First name</label>
-            <input type="text" id="input-first-name" name="input-first-name" formControlName="firstName" class="form-control">
+            <label>First name</label>
+            <input type="text" formControlName="firstName" class="form-control">
             <label class="text-danger" *ngIf="personalForm.controls.firstName.errors?.required && personalForm.controls.firstName.touched">
               First name is required!
             </label>
           </div>
           <div class="col-lg-4">
-            <label for="input-last-name">Last name</label>
-            <input type="text" id="input-last-name" name="input-last-name" formControlName="lastName" class="form-control">
+            <label>Last name</label>
+            <input type="text" formControlName="lastName" class="form-control">
             <label class="text-danger" *ngIf="personalForm.controls.lastName.errors?.required && personalForm.controls.lastName.touched">
               Last name is required!
             </label>
           </div>
-
         </div>
 
         <div class="row fadeInUp wow" data-wow-delay="1.5s">
           <div class="col-lg-4 mt-3">
-            <label for="input-race">Race</label>
-            <select name="input-race" id="input-race" formControlName="race" class="form-control">
-              <option value="0" selected>Black</option>
-              <option value="1">Colored</option>
-              <option value="2">White</option>
-              <option value="3">Asian</option>
-              <option value="4">Indian</option>
+            <label>Race</label>
+            <select formControlName="race" class="form-control">
+              <option value="Black" selected>Black</option>
+              <option value="Colored">Colored</option>
+              <option value="White">White</option>
+              <option value="Asian">Asian</option>
+              <option value="Indian">Indian</option>
             </select>
             <label class="text-danger" *ngIf="personalForm.controls.race.errors?.required && personalForm.controls.race.touched">
               Race is required!
@@ -129,23 +117,23 @@
           </div>
 
           <div class="col-lg-4 mt-3">
-            <label for="input-dependant">Do have any dependants</label>
-            <select name="input-dependants" id="input-dependants" formControlName="dependant" class="form-control">
-              <option value="true">Yes</option>
-              <option value="false">No</option>
+            <label>Do have any dependants</label>
+            <select formControlName="dependant" class="form-control">
+              <option [value]="true">Yes</option>
+              <option [value]="false">No</option>
             </select>
           </div>
 
-          <div class="col-lg-4 mt-3" *ngIf="personalForm.value.dependents == 'true'">
-            <label for="input-dependant" formControlName="dependantAge" placeholder="eg. 3 to 15">If yes, aged?</label>
-            <input name="input-dependant-age" id="input-dependant-age" formControlName="dependantAge" class="form-control">
+          <div class="col-lg-4 mt-3" *ngIf="personalForm.value.dependents == true">
+            <label placeholder="eg. 3 to 15">If yes, aged?</label>
+            <input formControlName="dependantAge" class="form-control">
           </div>
 
           <div class="col-lg-4 mt-3">
-            <label for="input-disability">Do you have a disability</label>
-            <select class="form-control" name="input-disability" id="input-disability" formControlName="disability">
-              <option value="true">Yes</option>
-              <option value="false">No</option>
+            <label>Do you have a disability</label>
+            <select class="form-control" formControlName="disability">
+              <option [value]="true">Yes</option>
+              <option [value]="false">No</option>
             </select>
             <label class="text-danger" *ngIf="personalForm.controls.disability.errors?.required && personalForm.controls.disability.touched">
               Disability is required!
@@ -159,8 +147,8 @@
           <div class="col-lg-4 mt-3">
             <label for="input-citizenship">South African citizen</label>
             <select formControlName="citizenship" class="form-control" name="input-citizenship" id="input-citizenship">
-              <option value="true">Yes</option>
-              <option value="false">No</option>
+              <option [value]="true">Yes</option>
+              <option [value]="false">No</option>
             </select>
             <label class="text-danger" *ngIf="personalForm.controls.citizenship.errors?.required && personalForm.controls.citizenship.touched">
               Citizenship is required!
@@ -169,7 +157,7 @@
           <div class="col-lg-4 mt-3">
             <label for="input-nationality">Nationality</label>
             <select formControlName="nationality" class="form-control" name="input-nationality" id="input-nationality">
-              <option [value]="c.id" *ngFor="let c of countries">{{ c.label }}</option>
+              <option [value]="c.label" *ngFor="let c of countries">{{ c.label }}</option>
             </select>
             <label class="text-danger" *ngIf="personalForm.controls.nationality.errors?.required && personalForm.controls.nationality.touched">
               Nationality is required!
@@ -185,20 +173,31 @@
     </div>
     <div class="row fadeInUp wow" data-wow-delay="1.6s">
       <div class="col-lg-4 mt-3">
-        <label for="input-id-number">ID number</label>
-        <input type="text" id="input-id-number" name="input-id-number" formControlName="idNumber" class="form-control">
+        <label>ID number</label>
+        <input type="text" formControlName="idNumber" class="form-control">
         <label class="text-danger" *ngIf="personalForm.controls.idNumber.errors?.required && personalForm.controls.idNumber.touched">
           ID Number is required!
         </label>
       </div>
 
       <div class="col-lg-4 mt-3">
+        <label>Gender</label>
+        <select formControlName="gender" class="form-control">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+        <label class="text-danger" *ngIf="personalForm.controls.gender.errors?.required && personalForm.controls.gender.touched">
+          Gender is required!
+        </label>
+      </div>
+
+      <div class="col-lg-4 mt-3">
 
         <label for="input-input-date-of-birth">Birth date</label>
-        <!-- <input type="text" name="input-experience-start-date" id="input-experience-start-date"> -->
         <div class="form-group">
           <div class="input-group">
-            <input ngbDatepicker #dp3="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" formControlName="birthDate" class="form-control" (navigate)="birthDate = $event.next" name="input-input-date-of-birth" id="input-input-date-of-birth" placeholder="YYYY-MM-DD">
+            <input ngbDatepicker #dp3="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" formControlName="birthDate" class="form-control" (navigate)="birthDate = $event.next" name="input-input-date-of-birth" id="input-input-date-of-birth"
+              placeholder="YYYY-MM-DD">
             <div class="input-group-append">
               <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp3.toggle()" type="button"></button>
             </div>
@@ -222,8 +221,8 @@
       <div class="col-lg-4 mt-3">
         <label for="input-sars-registered">Are you registered with SARS</label>
         <select formControlName="sarsRegistered" class="form-control" name="input-address" id="input-address">
-          <option value="true">Yes</option>
-          <option value="false">No</option>
+          <option [value]="true">Yes</option>
+          <option [value]="false">No</option>
 
         </select>
         <label class="text-danger" *ngIf="personalForm.controls.sarsRegistered.errors?.required && personalForm.controls.sarsRegistered.touched">
@@ -243,7 +242,6 @@
         <label for="input-criminal-record">Do you have a drivers licence</label>
         <ng-multiselect-dropdown name="licenceDropdownList" [placeholder]="''" [data]="licenceDropDownListObj" formControlName="driversLicenceType" [settings]="dropdownSettings" [disabled]="disabled" (onSelect)="onItemSelect($event)">
         </ng-multiselect-dropdown>
-        <!-- <small id="driversLicenceHelp" class="form-text text-muted">Select those that are applicable</small> -->
       </div>
       <div class="col-lg-4 mt-3">
         <label for="input-phone-number">Phone number</label>
@@ -284,7 +282,6 @@
                 <td>{{ i.typeOfQualification}}</td>
                 <td>{{ i.yearObtained }}</td>
                 <td>
-                  <!-- <a class="btn-action" href="#"><i class="fas fa-trash"></i></a> -->
                 </td>
               </tr>
             </tbody>
@@ -326,7 +323,6 @@
                 <td>{{ i.membershipNumber }}</td>
                 <td>{{ i.expiryDate }}</td>
                 <td>
-                  <!-- <a class="btn-action"><i class="fas fa-trash"></i></a> -->
                 </td>
               </tr>
             </tbody>
@@ -365,7 +361,6 @@
                 <td>{{ i.skill }}</td>
                 <td>{{ i.competency }}</td>
                 <td>
-                  <!-- <a class="btn-action"><i class="fas fa-trash"></i></a> -->
                 </td>
               </tr>
             </tbody>
@@ -409,7 +404,6 @@
                 <td>{{ i.startDate }}</td>
                 <td>{{ i.endDate }}</td>
                 <td>
-                  <!-- <a class="btn-action"><i class="fas fa-trash"></i></a> -->
                 </td>
               </tr>
             </tbody>
@@ -549,7 +543,6 @@
                 <td>{{ i.cellNumber }}</td>
                 <td>{{ i.email }}</td>
                 <td>
-                  <!-- <a class="btn-action"><i class="fas fa-trash"></i></a> -->
                 </td>
               </tr>
             </tbody>
@@ -565,34 +558,8 @@
         </div>
       </div>
     </div>
-    <!-- END > References -->
-    <!--  ---------------------- -->
-    <!-- Criminal Record -->
-    <!-- <div class="col-lg-12">
-      <h5 class="fadeInDown wow">
-        <hr>
-        General
-        <hr>
-      </h5>
-      <div class="row">
-        <div class="col-12">
-          <div>
-            <label for="">Do you have any physical or mental conditions that would preventyou from performing the functions attached to this position?</label>
-          </div>
-          <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-            <label class="custom-control-label" for="customRadioInline1">Toggle this custom radio</label>
-          </div>
-          <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
-            <label class="custom-control-label" for="customRadioInline2">Or toggle this other custom radio</label>
-          </div>
-        </div>
-
-      </div>
-    </div> -->
   </div>
-  <div [formGroup]="personalForm" class="col-lg-12">
+  <div [formGroup]="personalForm" class="">
     <h5 class="fadeInDown wow">
       <hr>
       Other
@@ -601,7 +568,12 @@
     <div class="row">
       <div class="col-lg-6 mt-3">
         <label>Nature of employment</label>
-        <ng-multiselect-dropdown name="natureDropdownList" [placeholder]="" [data]="natureDropDownListObj" formControlName="natureDropdownList" [settings]="dropdownSettings" [disabled]="disabled" (onSelect)="onItemSelect($event)">
+        <ng-multiselect-dropdown name="natureDropdownList" [placeholder]="" [data]="natureDropDownListObj" formControlName="natureOfEmployment" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)">
+        </ng-multiselect-dropdown>
+      </div>
+      <div class="col-lg-6 mt-3">
+        <label>Languages</label>
+        <ng-multiselect-dropdown name="languageDropdownList" [placeholder]="" [data]="languageDropDownListObj" formControlName="language" [settings]="dropdownSettings" [disabled]="disabled" (onSelect)="onItemSelect($event)">
         </ng-multiselect-dropdown>
       </div>
       <div class="col-lg-6 mt-3">
@@ -638,175 +610,4 @@
     </div>
   </div>
 </div>
-
-
-
-<!-- modals here -->
-<ng-template #experienceContent let-modal>
-  <div class="modal-header">
-    <h5 class="modal-title" id="modal-title">Add Experience</h5>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-
-    <form [formGroup]="experienceForm">
-      <div class="row">
-        <div class="col-lg-4 mt-3">
-          <label for="input-experience-job-title">Job title</label>
-          <input formControlName="jobTitle" type="text" class="form-control" name="input-experience-job-title" id="input-experience-job-title">
-        </div>
-        <div class="col-lg-4 mt-3">
-          <label for="input-experience-company">Company Name</label>
-          <input formControlName="company" type="text" class="form-control" name="input-experience-company" id="input-experience-company">
-        </div>
-
-        <div class="col-lg-4 mt-3">
-          <label for="input-experience-country">Country</label>
-          <select formControlName="country" class="form-control" name="input-experience-country" id="input-experience-country">
-            <option *ngFor="let c of countries" [value]="c.id">{{ c.label }}</option>
-          </select>
-        </div>
-
-        <div class="col-lg-4 mt-3">
-          <label for="input-experience-start-date">Start Date</label>
-          <!-- <input type="text" name="input-experience-start-date" id="input-experience-start-date"> -->
-          <div class="form-group">
-
-            <div class="input-group">
-              <input ngbDatepicker #dp1="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" class="form-control" formControlName="startDate" (navigate)="date = $event.next" name="input-experience-start-date" id="input-experience-start-date" placeholder="YYYY-MM-DD">
-              <div class="input-group-append">
-                <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp1.toggle()" type="button"></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 mt-3">
-          <label for="input-experience-end-date">End Date</label>
-          <!-- <input type="text" name="input-experience-end-date" id="input-experience-end-date"> -->
-          <div class="form-group">
-            <div class="input-group">
-              <input ngbDatepicker #dp2="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" class="form-control" formControlName="endDate" (navigate)="date = $event.next" name="input-experience-end-date" id="input-experience-end-date" placeholder="YYYY-MM-DD">
-              <div class="input-group-append">
-                <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp2.toggle()" type="button"></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 mt-3">
-          <!-- <input formControlName="currentJob" type="checkbox" name="input-experience-current-workplace" id="input-experience-current-job">
-            <label >Current place of work?</label> -->
-          <div class="custom-control custom-checkbox mb-3 h-100 d-flex align-items-center">
-            <div class="v-align-center">
-              <input formControlName="currentJob" type="checkbox" class="custom-control-input cb-v-align" name="input-experience-current-workplace" id="input-experience-current-workplace">
-              <label class="custom-control-label" for="input-experience-current-workplace">Current Place of Work?</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-6 mt-3">
-          <label for="input-experience-description">Reason For Leaving</label>
-          <textarea formControlName="reasonFortoLeaving" type="text" class="form-control" name="input-experience-description" id="input-experience-reason-for-leaving"></textarea>
-        </div>
-
-        <div class="col-lg-6 mt-3">
-          <label for="input-experience-responsibilities">Responsibiities</label>
-          <textarea formControlName="responsibilities" type="text" class="form-control" name="input-experience-responsibilities" id="input-experience-responsibilities"></textarea>
-        </div>
-
-        <!-- <div class="col-lg-4">
-              <label for="input-experience-current-workplace">Is this your current place of work?</label>
-              <input type="text" name="input-experience-current-workplace" id="input-experience-current-workplace">
-            </div> -->
-      </div>
-    </form>
-
-  </div>
-
-  <div class="modal-footer">
-
-    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="saveExperience()">Save</button>
-
-  </div>
-
-</ng-template>
-
-<ng-template #educationContent let-modal>
-  <div class="modal-header">
-    <h5 class="modal-title" id="modal-title">Add Education</h5>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form [formGroup]="educationForm">
-      <div class="row">
-        <div class="col-lg-4 mt-3">
-          <label for="input-education-institution">Institution Name</label>
-          <input formControlName="institution" type="text" class="form-control" name="input-education-institution" id="input-education-institution">
-        </div>
-
-        <div class="col-lg-4 mt-3">
-          <label for="input-education-country">Country</label>
-          <select formControlName="institutionCountry" class="form-control" name="input-education-country" id="input-education-country">
-            <option [value]="c.id" *ngFor="let c of countries">{{ c.label }}</option>
-          </select>
-        </div>
-
-        <div class="col-lg-4 mt-3">
-          <label for="input-education-institution">Qualification Name</label>
-          <input formControlName="qualificationName" type="text" class="form-control" name="input-education-qualification-name" id="input-education-qualification-name">
-        </div>
-
-        <div class="col-lg-4 mt-3">
-          <label for="input-education-institution">Qualification Type</label>
-          <select formControlName="qualificationTypeId" class="form-control" name="input-education-qualification-type" id="input-education-qualification-type">
-            <option value="">Select a type of qualification</option>
-            <option [value]="q.id" *ngFor="let q of qualification">{{ q.label }}</option>
-          </select>
-        </div>
-
-
-        <div class="col-lg-4 mt-3">
-          <label for="input-education-start-date">Start Date</label>
-          <div class="form-group">
-            <div class="input-group">
-              <input ngbDatepicker #dp2="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" class="form-control" formControlName="startDate" (navigate)="date = $event.next" name="input-education-end-date" id="input-education-end-date" placeholder="YYYY-MM-DD">
-              <div class="input-group-append">
-                <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp2.toggle()" type="button"></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 mt-3">
-          <label for="input-education-end-date">End Date</label>
-          <div class="form-group">
-            <div class="input-group">
-              <input ngbDatepicker #dp1="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" class="form-control" formControlName="endDate" (navigate)="date = $event.next" name="input-education-end-date" id="input-education-end-date" placeholder="YYYY-MM-DD">
-              <div class="input-group-append">
-                <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp1.toggle()" type="button"></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-8 mt-3">
-          <label for="input-education-qualification-description">Qualification Description</label>
-          <textarea formControlName="qualificationDesc" type="text" class="form-control" name="input-education-qualification-description" id="input-education-qualification-description"></textarea>
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="saveEducation()">Save</button>
-  </div>
-</ng-template>
-<!-- close modals here -->
-
 <app-loader *ngIf="isLoading"></app-loader>

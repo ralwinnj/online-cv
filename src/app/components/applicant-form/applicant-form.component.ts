@@ -13,6 +13,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertModalComponent } from '../shared/alert-modal/alert-modal.component';
 
+import * as mdl from '../../models/app-models';
+
 import '../../../assets/js/scripts.js';
 import { ExperienceModalComponent } from '../shared/experience-modal/experience-modal.component';
 
@@ -27,43 +29,15 @@ export class ApplicantFormComponent implements OnInit {
   isLoading = false;
   toDisable = true;
   personalForm: FormGroup;
-  educationForm: FormGroup;
-  experienceForm: FormGroup;
-  birthDate: Date;
   customSelect: typeof CustomData;
 
   personal: {};
 
-  personals = [];
-  myEmail;
-  experience: {
-    idNumber: string,
-    jobTitle: string;
-    company: any;
-    country: any;
-    startDate: Date;
-    endDate: Date;
-    currentJob: boolean;
-    reasonFortoLeaving: string
-    responsibilities: string;
-  }[] = [];
-
-  education: {
-    idNumber: any;
-    institute: any;
-    institutionCountry: any;
-    qualificationTypeId: any;
-    qualificationName: any;
-    startDate: Date;
-    endDate: Date;
-    qualificationDesc: any;
-  }[] = [];
-
   qualification: { id: number; label: string; }[];
 
-  cvFileName;
+  cvFileName: any;
 
-  cvFile;
+  cvFile: any;
 
   natureDropDownListObj = [];
   natureSelectedItems = [];
@@ -83,15 +57,13 @@ export class ApplicantFormComponent implements OnInit {
   limitSelection = false;
   dropdownSettings: any = {};
   loginData: any;
-  responseData;
+  responseData: any;
   applicantData: any;
   languages: any = [];
   natureOfEmp: any = [];
   licences: any = [];
 
-  qualificationList = [
-    // {id: 1, nameOfInstitute: "CTI", nameOfQualification: "Diploma in computer programming", typeOfQualification: "Diploma", yearObtained: 2012}
-  ];
+  qualificationList = [];
   professionalMembershipList = [];
   computerLiteracyList = [];
   experienceList = [];
@@ -116,19 +88,7 @@ export class ApplicantFormComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.initPage();
-
-    this.route.queryParams.subscribe(params => {
-      this.myEmail = params['email'];
-      console.log(params['email']);
-      if (params['email'] !== undefined) {
-        this.toDisable = false;
-        this.getApplicantDetails();
-      } else {
-        this.toDisable = false;
-      }
-    });
-
-
+    this.getApplicantDetails();
   }
 
   public initForm() {
@@ -150,12 +110,12 @@ export class ApplicantFormComponent implements OnInit {
       sarsRegistered: [true, Validators.compose([Validators.required])],
       sarsTaxNumber: [''],
       driversLicence: [false, Validators.compose([Validators.required])],
-      driversLicenceType: [''],
+      driversLicenceType: [null],
       address: ['', Validators.compose([Validators.required])],
       language: [this.languageSelectedItems, Validators.compose([Validators.required])],
       phoneNumber: ['', Validators.compose([Validators.required])],
       emailAddress: [{ value: '', disabled: false }, Validators.compose([Validators.required, Validators.email])],
-      createAt: [new Date(), Validators.compose([Validators.required])],
+      createdAt: [new Date(), Validators.compose([Validators.required])],
       natureOfEmployment: ['', Validators.compose([Validators.required])],
       natureDropdownList: [this.natureSelectedItems],
       licenceDropdownList: [this.licenceSelectedItems],
@@ -167,30 +127,6 @@ export class ApplicantFormComponent implements OnInit {
       marketingInfo: ['', Validators.compose([Validators.required])],
       cvFile: ['', Validators.compose([Validators.required])],
       birthDate: [''],
-    });
-
-    this.experienceForm = this.fb.group({
-      idNumber: [null],
-      jobTitle: [null],
-      company: [null],
-      country: [null],
-      startDate: [new Date()],
-      endDate: [new Date()],
-      currentJob: [false],
-      createdAt: [new Date()],
-      responsibilities: [null],
-      reasonFortoLeaving: [null],
-    });
-
-    this.educationForm = this.fb.group({
-      idNumber: [null],
-      institution: [null],
-      institutionCountry: [null],
-      qualificationTypeId: [null],
-      qualificationName: [null],
-      startDate: [new Date()],
-      endDate: [new Date()],
-      qualificationDesc: [null],
     });
 
     this.qualification = CustomData.qualifications;
@@ -249,109 +185,119 @@ export class ApplicantFormComponent implements OnInit {
   getApplicantDetails(callback?: { (): void; (): void; }) {
     let val = this.route.snapshot.paramMap.get('email');
     let data: { email: string; };
-    this.route.queryParams.subscribe(params => {
-      val = params['email'];
-      data = {
-        email: val
-      };
-      console.log(data);
-      this.api.GetApplicant(data)
-        .subscribe(
-          data => {
-            this.responseData = data;
+    let id: number = parseInt(window.localStorage.getItem('user'));
+    console.log(data);
+    this.api.getApplicants(id)
+      .subscribe(
+        data => {
+          this.responseData = data;
 
-            console.log('the response data: ', this.responseData);
-            switch (this.responseData.StatusCode) {
-              case 200:
-                // request successful nav to next page
-                console.log(200);
-                this.toDisable = true;
-                // localStorage.removeItem('oja_usr');
-                // localStorage.removeItem('applicant_list');
-                // localStorage.removeItem('applicant_data');
-                // localStorage.setItem('oja_usr', JSON.stringify(this.responseData.Result[0]));
+          console.log('the response data: ', this.responseData);
+          switch (this.responseData.statusCode) {
+            case 200:
+              // request successful nav to next page
+              console.log(200);
+              // localStorage.removeItem('oja_usr');
+              // localStorage.removeItem('applicant_list');
+              // localStorage.removeItem('applicant_data');
+              // localStorage.setItem('oja_usr', JSON.stringify(this.responseData.Result[0]));
+              console.log("GetApplicants Response: ", this.responseData);
+              this.setFormValues(this.responseData.result[0]);
 
-                this.setFormValues(this.responseData.Result[0]);
+              if (callback) {
+                callback();
+              }
+              break;
+            case 300:
+              // request came back with multiple records when it should not nav to login page
+              this.openModal('Record Already Exists', this.responseData.Message || 'A user with either that email address or ID number already exists', this.responseData);
+              console.log(300);
+              this.toDisable = false;
+              break;
 
-                if (callback) {
-                  callback();
-                }
-                break;
-              case 300:
-                // request came back with multiple records when it should not nav to login page
-                this.openModal('Record Already Exists', this.responseData.Message || 'A user with either that email address or ID number already exists', this.responseData);
-                console.log(300);
-                this.toDisable = false;
-                break;
+            case 400:
+              // request had validation errors
+              this.openModal('Validation Error', this.responseData.Message || 'A few validation errors have occured, please review your form and try again', this.responseData);
+              console.log(400);
+              this.toDisable = false;
+              break;
 
-              case 400:
-                // request had validation errors
-                this.openModal('Validation Error', this.responseData.Message || 'A few validation errors have occured, please review your form and try again', this.responseData);
-                console.log(400);
-                this.toDisable = false;
-                break;
+            case 404:
+              // request came back with no data
+              this.openModal('Record Not Found', this.responseData.Message, this.responseData);
+              console.log(404);
+              this.toDisable = false;
+              break;
 
-              case 404:
-                // request came back with no data
-                this.openModal('Record Not Found', this.responseData.Message, this.responseData);
-                console.log(404);
-                this.toDisable = false;
-                break;
+            case 500:
+              // request came back with a server error
+              this.openModal('Server Error', this.responseData.Message, this.responseData);
+              console.log(500);
+              this.toDisable = false;
+              break;
 
-              case 500:
-                // request came back with a server error
-                this.openModal('Server Error', this.responseData.Message, this.responseData);
-                console.log(500);
-                this.toDisable = false;
-                break;
-
-              default:
-                break;
-            }
-
-          },
-          error => {
-            this.openModal('Error?', error.message, error);
-            this.isLoading = false;
-            this.toDisable = false;
-          },
-          () => {
-            this.isLoading = false;
-            this.toDisable = false;
-            console.log('done loading');
+            default:
+              break;
           }
-        );
-    });
+
+        },
+        error => {
+          this.openModal('Error?', error.message, error);
+          this.isLoading = false;
+          this.toDisable = false;
+        },
+        () => {
+          this.isLoading = false;
+          this.toDisable = false;
+          console.log('done loading');
+        }
+      );
 
   }
 
-  setFormValues(data: { app: { gender: any; race: any; firstName: any; lastName: any; disability: any; idNumber: any; suburb: any; residentialTown: any; residentialProvince: any; residentialCountry: any; cellNo: any; relationshipWithUs: any; criminalRecord: any; heardAboutUs: any; marketingInfo: any; }; }) {
+  setFormValues(data: any) {
+    console.log('Setting form values');
     let myForm = this.personalForm;
-    this.route.queryParams.subscribe(params => {
-      const email = params['email'];
-      console.log({ year: parseInt(data.app.idNumber.substring(0, 2)), month: parseInt(data.app.idNumber.substring(2, 4)), day: parseInt(data.app.idNumber.substring(4, 6)) });
-      myForm.patchValue({
-        gender: data.app.gender,
-        ethnicity: data.app.race,
-        firstName: data.app.firstName,
-        lastName: data.app.lastName,
-        disability: data.app.disability,
-        idNumber: data.app.idNumber,
-        birthDate: { year: parseInt("19" + data.app.idNumber.substring(0, 2)), month: parseInt(data.app.idNumber.substring(2, 4)), day: parseInt(data.app.idNumber.substring(4, 6)) },
-        residentialSuburb: data.app.suburb,
-        residentialTown: data.app.residentialTown,
-        residentialProvince: data.app.residentialProvince,
-        residentialCountry: data.app.residentialCountry,
-        phoneNumber: data.app.cellNo,
-        emailAddress: email,
-        relationship: data.app.relationshipWithUs,
-        criminalRecord: data.app.criminalRecord,
-        heardAboutUs: data.app.heardAboutUs,
-        marketingInfo: data.app.marketingInfo,
-      });
+    // console.log({ year: parseInt(data.app.idNumber.substring(0, 2)), month: parseInt(data.app.idNumber.substring(2, 4)), day: parseInt(data.app.idNumber.substring(4, 6)) });
+    console.log('Set Form Values: ', data);
+    console.log('Set Form Values: ', JSON.parse(data.applicant.driversLicenceType));
+    this.personalForm.patchValue({
+      gender: data.applicant.gender,
+      title: data.applicant.title,
+      firstName: data.applicant.firstName,
+      lastName: data.applicant.lastName,
+      race: data.applicant.race,
+      dependant: data.applicant.dependant,
+      dependentAge: data.applicant.dependantAge,
+      disability: data.applicant.disability,
+      disabilityNature: data.applicant.disabilityNature,
+      citizenship: data.applicant.citizenship,
+      idNumber: data.applicant.idNumber,
+      nationality: data.applicant.nationality,
+      workPermitNumber: data.applicant.workPermitNumber,
+      sarsRegistered: data.applicant.sarsRegistered,
+      sarsTaxNumber: data.applicant.sarsTaxNumber,
+      driversLicence: data.applicant.driversLicence,
+      driversLicenceType: JSON.parse(data.applicant.driversLicenceType),
+      address: data.applicant.address,
+      language: JSON.parse(data.applicant.language),
+      phoneNumber: data.applicant.phoneNumber,
+      emailAddress: data.login[0].email,
+      createdAt: data.applicant.createdAt,
+      natureOfEmployment: JSON.parse(data.applicant.natureOfEmployment),
+      relationship: data.applicant.relationship,
+      heardAboutUs: data.applicant.heardAboutUs,
+      marketingInfo: data.applicant.marketingInfo,
+      birthDate: ((data.applicant.birthDate != null) ? {
+        year: new Date(data.applicant.birthDate).getFullYear(),
+        month: new Date(data.applicant.birthDate).getMonth(),
+        day: new Date(data.applicant.birthDate).getDay()
+      } : null),
     });
 
-  }
+    console.log('Set Form Values: ', this.personalForm);
+  };
+
 
   open(content: any) {
     console.log('content is : ', content)
@@ -362,7 +308,7 @@ export class ApplicantFormComponent implements OnInit {
     }).result
       .then((result) => {
         // SUCCESS LOGIC COMES HERE!!!!
-        console.log("closed successfully!")
+        console.log("closed successfully!", result)
       }, (reason) => {
         console.log(this.getDismissReason(reason));
       });
@@ -380,144 +326,9 @@ export class ApplicantFormComponent implements OnInit {
     }
   }
 
-  public saveExperience() {
-    this.isLoading = true;
-    setTimeout(() => {
-      const edata = {
-        idNumber: this.personalForm.value.idNumber,
-        jobTitle: this.experienceForm.value.jobTitle,
-        company: this.experienceForm.value.company,
-        country: parseInt(this.experienceForm.value.country),
-        employStatus: 0,
-        startDate: new Date(`${this.experienceForm.value.startDate.year || "1900"} ${this.experienceForm.value.startDate.month || "1"} ${this.experienceForm.value.startDate.day || "1"} 12:00:00`),
-        endDate: new Date(`${this.experienceForm.value.endDate.year || "1900"} ${this.experienceForm.value.endDate.month || "1"} ${this.experienceForm.value.endDate.day || "1"} 12:00:00`),
-        currentJob: this.experienceForm.value.currentJob,
-        createdAt: new Date(),
-        reasonFortoLeaving: this.experienceForm.value.reasonFortoLeaving,
-        responsibilities: this.experienceForm.value.responsibilities,
-      }
-
-
-      console.log('Data to be pushed', edata);
-      // alert('Thank you. Experience added successfully.');
-      this.isLoading = false;
-      this.api.ExperienceAdd(edata)
-        .subscribe(
-          data => {
-            this.responseData = data;
-            console.log('the response data: ', this.responseData);
-            switch (this.responseData.StatusCode) {
-              case 200:
-                // request successful nav to next page
-                // this.openModal(
-                //   'Success',
-                //   this.responseData.Message || 'User successfully created.',
-                //   this.responseData, () => {
-                //   });
-                alert('Thank you. Experience added successfully.');
-                this.experience.push(edata);
-                this.experienceForm.reset();
-                console.log(200);
-                break;
-
-              case 400:
-                // request had validation errors
-                alert(this.responseData.Message);
-                console.log(400);
-                break;
-
-              case 500:
-                // request came back with a server error
-                alert(this.responseData.Message);
-                console.log(500);
-                break;
-
-              default:
-                break;
-            }
-
-          },
-          error => {
-            this.openModal('Error', error.message, error);
-            // this.isLoading = false;
-          },
-          () => {
-            this.isLoading = false;
-
-            console.log('done loading');
-          }
-        );
-
-    }, 1500);
-  }
-
-  public saveEducation() {
-    this.isLoading = true;
-    setTimeout(() => {
-      const edata = {
-        idNumber: this.personalForm.value.idNumber,
-        institute: this.educationForm.value.institution,
-        institutionCountry: this.educationForm.value.institutionCountry,
-        qualificationTypeId: this.educationForm.value.qualificationTypeId,
-        qualificationName: this.educationForm.value.qualificationName,
-        startDate: new Date(`${this.educationForm.value.startDate.year || "1900"}-${this.educationForm.value.startDate.month || "1"}-${this.educationForm.value.startDate.day || "1"}`),
-        endDate: new Date(`${this.educationForm.value.endDate.year || "1900"}-${this.educationForm.value.endDate.month || "1"}-${this.educationForm.value.endDate.day || "1"}`),
-        qualificationDesc: this.educationForm.value.qualificationDesc
-      }
-      console.log('Data to be pushed', edata);
-      console.log('Data from edu form', this.educationForm);
-
-      this.api.EducationAdd(edata)
-        .subscribe(
-          data => {
-            this.responseData = data;
-            console.log('the response data: ', this.responseData);
-            switch (this.responseData.StatusCode) {
-              case 200:
-                // request successful
-                alert('Thank you. Education added successfully.');
-                this.education.push(edata);
-                this.isLoading = false;
-
-                console.log(200, 'The education object : ', this.education, this.experience, this.personal, this.educationForm);
-                // this.educationForm.reset();
-                break;
-
-              case 400:
-                // request had validation errors
-                alert(this.responseData.Message);
-                console.log(400);
-                break;
-
-              case 500:
-                // request came back with a server error
-                alert(this.responseData.Message);
-                console.log(500);
-                break;
-
-              default:
-                break;
-            }
-
-          },
-          error => {
-            this.openModal('Error', error.message, error);
-            // this.isLoading = false;
-          },
-          () => {
-            this.isLoading = false;
-
-            console.log('done loading');
-          }
-        );
-
-    }, 500);
-
-  }
-
   public saveDetails() {
 
-    console.log('submitting....')
+    console.log('submitting....');
     this.isLoading = true;
     setTimeout(() => {
       let languages: any;
@@ -546,79 +357,45 @@ export class ApplicantFormComponent implements OnInit {
         licences = this.licences.join(', ');
       }
 
-      this.personal = {
-        gender: this.personalForm.value.gender,
+      let id: number = parseInt(window.localStorage.getItem('user'));
+      console.log('ID is....', id);
+
+      let data: mdl.IApplicant = {
+        id: id,
         title: this.personalForm.value.title,
-        ethnicity: this.personalForm.value.ethnicity,
         firstName: this.personalForm.value.firstName,
         lastName: this.personalForm.value.lastName,
+        gender: this.personalForm.value.gender,
+        race: this.personalForm.value.race,
+        dependant: this.personalForm.value.dependant,
+        dependantAge: this.personalForm.value.dependantAge,
         disability: this.personalForm.value.disability,
-        birthDate: this.personalForm.value.birthDate,
+        disabilityNature: this.personalForm.value.disabilityNature,
         citizenship: this.personalForm.value.citizenship,
         idNumber: this.personalForm.value.idNumber,
+        nationality: this.personalForm.value.nationality,
+        workPermitNumber: this.personalForm.value.workPermitNumber,
+        sarsRegistered: this.personalForm.value.sarsRegistered,
+        sarsTaxNumber: this.personalForm.value.sarsTaxNumber,
+        driversLicence: ((this.personalForm.value.driversLicenceType == "") ? true : false),
+        driversLicenceType: JSON.stringify(this.personalForm.value.driversLicenceType),
         address: this.personalForm.value.address,
-        residentialSuburb: this.personalForm.value.residentialSuburb,
-        residentialTownOrCity: this.personalForm.value.residentialTown,
-        residentialProvince: this.personalForm.value.residentialProvince,
-        residentialCountry: this.personalForm.value.residentialCountry,
+        language: JSON.stringify(this.personalForm.value.language),
         phoneNumber: this.personalForm.value.phoneNumber,
-        emailAddress: this.personalForm.value.emailAddress,
-        natureOfEmployment: this.personalForm.value.natureOfEmployment,
-        natureDropDownList: this.personalForm.value.natureDropDownList,
+        natureOfEmployment: JSON.stringify(this.personalForm.value.natureOfEmployment),
         relationship: this.personalForm.value.relationship,
-        criminalRecord: this.personalForm.value.criminalRecord,
-        driversLicence: this.personalForm.value.driversLicence,
-        languages: this.personalForm.value.languages,
         heardAboutUs: this.personalForm.value.heardAboutUs,
         marketingInfo: this.personalForm.value.marketingInfo,
-        KeyExpertise: ''
+        birthDate: new Date(`${this.personalForm.value.birthDate.year}-${this.personalForm.value.birthDate.month}-${this.personalForm.value.birthDate.day}`),
       }
 
-      console.log('personal details', this.personal);
-      console.log('experience details', this.experience);
-      console.log('education details', this.education);
-
-      var data = {
-        firstName: this.personalForm.value.firstName,
-        knowAsName: this.personalForm.value.firstName,
-        lastName: this.personalForm.value.lastName,
-        southAficantYN: this.personalForm.value.citizenship,
-        idNumber: this.personalForm.value.idNumber,
-        nationality: "South Africa",
-        passportOrLocalId: "0",
-        workPermitNumber: "0",
-        telNo: this.personalForm.value.phoneNumber,
-        cellNo: this.personalForm.value.phoneNumber,
-        residentialSuburb: this.personalForm.value.residentialSuburb,
-        residentialTownOrCity: this.personalForm.value.residentialTown,
-        residentialProvince: parseInt(this.personalForm.value.residentialProvince),
-        residentialCountry: parseInt(this.personalForm.value.residentialCountry),
-        gender: parseInt(this.personalForm.value.gender),
-        race: parseInt(this.personalForm.value.ethnicity),
-        disability: parseInt(this.personalForm.value.disability),
-        disabilityNature: parseInt(this.personalForm.value.disability),
-        disabilityOther: this.personalForm.value.disability,
-        highestQualification: 0,
-        keyExpertise: 'N/A',
-        experienceOther: "0",
-        yearsOfExperience: "0",
-        costToCompany: "0",
-        natureOfEmployment: natureOfEmp,
-        relationshipWithUs: this.personalForm.value.relationship,
-        criminalRecord: false,
-        driversLicense: true,
-        driversLicenseType: licences,
-        languageProfeciency: languages,
-        heardAboutUs: this.personalForm.value.heardAboutUs,
-        marketingInfo: this.personalForm.value.marketingInfo,
-      }
       console.log('Data', data);
       let ctx = this
-      this.api.editApplicant(data)
+      this.api.putApplicant(id, data)
         .subscribe(
           data => {
             this.responseData = data;
-            console.log('the response data: ', this.responseData);
+            console.log('the response data PUT: ', this.responseData);
             switch (this.responseData.StatusCode) {
               case 200:
                 // request successful nav to next page
@@ -626,14 +403,8 @@ export class ApplicantFormComponent implements OnInit {
                   const val = ctx.personalForm.value.emailAddress;
                   console.log("Value is : " + val, ctx);
                   let successSave = function () {
-                    console.log('naving...')
-                    ctx.router.navigate(
-                      ['applicant-view'],
-                      {
-                        queryParams: {
-                          email: val
-                        }
-                      });
+                    console.log('saving...')
+                    ctx.router.navigate(['applicant-view']);
                   };
                   this.getApplicantDetails(() => { successSave() });
 
@@ -689,7 +460,7 @@ export class ApplicantFormComponent implements OnInit {
     this.cvFileName = e.srcElement.files[0].name;
     this.cvFile = e.srcElement.files[0];
     this.cvFile = this.getBase64(e.srcElement.files[0])
-    // this.cvFileName = 
+    // this.cvFileName =
   }
 
   openDoc() {
@@ -716,15 +487,15 @@ export class ApplicantFormComponent implements OnInit {
     console.log('onSelectAll', items);
   }
   toogleShowFilter() {
-    this.ShowFilter = !this.ShowFilter;
-    this.dropdownSettings = Object.assign({}, this.dropdownSettings, { allowSearchFilter: this.ShowFilter });
+    // this.ShowFilter = !this.ShowFilter;
+    // this.dropdownSettings = Object.assign({}, this.dropdownSettings, { allowSearchFilter: this.ShowFilter });
   }
 
   handleLimitSelection() {
     if (this.limitSelection) {
-      this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: 2 });
+      // this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: 2 });
     } else {
-      this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: null });
+      // this.dropdownSettings = Object.assign({}, this.dropdownSettings, { limitSelection: null });
     }
   }
 
@@ -746,13 +517,9 @@ export class ApplicantFormComponent implements OnInit {
     })
   }
 
-  getValue(id, obj) {
-    console.log('am i working.... ')
-    return CustomData.getValue(id, obj);
-  }
 
-  openModalForm(type, data?, callback?) {
-    let modalRef;
+  openModalForm(type: any, data?: any, callback?: any) {
+    let modalRef: any;
     switch (type.toLowerCase()) {
       case 'computer-literacy':
         modalRef = this.modalService.open(ComputerLiteracyModalComponent, { centered: true, size: 'lg' });
@@ -899,8 +666,8 @@ export class ApplicantFormComponent implements OnInit {
     }
   }
 
-  updateReceived(received) {
-
+  updateReceived(received: any) {
+    console.log(received);
   }
 
 
