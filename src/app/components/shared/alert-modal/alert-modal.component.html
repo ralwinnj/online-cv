@@ -1,6 +1,5 @@
 <div class="modal-header fadeIn">
   <div class="display-inline">
-
     <i class="fas fa-info-circle fa-2x pr-3 text-primary-bcmm"></i>
   </div>
   <h4 class="modal-title" id="modal-title">{{ title }}</h4>
@@ -10,8 +9,8 @@
 </div>
 <div class="modal-body fadeIn">
   <p>{{ message }}</p>
-  <ul *ngIf="object?.StatusCode === 400 && object.Result" class="list-unstyled">
-    <li class="text-danger" *ngFor="let e of object.Result"> {{ e.field }} - {{ e.message }}</li>
+  <ul *ngIf="object.result && object.statusCode == 400 " class="list-unstyled">
+    <li class="text-danger" *ngFor="let e of object.result"> {{ e.field }} - {{ e.message }}</li>
   </ul>
 </div>
 
