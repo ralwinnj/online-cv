@@ -14,11 +14,13 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { ApiService } from './shared/api.service';
 import { EncrDecrService } from './shared/encr-decr.service';
+import { SortByPipe } from './pipes/sort-by.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppModuleList
+    AppModuleList,
+    SortByPipe
   ],
   imports: [
     BrowserModule,
