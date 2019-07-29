@@ -25,7 +25,12 @@
 
       <div class="col-lg-6 mt-3">
         <label>Date finalized</label>
-        <input formControlName="dateFinalized" class="form-control">
+        <div class="input-group">
+          <input ngbDatepicker #dp3="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" formControlName="dateFinalized" class="form-control" (navigate)="dateFinalized = $event.next" placeholder="YYYY-MM-DD">
+          <div class="input-group-append">
+            <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp3.toggle()" type="button"></button>
+          </div>
+        </div>
         <label class="text-danger" *ngIf="disciplinaryRecordForm.controls.dateFinalized.errors?.required && disciplinaryRecordForm.controls.dateFinalized.touched">
           Date finalized is required!
         </label>
@@ -62,3 +67,5 @@
   <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
   <button type="button" class="btn btn-primary" (click)="save()">Save</button>
 </div>
+
+<app-loader *ngIf="isLoading"></app-loader>

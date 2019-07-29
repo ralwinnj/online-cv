@@ -41,7 +41,7 @@
       <div class="col-lg-6 mt-3">
         <label>End Date</label>
         <div class="input-group">
-          <input ngbDatepicker #dp2="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" class="form-control" formControlName="startDate" (navigate)="date = $event.next" placeholder="YYYY-MM-DD">
+          <input ngbDatepicker #dp2="ngbDatepicker" [minDate]="{year: 1920, month: 1, day: 1}" class="form-control" formControlName="endDate" (navigate)="date = $event.next" placeholder="YYYY-MM-DD">
           <div class="input-group-append">
             <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp2.toggle()" type="button"></button>
           </div>
@@ -49,7 +49,7 @@
       </div>
       <div class="col-lg-6 mt-3">
           <label>Description</label>
-          <input formControlName="description" class="form-control">
+          <textarea formControlName="description" class="form-control"></textarea>
           <label class="text-danger" *ngIf="workExperienceForm.controls.description.errors?.required && workExperienceForm.controls.description.touched">
             Position is required!
           </label>
@@ -67,3 +67,5 @@
   <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
   <button type="button" class="btn btn-primary" (click)="save()">Save</button>
 </div>
+
+<app-loader *ngIf="isLoading"></app-loader>

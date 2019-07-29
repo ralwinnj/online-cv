@@ -54,3 +54,5 @@
   <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
   <button type="button" class="btn btn-primary" (click)="save()">Save</button>
 </div>
+
+<app-loader *ngIf="isLoading"></app-loader>
