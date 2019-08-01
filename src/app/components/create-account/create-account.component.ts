@@ -85,7 +85,6 @@ export class CreateAccountComponent implements OnInit {
   }
 
   submitForm() {
-    console.log('submitting....', this.signUpForm)
     this.isLoading = true;
     setTimeout(() => {
       var data: mdl.IRegister  = {
@@ -103,7 +102,6 @@ export class CreateAccountComponent implements OnInit {
         .subscribe(
           data => {
             this.responseData = data;
-            console.log('the response data: ', this.responseData);
             switch (this.responseData.statusCode) {
               case 200:
                 // request successful nav to next page
@@ -146,16 +144,9 @@ export class CreateAccountComponent implements OnInit {
           },
           () => {
             this.isLoading = false;
-
-            console.log('done loading');
           }
         );
-
-      // this.isLoading = false;
-    }, 1000);
-
-
-    console.log('this is the form to be submitted: ', this.signUpForm);
+    }, 500);
   }
 
 
@@ -167,7 +158,6 @@ export class CreateAccountComponent implements OnInit {
     modalRef.componentInstance.message = message || 'Message Comes Here';
     modalRef.componentInstance.object = object || [];
     modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log(receivedEntry);
       if (!navObj) {
         navObj = null;
       } else {
@@ -176,8 +166,6 @@ export class CreateAccountComponent implements OnInit {
         navObj.paramValue;
         this.router.navigate(['signin']);
       }
-
     })
   }
-
 }

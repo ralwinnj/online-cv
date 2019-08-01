@@ -44,7 +44,6 @@ export class ProfessionalMembershipModalComponent implements OnInit {
     this.isLoading = true;
     let id = parseInt(localStorage.getItem('user'));
 
-    console.log('Save: ', this.professionalMembershipForm);
     if (this.professionalMembershipForm.valid) {
       if (typeof this.professionalMembership == 'undefined' || this.professionalMembership == null) {
         setTimeout(() => {
@@ -56,12 +55,10 @@ export class ProfessionalMembershipModalComponent implements OnInit {
             fkApplicantId: id
           };
 
-          console.log('Request Data: ', data);
           this.api.postProfessionalMemberships(id, data)
             .subscribe(
               data => {
                 this.responseData = data;
-                console.log('the response data: ', this.responseData);
                 switch (this.responseData.statusCode) {
                   case 200:
                     console.log(200);
@@ -85,7 +82,10 @@ export class ProfessionalMembershipModalComponent implements OnInit {
                     break;
                   case 300:
                     // request came back with multiple records when it should only ever have one; nav to login page
-                    this.openModal('Record Already Exists', this.responseData.message || 'A user with either that email address or ID number already exists', this.responseData);
+                    this.openModal(
+                      'Record Already Exists',
+                      this.responseData.message || 'A user with either that email address or ID number already exists',
+                      this.responseData);
                     console.log(300);
                     break;
 
@@ -119,14 +119,13 @@ export class ProfessionalMembershipModalComponent implements OnInit {
 
               },
               error => {
+                this.isLoading = false;
                 this.openModal('Error', error.message, error);
-                // this.isLoading = false;
               },
               () => {
-                this.resetForm();
                 this.isLoading = false;
+                this.resetForm();
 
-                console.log('done loading');
               }
             );
 
@@ -136,7 +135,6 @@ export class ProfessionalMembershipModalComponent implements OnInit {
       this.isLoading = false;
       this.openModal('Validation', 'Please ensure all form fields are filled in');
     }
-    console.log("Data List: ", this.dataList, this.dataOut);
   }
 
   resetForm() {
@@ -156,7 +154,6 @@ export class ProfessionalMembershipModalComponent implements OnInit {
     modalRef.componentInstance.message = message || 'Message Comes Here';
     modalRef.componentInstance.object = object || [];
     modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log(receivedEntry);
       if (callback) {
         callback();
       }

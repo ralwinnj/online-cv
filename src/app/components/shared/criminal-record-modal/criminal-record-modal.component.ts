@@ -11,7 +11,7 @@ import { AlertModalComponent } from '../alert-modal/alert-modal.component';
   styleUrls: ['./criminal-record-modal.component.css']
 })
 export class CriminalRecordModalComponent implements OnInit {
-  
+
   criminalRecordForm: FormGroup;
   isLoading: boolean = false;
   responseData: any;
@@ -20,7 +20,7 @@ export class CriminalRecordModalComponent implements OnInit {
   @Input() dataList: any;
   @Output() dataOut: EventEmitter<any> = new EventEmitter();
 
-  
+
   constructor(
     public modalService: NgbModal,
     private fb: FormBuilder,
@@ -70,39 +70,29 @@ export class CriminalRecordModalComponent implements OnInit {
             fkApplicantId: id
           };
 
-          console.log('Request Data: ', data);
-          console.log(1);
           this.api.postCriminalRecords(id, data)
             .subscribe(
               data => {
-                console.log(2);
                 this.responseData = data;
-                console.log(3);
-                console.log('the response data: ', this.responseData);
-                console.log(4);
                 switch (this.responseData.statusCode) {
                   case 200:
-                      console.log(5);
                     console.log(200);
                     this.api.getCriminalRecords(id)
                       .subscribe(
                         data => {
-                          console.log(6);
                           const d: any = data;
                           switch (d.statusCode) {
                             case 200:
-                                console.log(7);
                               console.log('nested : ', 200);
                               this.dataOut.emit(d.result);
                               break;
 
                             default:
-                                console.log(8);
                               break;
-                          } 
+                          }
                         },
-                        error => { console.log(9); this.openModal('Error', error.message, error); },
-                        () => { console.log(10); this.isLoading = false }
+                        error => { this.openModal('Error', error.message, error); },
+                        () => { this.isLoading = false }
                       )
                     break;
                   case 300:
@@ -143,12 +133,10 @@ export class CriminalRecordModalComponent implements OnInit {
               error => {
                 this.isLoading = false;
                 this.openModal('Error', error.message, error);
-                // this.isLoading = false;
               },
               () => {
                 this.resetForm();
                 this.isLoading = false;
-                console.log('done loading');
               }
             );
 
@@ -157,22 +145,21 @@ export class CriminalRecordModalComponent implements OnInit {
     } else {
       this.isLoading = false;
       this.openModal('Validation', 'Please ensure all form fields are filled in');
-      console.log('Form is invalid', this.criminalRecordForm);
     }
-    console.log("Data List: ", this.dataOut);
   }
-  openModal(title, message, object?, callback?) { 
+  openModal(title, message, object?, callback?) {
 
     const modalRef = this.modalService.open(AlertModalComponent);
+
     modalRef.componentInstance.title = title || 'Title Comes Here';
     modalRef.componentInstance.message = message || 'Message Comes Here';
     modalRef.componentInstance.object = object || [];
     modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log(receivedEntry);
       if (callback) {
         callback();
+
       }
-    })
+    });
 
   }
 

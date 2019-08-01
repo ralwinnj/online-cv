@@ -52,7 +52,6 @@ export class DisciplinaryRecordModalComponent implements OnInit {
 
     let id = parseInt(localStorage.getItem('user'));
 
-    console.log('Save: ', this.disciplinaryRecordForm);
     if (this.disciplinaryRecordForm.valid) {
       if (typeof this.disciplinaryRecord == 'undefined' || this.disciplinaryRecord == null) {
         setTimeout(() => {
@@ -68,12 +67,10 @@ export class DisciplinaryRecordModalComponent implements OnInit {
             fkApplicantId: id
           };
 
-          console.log('Request Data: ', data);
           this.api.postDisciplinaryRecords(id, data)
             .subscribe(
               data => {
                 this.responseData = data;
-                console.log('the response data: ', this.responseData);
                 switch (this.responseData.statusCode) {
                   case 200:
                     console.log(200);
@@ -137,8 +134,6 @@ export class DisciplinaryRecordModalComponent implements OnInit {
               () => {
                 this.disciplinaryRecordForm.reset();
                 this.isLoading = false;
-
-                console.log('done loading');
               }
             );
 
@@ -148,7 +143,6 @@ export class DisciplinaryRecordModalComponent implements OnInit {
       this.isLoading = false;
       this.openModal('Validation error!', 'Please ensure all fields are filled in.');
     }
-    console.log("Data List: ", this.dataList, this.dataOut);
   }
 
    resetForm() {
@@ -172,7 +166,6 @@ export class DisciplinaryRecordModalComponent implements OnInit {
     modalRef.componentInstance.message = message || 'Message Comes Here';
     modalRef.componentInstance.object = object || [];
     modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log(receivedEntry);
       if (callback) {
         callback();
       }

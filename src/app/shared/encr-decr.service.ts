@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as CryptoJS from 'crypto-js'; 
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,6 @@ export class EncrDecrService {
       mode: CryptoJS.mode.CBC,
       padding: CryptoJS.pad.Pkcs7
     });
-    console.log('get', decrypted.toString(CryptoJS.enc.Utf8))
     return decrypted.toString(CryptoJS.enc.Utf8);
   }
 }

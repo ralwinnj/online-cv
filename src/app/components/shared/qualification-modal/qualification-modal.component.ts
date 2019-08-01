@@ -42,7 +42,6 @@ export class QualificationModalComponent implements OnInit {
       this.years.push(year);
       year = year - 1;
     }
-    console.log(this.years);
   }
 
   initForm() {
@@ -77,13 +76,10 @@ export class QualificationModalComponent implements OnInit {
             fkApplicantId: id
           };
 
-          // const data: mdl.IQualification = this.qualification;
-          console.log('Request Data: ', data);
           this.api.postQualifications(id, data)
             .subscribe(
               data => {
                 this.responseData = data;
-                console.log('the response data: ', this.responseData);
                 switch (this.responseData.statusCode) {
                   case 200:
                     console.log(200);
@@ -95,7 +91,6 @@ export class QualificationModalComponent implements OnInit {
                             case 200:
                               console.log('nested: ', 200);
                               this.dataOut.emit(d.result)
-                              // this.dataOut = d.result;
                               break;
 
                             default:
@@ -158,7 +153,6 @@ export class QualificationModalComponent implements OnInit {
       this.isLoading = false;
       this.openModal('Validation', 'Please ensure all form fields are filled in');
     }
-    console.log("Data List: ", this.dataOut);
   }
 
   resetForm() {
@@ -181,7 +175,6 @@ export class QualificationModalComponent implements OnInit {
     modalRef.componentInstance.message = message || 'Message Comes Here';
     modalRef.componentInstance.object = object || [];
     modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log(receivedEntry);
       if (callback) {
         callback();
       }

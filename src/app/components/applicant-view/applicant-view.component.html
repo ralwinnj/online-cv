@@ -1,130 +1,153 @@
 <main class="container-fluid col-lg-9 mt-5 py-4">
-    <p>json: {{ responseData | json }}</p>
+  <p>json: {{ responseData | json }}</p>
   <div class="jumbotron jumbotron-fluid px-5 py-4 bg-light wow slideInUp" data-wow-duration="1.25s">
-    <h3 class="fadeInDown wow" data-wow-delay="1s">
-      {{ responseData.Result[0].app.firstName }} {{ responseData.Result[0].app.lastName }} Details
-      <hr>
-    </h3>
-    <dl class="row">
-      <dt class="col-sm-4">Full name</dt>
-      <dd class="col-sm-8">{{ responseData.Result[0].app.firstName }} {{ responseData.Result[0].app.lastName }}</dd>
+    <div id="post-details">
 
-      <dt class="col-sm-4">ID number</dt>
-      <dd class="col-sm-8">{{ responseData.Result[0].app.idNumber }}</dd>
+      <div class="fadeInDown wow" data-wow-delay="1s">
+        <div class="bg-primary row">
 
-      <dt class="col-sm-4">Ethnicity</dt>
-      <dd class="col-sm-8">{{ getValue('race', responseData.Result[0].app.race).label }}</dd>
-
-      <dt class="col-sm-4">Address</dt>
-      <dd class="col-sm-8">{{ responseData.Result[0].app.suburb }}, {{ getValue('province', responseData.Result[0].app.residentialProvince).label }}, {{ getValue('country', responseData.Result[0].app.residentialCountry).label }}</dd>
-
-      <!-- <dt class="col-sm-4">Citizenship</dt>
-      <dd class="col-sm-8">{{ responseData.Result[0].app.citizenship }}</dd> -->
-
-      <dt class="col-sm-4">Disablity</dt>
-      <dd class="col-sm-8">{{ getValue('disability', responseData.Result[0].app.disability).label }}</dd>
-
-      <dt class="col-sm-4">Phone number</dt>
-      <dd class="col-sm-8">{{ responseData.Result[0].app.telNo }}</dd>
-
-      <dt class="col-sm-4">Email address</dt>
-      <dd class="col-sm-8">{{ myEmail }}</dd>
-
-      <dt class="col-sm-4">Nature of employment</dt>
-      <dd class="col-sm-8">{{ responseData.Result[0].app.natureOfEmploymentReq }}</dd>
-
-      <dt class="col-sm-4">Relationship with us</dt>
-      <dd class="col-sm-8">{{ getValue('relationship', responseData.Result[0].app.relationshipWithUs).label }}</dd>
-
-      <dt class="col-sm-4">Do you have a criminal record</dt>
-      <dd class="col-sm-8">{{ (responseData.Result[0].app.criminalRecord) ? 'Yes' : 'No' }}</dd>
-
-      <dt class="col-sm-4">Drivers licence</dt>
-      <dd class="col-sm-8">{{ (responseData.Result[0].app.driversLicenseType != "" ) ? responseData.Result[0].app.driversLicenseType : 'None' }}</dd>
-
-      <dt class="col-sm-4">Languages</dt>
-      <dd class="col-sm-8">{{ responseData.Result[0].app.languageProfeciency }}</dd>
-
-      <dt class="col-sm-4">How did you hear about us</dt>
-      <dd class="col-sm-8">{{ responseData.Result[0].app.heardAboutUs }}</dd> 
-
-      <dt class="col-sm-4">Receive marketing info</dt>
-      <dd class="col-sm-8">{{ (responseData.Result[0].app.marketingInfo == true) ? 'Yes' : 'No'  }}</dd>
-    </dl>
-    <div class="row mt-3 slideInUp wow" id="experience">
-      <h3 class="fadeInDown wow w-100">
-        <hr>
-        Experience
-        <hr>
-      </h3>
-      <div class="w-100" id="table-container">
-        <table class="table table-striped" *ngIf="responseData.Result[0].exp">
-          <thead class="bg-primary text-white text-uppercase">
-            <tr>
-              <td>Job Title</td>
-              <td>Company</td>
-              <td>Country</td>
-              <td>Start Date</td>
-              <td>End Date</td>
-              <td>
-                <!-- <a class="btn btn-light btn-add text-capitalize" (click)="open(experienceContent)">
-                  <i class="fa fa-plus" aria-hidden="true"></i>
-                  <strong> Add</strong>
-                </a> -->
-              </td>
-            </tr>
-          </thead>
-          <tbody class="table-hover">
-            <tr *ngFor="let i of responseData.Result[0].exp">
-              <td>{{ i.jobTitle }}</td>
-              <td>{{ i.company }}</td>
-              <td>{{ getValue('country', i.country).label }}</td>
-              <td>{{ i.startDate.substring(0, 10) }}</td>
-              <td>{{ i.endDate.substring(0, 10) }}</td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div *ngIf="!responseData.Result[0].exp" class="w-100 text-center">
-          <h4><i>There is no records of prior work history, please add some.</i></h4>
-          <button type="button" class="btn btn-outline-primary border-0" style="display: block; margin: 0 auto" (click)="open(experienceContent)">ADD EXPERIENCE</button>
+          <div class="col-lg-4 d-flex align-items-center">
+            <h5 class="text-light m-0">
+              Details of the Post
+            </h5>
+          </div>
+          <div class="col-lg-8">
+            <p class="m-1">
+              Post applying for:
+            </p>
+            <p class="m-1">
+              Reference Number:
+            </p>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="row mt-3 slideInUp wow" id="education">
-      <h3 class="fadeInDown wow w-100">
-        <hr>
-        Education
+    <div *ngIf="false">
+      <h3 class="fadeInDown wow" data-wow-delay="1s">
+        {{ responseData.Result[0].app.firstName }} {{ responseData.Result[0].app.lastName }} Details
         <hr>
       </h3>
-      <div class="w-100" id="table-container">
-        <table class="table table-striped" *ngIf="responseData.Result[0].edu">
-          <thead class="bg-primary text-white text-uppercase">
-            <tr>
-              <td>Institution</td>
-              <td>Country</td>
-              <td>Qualification Name</td>
-              <td>Qualification Type</td>
-              <td>
-                <!-- <a class="btn btn-light btn-add text-capitalize" (click)="open(educationContent)">
+      <dl class="row">
+        <dt class="col-sm-4">Full name</dt>
+        <dd class="col-sm-8">{{ responseData.Result[0].app.firstName }} {{ responseData.Result[0].app.lastName }}</dd>
+
+        <dt class="col-sm-4">ID number</dt>
+        <dd class="col-sm-8">{{ responseData.Result[0].app.idNumber }}</dd>
+
+        <dt class="col-sm-4">Ethnicity</dt>
+        <dd class="col-sm-8">{{ getValue('race', responseData.Result[0].app.race).label }}</dd>
+
+        <dt class="col-sm-4">Address</dt>
+        <dd class="col-sm-8">{{ responseData.Result[0].app.suburb }}, {{ getValue('province', responseData.Result[0].app.residentialProvince).label }}, {{ getValue('country', responseData.Result[0].app.residentialCountry).label }}</dd>
+
+        <!-- <dt class="col-sm-4">Citizenship</dt>
+      <dd class="col-sm-8">{{ responseData.Result[0].app.citizenship }}</dd> -->
+
+        <dt class="col-sm-4">Disablity</dt>
+        <dd class="col-sm-8">{{ getValue('disability', responseData.Result[0].app.disability).label }}</dd>
+
+        <dt class="col-sm-4">Phone number</dt>
+        <dd class="col-sm-8">{{ responseData.Result[0].app.telNo }}</dd>
+
+        <dt class="col-sm-4">Email address</dt>
+        <dd class="col-sm-8">{{ myEmail }}</dd>
+
+        <dt class="col-sm-4">Nature of employment</dt>
+        <dd class="col-sm-8">{{ responseData.Result[0].app.natureOfEmploymentReq }}</dd>
+
+        <dt class="col-sm-4">Relationship with us</dt>
+        <dd class="col-sm-8">{{ getValue('relationship', responseData.Result[0].app.relationshipWithUs).label }}</dd>
+
+        <dt class="col-sm-4">Do you have a criminal record</dt>
+        <dd class="col-sm-8">{{ (responseData.Result[0].app.criminalRecord) ? 'Yes' : 'No' }}</dd>
+
+        <dt class="col-sm-4">Drivers licence</dt>
+        <dd class="col-sm-8">{{ (responseData.Result[0].app.driversLicenseType != "" ) ? responseData.Result[0].app.driversLicenseType : 'None' }}</dd>
+
+        <dt class="col-sm-4">Languages</dt>
+        <dd class="col-sm-8">{{ responseData.Result[0].app.languageProfeciency }}</dd>
+
+        <dt class="col-sm-4">How did you hear about us</dt>
+        <dd class="col-sm-8">{{ responseData.Result[0].app.heardAboutUs }}</dd>
+
+        <dt class="col-sm-4">Receive marketing info</dt>
+        <dd class="col-sm-8">{{ (responseData.Result[0].app.marketingInfo == true) ? 'Yes' : 'No'  }}</dd>
+      </dl>
+      <div class="row mt-3 slideInUp wow" id="experience">
+        <h3 class="fadeInDown wow w-100">
+          <hr>
+          Experience
+          <hr>
+        </h3>
+        <div class="w-100" id="table-container">
+          <table class="table table-striped" *ngIf="responseData.Result[0].exp">
+            <thead class="bg-primary text-white text-uppercase">
+              <tr>
+                <td>Job Title</td>
+                <td>Company</td>
+                <td>Country</td>
+                <td>Start Date</td>
+                <td>End Date</td>
+                <td>
+                  <!-- <a class="btn btn-light btn-add text-capitalize" (click)="open(experienceContent)">
                   <i class="fa fa-plus" aria-hidden="true"></i>
                   <strong> Add</strong>
                 </a> -->
-              </td>
-            </tr>
-          </thead>
-          <tbody class="table-hover">
-            <tr *ngFor="let i of responseData.Result[0].edu">
-              <td>{{i.institution}}</td>
-              <td>{{ getValue('country', i.institutionCountry).label || "n/a" }}</td>
-              <td>{{i.qualificationName}}</td>
-              <td>{{ getValue('qualifications', i.qualificationTypeId).label || "n/a" }}</td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
+                </td>
+              </tr>
+            </thead>
+            <tbody class="table-hover">
+              <tr *ngFor="let i of responseData.Result[0].exp">
+                <td>{{ i.jobTitle }}</td>
+                <td>{{ i.company }}</td>
+                <td>{{ getValue('country', i.country).label }}</td>
+                <td>{{ i.startDate.substring(0, 10) }}</td>
+                <td>{{ i.endDate.substring(0, 10) }}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div *ngIf="!responseData.Result[0].exp" class="w-100 text-center">
+            <h4><i>There is no records of prior work history, please add some.</i></h4>
+            <button type="button" class="btn btn-outline-primary border-0" style="display: block; margin: 0 auto" (click)="open(experienceContent)">ADD EXPERIENCE</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3 slideInUp wow" id="education">
+        <h3 class="fadeInDown wow w-100">
+          <hr>
+          Education
+          <hr>
+        </h3>
+        <div class="w-100" id="table-container">
+          <table class="table table-striped" *ngIf="responseData.Result[0].edu">
+            <thead class="bg-primary text-white text-uppercase">
+              <tr>
+                <td>Institution</td>
+                <td>Country</td>
+                <td>Qualification Name</td>
+                <td>Qualification Type</td>
+                <td>
+                  <!-- <a class="btn btn-light btn-add text-capitalize" (click)="open(educationContent)">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                  <strong> Add</strong>
+                </a> -->
+                </td>
+              </tr>
+            </thead>
+            <tbody class="table-hover">
+              <tr *ngFor="let i of responseData.Result[0].edu">
+                <td>{{i.institution}}</td>
+                <td>{{ getValue('country', i.institutionCountry).label || "n/a" }}</td>
+                <td>{{i.qualificationName}}</td>
+                <td>{{ getValue('qualifications', i.qualificationTypeId).label || "n/a" }}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <hr>
@@ -134,107 +157,5 @@
       </div>
     </div>
   </div>
-
-  <!-- modals here -->
-  <ng-template #experienceContent let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">Add Experience</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <form [formGroup]="experienceForm">
-        <div class="row">
-          <div class="col-lg-4 mt-3">
-            <label for="input-experience-title">Title</label>
-            <input formControlName="title" type="text" class="form-control" name="input-experience-title" id="input-experience-title">
-          </div>
-          <div class="col-lg-4 mt-3">
-            <label for="input-experience-company">Company Name</label>
-            <input formControlName="company" type="text" class="form-control" name="input-experience-company" id="input-experience-company">
-          </div>
-          <div class="col-lg-4 mt-3">
-            <label for="input-experience-location">Location</label>
-            <input formControlName="location" type="text" class="form-control" name="input-experience-location" id="input-experience-location">
-          </div>
-          <div class="col-lg-4 mt-3">
-            <label for="input-experience-start-date">Start Date</label>
-            <div class="form-group">
-              <div class="input-group">
-                <input ngbDatepicker #dp1="ngbDatepicker" class="form-control" formControlName="startDate" (navigate)="date = $event.next" name="input-experience-start-date" id="input-experience-start-date">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp1.toggle()" type="button"></button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 mt-3">
-            <label for="input-experience-end-date">End Date</label>
-            <div class="form-group">
-              <div class="input-group">
-                <input ngbDatepicker #dp2="ngbDatepicker" class="form-control" formControlName="endDate" (navigate)="date = $event.next" name="input-experience-start-date" id="input-experience-start-date">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-primary far fa-calendar-alt" (click)="dp2.toggle()" type="button"></button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 mt-3">
-            <label for="input-experience-current-workplace">Is this your current place of work?</label>
-            <input formControlName="currentPlaceOfWork" type="checkbox" class="form-control" name="input-experience-current-workplace" id="input-experience-current-workplace">
-          </div>
-          <div class="col-lg-8 mt-3">
-            <label for="input-experience-description">Description</label>
-            <textarea formControlName="description" type="text" class="form-control" name="input-experience-description" id="input-experience-description"></textarea>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-dark" (click)="modal.close('Save click')">Cancel</button>
-      <button type="button" class="btn btn-primary" (click)="saveExperience()">Save</button>
-    </div>
-  </ng-template>
-
-  <ng-template #educationContent let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">Add Education</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-
-      <!-- <div [formGroup]="educationForm"></div> -->
-      <form [formGroup]="educationForm">
-        <div class="row">
-          <div class="col-lg-6 mt-3">
-            <label for="input-education-year-completed">Year Completed</label>
-            <input formControlName="yearCompleted" type="text" class="form-control" name="input-education-year-completed" id="input-education-year-completed">
-          </div>
-          <div class="col-lg-6 mt-3">
-            <label for="input-education-institution">Institution Name</label>
-            <input formControlName="institution" type="text" class="form-control" name="input-education-institution" id="input-education-institution">
-          </div>
-          <div class="col-lg-6 mt-3">
-            <label for="input-education-field-of-study">Field of Study</label>
-            <input formControlName="fieldOfStudy" type="text" class="form-control" name="input-education-field-of-study" id="input-education-field-of-study">
-          </div>
-          <div class="col-lg-6 mt-3">
-            <label for="input-education-qualification-type">Qualification Type</label>
-            <select formControlName="qualificationType" class="form-control" name="input-education-qualification-type" id="input-education-qualification-type">
-              <option value="q" *ngFor="let q of qualifications">{{ q }}</option>
-            </select>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-dark" (click)="modal.close('Save click')">Cancel</button>
-      <button type="button" class="btn btn-primary" (click)="saveEducation()">Save</button>
-    </div>
-  </ng-template>
-  <!-- close modals here -->
 </main>
 <app-loader *ngIf="isLoading"></app-loader>

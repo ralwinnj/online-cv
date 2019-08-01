@@ -52,7 +52,6 @@ export class ComputerLiteracyModalComponent implements OnInit {
     let id = parseInt(localStorage.getItem('user'));
 
     if (this.computerLiteracyForm.valid) {
-      // if (typeof this.qualification == 'undefined')
       if (typeof this.computerLiteracy == 'undefined' || this.computerLiteracy == null) {
         setTimeout(() => {
           let data: IComputerLiteracy = {
@@ -62,12 +61,10 @@ export class ComputerLiteracyModalComponent implements OnInit {
             fkApplicantId: id
           };
 
-          console.log('Request Data: ', data);
           this.api.postComputerLiteracies(id, data)
             .subscribe(
               data => {
                 this.responseData = data;
-                console.log('the response data: ', this.responseData);
                 switch (this.responseData.statusCode) {
                   case 200:
                     console.log(200);
@@ -126,13 +123,10 @@ export class ComputerLiteracyModalComponent implements OnInit {
               },
               error => {
                 this.openModal('Error', error.message, error);
-                // this.isLoading = false;
               },
               () => {
                 this.resetForm();
                 this.isLoading = false;
-
-                console.log('done loading');
               }
             );
 
@@ -142,7 +136,6 @@ export class ComputerLiteracyModalComponent implements OnInit {
       this.isLoading = false;
       this.openModal('Validation error!', 'Please ensure all fields are filled in.');
     }
-    console.log("Data List: ", this.dataOut);
   }
 
   resetForm() {
@@ -162,7 +155,6 @@ export class ComputerLiteracyModalComponent implements OnInit {
     modalRef.componentInstance.message = message || 'Message Comes Here';
     modalRef.componentInstance.object = object || [];
     modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log(receivedEntry);
       if (callback) {
         callback();
       }

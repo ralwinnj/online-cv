@@ -15,9 +15,6 @@ export class AlertModalComponent implements OnInit {
   constructor(public modal: NgbModal, public activeModal: NgbActiveModal) { }
 
   ngOnInit() {
-    console.log(`Title: ${this.title}`);
-    console.log(`Message: ${this.message}`);
-    console.log(`Title: `, this.object);
   }
 
   passBack() {

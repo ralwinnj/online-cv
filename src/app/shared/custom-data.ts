@@ -162,7 +162,6 @@ export class CustomData {
     }
 
     public static getValue(type, id) {
-        console.log('custom-data getValue', type, id)
         switch (type.toLowerCase()) {
             case 'province':
                 return this.province.find(e => e.id === parseInt(id));

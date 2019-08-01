@@ -1,12 +1,11 @@
-import { EncrDecrService } from './../../shared/encr-decr.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from './../../shared/api.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Router, NavigationExtras } from '@angular/router';
-import { CustomValidators } from 'src/app/shared/custom-validators';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AlertModalComponent } from '../shared/alert-modal/alert-modal.component';
 import * as mdl from '../../models/app-models';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,17 +14,16 @@ import * as mdl from '../../models/app-models';
 
 export class LoginComponent implements OnInit {
 
-  isLoading = false;
-  responseData;
-  loginForm
-
+  isLoading: boolean = false;
+  responseData: any;
+  loginForm: FormGroup
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private api: ApiService,
-    public modalService: NgbModal,
-    private encrDecr: EncrDecrService) { }
+    public modalService: NgbModal) { }
+
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ['', [
@@ -35,21 +33,11 @@ export class LoginComponent implements OnInit {
       password: [null, [Validators.required]],
       rememberMe: [null],
     });
-
-    const encrypted = this.encrDecr.set('123456$#@$^@1ERF', 'ralwinn');
-    const decrypted = this.encrDecr.get('123456$#@$^@1ERF', encrypted);
-
-    console.log('Encrypted :' + encrypted);
-    console.log('Dencrypted :' + decrypted);
-
   }
   submitForm() {
-    console.log('submitting....', this.loginForm);
     this.isLoading = true;
     if (!this.loginForm.invalid) {
-
       setTimeout(() => {
-
         const data: mdl.ILogin = {
           email: this.loginForm.value.email,
           password: this.loginForm.value.password
@@ -58,17 +46,8 @@ export class LoginComponent implements OnInit {
           .subscribe(
             data => {
               this.responseData = data;
-              console.log('the response data: ', this.responseData);
               switch (this.responseData.statusCode) {
                 case 200:
-                  // request successful nav to next page
-                  // this.openModal(
-                  //   'Success',
-                  //   this.responseData.message || 'User successfully created.',
-                  //   this.responseData, () => {
-                  //   });
-                  // const val = this.loginForm.value.email;
-                  window.localStorage.setItem("user", this.responseData.result.fkApplicantId);
                   this.router.navigate(
                     ['applicant-form']);
                   console.log(200);
@@ -109,13 +88,11 @@ export class LoginComponent implements OnInit {
 
             },
             error => {
+              this.isLoading = false;
               this.openModal('Error', error.message, error);
-              // this.isLoading = false;
             },
             () => {
               this.isLoading = false;
-
-              console.log('done loading');
             }
           );
 
@@ -124,10 +101,7 @@ export class LoginComponent implements OnInit {
       this.isLoading = false;
       this.openModal('Information', 'Please complete the form fields marked in red.', []);
     }
-
   }
-
-
 
   openModal(title, message, object, callback?) {
 
@@ -136,7 +110,6 @@ export class LoginComponent implements OnInit {
     modalRef.componentInstance.message = message || 'Message Comes Here';
     modalRef.componentInstance.object = object || [];
     modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log(receivedEntry);
       if (callback) {
         callback();
       }

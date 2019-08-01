@@ -76,7 +76,7 @@ export class ApplicantFormComponent implements OnInit {
 
 
   constructor(
-    private modalService: NgbModal,
+    public modalService: NgbModal,
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
@@ -186,23 +186,25 @@ export class ApplicantFormComponent implements OnInit {
     let val = this.route.snapshot.paramMap.get('email');
     let data: { email: string; };
     let id: number = parseInt(window.localStorage.getItem('user'));
-    console.log(data);
     this.api.getApplicants(id)
       .subscribe(
         data => {
           this.responseData = data;
 
-          console.log('the response data: ', this.responseData);
           switch (this.responseData.statusCode) {
             case 200:
-              // request successful nav to next page
+              // request successful
               console.log(200);
-              // localStorage.removeItem('oja_usr');
-              // localStorage.removeItem('applicant_list');
-              // localStorage.removeItem('applicant_data');
-              // localStorage.setItem('oja_usr', JSON.stringify(this.responseData.Result[0]));
-              console.log("GetApplicants Response: ", this.responseData);
+
               this.setFormValues(this.responseData.result[0]);
+
+              this.qualificationList = this.responseData.result[0].qualification;
+              this.professionalMembershipList = this.responseData.result[0].professionalMembership;
+              this.computerLiteracyList = this.responseData.result[0].computerLiteracy;
+              this.experienceList = this.responseData.result[0].experience;
+              this.disciplinaryRecordList = this.responseData.result[0].disciplinaryRecord;
+              this.criminalRecordList = this.responseData.result[0].criminalRecord;
+              this.referenceList = this.responseData.result[0].reference;
 
               if (callback) {
                 callback();
@@ -249,18 +251,12 @@ export class ApplicantFormComponent implements OnInit {
         () => {
           this.isLoading = false;
           this.toDisable = false;
-          console.log('done loading');
         }
       );
 
   }
 
   setFormValues(data: any) {
-    console.log('Setting form values');
-    let myForm = this.personalForm;
-    // console.log({ year: parseInt(data.app.idNumber.substring(0, 2)), month: parseInt(data.app.idNumber.substring(2, 4)), day: parseInt(data.app.idNumber.substring(4, 6)) });
-    console.log('Set Form Values: ', data);
-    console.log('Set Form Values: ', JSON.parse(data.applicant.driversLicenceType));
     this.personalForm.patchValue({
       gender: data.applicant.gender,
       title: data.applicant.title,
@@ -294,13 +290,10 @@ export class ApplicantFormComponent implements OnInit {
         day: new Date(data.applicant.birthDate).getDay()
       } : null),
     });
-
-    console.log('Set Form Values: ', this.personalForm);
   };
 
 
   open(content: any) {
-    console.log('content is : ', content)
     this.modalService.open(content, {
       ariaLabelledBy: "modal-title",
       size: 'lg',
@@ -308,9 +301,7 @@ export class ApplicantFormComponent implements OnInit {
     }).result
       .then((result) => {
         // SUCCESS LOGIC COMES HERE!!!!
-        console.log("closed successfully!", result)
       }, (reason) => {
-        console.log(this.getDismissReason(reason));
       });
   }
 
@@ -327,8 +318,6 @@ export class ApplicantFormComponent implements OnInit {
   }
 
   public saveDetails() {
-
-    console.log('submitting....');
     this.isLoading = true;
     setTimeout(() => {
       let languages: any;
@@ -348,7 +337,6 @@ export class ApplicantFormComponent implements OnInit {
         });
         natureOfEmp = this.natureOfEmp.join(', ');
       }
-      console.log('nature of employment: ', natureOfEmp);
 
       if (this.personalForm.value.licenceDropdownList) {
         this.personalForm.value.licenceDropdownList.forEach((el: { item_text: any; }) => {
@@ -358,7 +346,6 @@ export class ApplicantFormComponent implements OnInit {
       }
 
       let id: number = parseInt(window.localStorage.getItem('user'));
-      console.log('ID is....', id);
 
       let data: mdl.IApplicant = {
         id: id,
@@ -389,21 +376,17 @@ export class ApplicantFormComponent implements OnInit {
         birthDate: new Date(`${this.personalForm.value.birthDate.year}-${this.personalForm.value.birthDate.month}-${this.personalForm.value.birthDate.day}`),
       }
 
-      console.log('Data', data);
       let ctx = this
       this.api.putApplicant(id, data)
         .subscribe(
           data => {
             this.responseData = data;
-            console.log('the response data PUT: ', this.responseData);
-            switch (this.responseData.StatusCode) {
+            switch (this.responseData.statusCode) {
               case 200:
                 // request successful nav to next page
                 this.openModal('Success', 'User details successfully Updated.', ctx.responseData, () => {
                   const val = ctx.personalForm.value.emailAddress;
-                  console.log("Value is : " + val, ctx);
                   let successSave = function () {
-                    console.log('saving...')
                     ctx.router.navigate(['applicant-view']);
                   };
                   this.getApplicantDetails(() => { successSave() });
@@ -447,19 +430,16 @@ export class ApplicantFormComponent implements OnInit {
           },
           () => {
             this.isLoading = false;
-
-            console.log('done loading');
           }
         );
-    }, 1500);
+    }, 500);
   }
 
   onFileChange(e: { srcElement: { files: any[]; }; }) {
     const fileObj = document.getElementById("input-cv-file");
-    console.log(fileObj, e);
     this.cvFileName = e.srcElement.files[0].name;
     this.cvFile = e.srcElement.files[0];
-    this.cvFile = this.getBase64(e.srcElement.files[0])
+    this.cvFile = this.getBase64(e.srcElement.files[0]);
     // this.cvFileName =
   }
 
@@ -472,19 +452,15 @@ export class ApplicantFormComponent implements OnInit {
     var reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
-      console.log(reader);
       return reader.result;
     };
     reader.onerror = function (error) {
-      console.log('Error: ', error);
       return error
     };
   }
   onItemSelect(item: any) {
-    console.log('onItemSelect', item);
   }
   onSelectAll(items: any) {
-    console.log('onSelectAll', items);
   }
   toogleShowFilter() {
     // this.ShowFilter = !this.ShowFilter;
@@ -500,7 +476,6 @@ export class ApplicantFormComponent implements OnInit {
   }
 
   editApplicant() {
-    console.log(this.personalForm.value);
   }
 
   openModal(title: string, message: string, object: any[], callback?: { (): void; (): void; }) {
@@ -510,7 +485,6 @@ export class ApplicantFormComponent implements OnInit {
     modalRef.componentInstance.message = message || 'Message Comes Here';
     modalRef.componentInstance.object = object || [];
     modalRef.componentInstance.passEntry.subscribe((receivedEntry: any) => {
-      console.log(receivedEntry);
       if (callback) {
         callback();
       }
@@ -527,11 +501,8 @@ export class ApplicantFormComponent implements OnInit {
           modalRef.componentInstance.dataIn = data;
         }
         modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
-          console.log("dataReceived: ", receivedDataOut);
           if (receivedDataOut != null || receivedDataOut.length > 0) {
-            receivedDataOut.forEach(el => {
-              this.computerLiteracyList.push(el);
-            });
+            this.computerLiteracyList = receivedDataOut;
           } else {
             this.computerLiteracyList = receivedDataOut;
           }
@@ -547,11 +518,8 @@ export class ApplicantFormComponent implements OnInit {
           modalRef.componentInstance.dataIn = data;
         }
         modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
-          console.log("dataReceived: ", receivedDataOut);
           if (receivedDataOut != null || receivedDataOut.length > 0) {
-            receivedDataOut.forEach(el => {
-              this.qualificationList.push(el);
-            });
+            this.qualificationList = receivedDataOut;
           } else {
             this.qualificationList = receivedDataOut;
           }
@@ -566,12 +534,9 @@ export class ApplicantFormComponent implements OnInit {
           modalRef.componentInstance.dataIn = data;
         }
         modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
-          console.log("dataReceived: ", receivedDataOut);
           this.updateReceived(receivedDataOut);
           if (receivedDataOut != null || receivedDataOut.length > 0) {
-            receivedDataOut.forEach(el => {
-              this.professionalMembershipList.push(el);
-            });
+            this.professionalMembershipList = receivedDataOut;
           } else {
             this.professionalMembershipList = receivedDataOut;
           }
@@ -586,12 +551,9 @@ export class ApplicantFormComponent implements OnInit {
           modalRef.componentInstance.dataIn = data;
         }
         modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
-          console.log("dataReceived: ", receivedDataOut);
           this.updateReceived(receivedDataOut);
           if (receivedDataOut != null || receivedDataOut.length > 0) {
-            receivedDataOut.forEach(el => {
-              this.experienceList.push(el);
-            });
+            this.experienceList = receivedDataOut;
           } else {
             this.experienceList = receivedDataOut;
           }
@@ -606,12 +568,9 @@ export class ApplicantFormComponent implements OnInit {
           modalRef.componentInstance.dataIn = data;
         }
         modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
-          console.log("dataReceived: ", receivedDataOut);
           this.updateReceived(receivedDataOut);
           if (receivedDataOut != null || receivedDataOut.length > 0) {
-            receivedDataOut.forEach(el => {
-              this.disciplinaryRecordList.push(el);
-            });
+            this.disciplinaryRecordList = receivedDataOut;
           } else {
             this.disciplinaryRecordList = receivedDataOut;
           }
@@ -626,12 +585,9 @@ export class ApplicantFormComponent implements OnInit {
           modalRef.componentInstance.dataIn = data;
         }
         modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
-          console.log("dataReceived: ", receivedDataOut);
           this.updateReceived(receivedDataOut);
           if (receivedDataOut != null || receivedDataOut.length > 0) {
-            receivedDataOut.forEach(el => {
-              this.criminalRecordList.push(el);
-            });
+            this.criminalRecordList = receivedDataOut;
           } else {
             this.criminalRecordList = receivedDataOut;
           }
@@ -645,14 +601,10 @@ export class ApplicantFormComponent implements OnInit {
         if (data != null) {
           modalRef.componentInstance.dataIn = data;
         }
-        console.log()
         modalRef.componentInstance.dataOut.subscribe((receivedDataOut: any) => {
-          console.log("dataReceived: ", receivedDataOut);
           this.updateReceived(receivedDataOut);
           if (receivedDataOut != null || receivedDataOut.length > 0) {
-            receivedDataOut.forEach(el => {
-              this.referenceList.push(el);
-            });
+            this.referenceList = receivedDataOut;
           } else {
             this.referenceList = receivedDataOut;
           }
@@ -667,8 +619,11 @@ export class ApplicantFormComponent implements OnInit {
   }
 
   updateReceived(received: any) {
-    console.log(received);
   }
 
+  getDate(d) {
+    let dt = new Date(`${d.year}-${d.month}-${d.day}`);
+    return dt.toISOString().substring(0,1);
+  }
 
 }

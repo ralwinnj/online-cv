@@ -86,7 +86,6 @@ export class ApiService {
     }
   }
   postCriminalRecords(id:number, data: mdl.ICriminalRecord) {
-    console.log('Posting criminal records....');
     return this.http.post(`${this.API_URL}criminalrecords/${id}`, data, reqOptions);
   }
   putCriminalRecords(id:number, data: mdl.ICriminalRecord){
@@ -236,8 +235,7 @@ export class ApiService {
     return this.http.post(`${this.API_URL}logins`, data, reqOptions);
   }
   updatePassword1(id:number, data: mdl.IUpdatePassword){
-    console.log('TODO add this code soon!');
-    console.log(data);
+    // TODO ADD CODE HERE  SOON!
   }
 
 

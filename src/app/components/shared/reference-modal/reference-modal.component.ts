@@ -45,7 +45,6 @@ export class ReferenceModalComponent implements OnInit {
     this.isLoading = true;
     let id = parseInt(localStorage.getItem('user'));
 
-    console.log('Save: ', this.referenceForm);
     if (this.referenceForm.valid) {
       if (typeof this.reference == 'undefined' || this.reference == null) {
         setTimeout(() => {
@@ -59,12 +58,10 @@ export class ReferenceModalComponent implements OnInit {
             fkApplicantId: id
           };
 
-          console.log('Request Data: ', data);
           this.api.postReference(id, data)
             .subscribe(
               data => {
                 this.responseData = data;
-                console.log('the response data: ', this.responseData);
                 switch (this.responseData.statusCode) {
                   case 200:
                     console.log(200);
@@ -129,7 +126,6 @@ export class ReferenceModalComponent implements OnInit {
                 this.resetForm();
                 this.isLoading = false;
 
-                console.log('done loading');
               }
             );
 
@@ -142,7 +138,6 @@ export class ReferenceModalComponent implements OnInit {
       this.isLoading = false;
       this.openModal('Validation', 'Please ensure all form fields are filled in');
     }
-    console.log("Data List: ", this.dataList, this.dataOut);
   }
 
   resetForm() {
@@ -164,7 +159,6 @@ export class ReferenceModalComponent implements OnInit {
     modalRef.componentInstance.message = message || 'Message Comes Here';
     modalRef.componentInstance.object = object || [];
     modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log(receivedEntry);
       if (callback) {
         callback();
       }

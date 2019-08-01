@@ -64,12 +64,10 @@ export class ExperienceModalComponent implements OnInit {
             fkApplicantId: id
           };
 
-          console.log('Request Data: ', data);
           this.api.postExperiences(id, data)
             .subscribe(
               data => {
                 this.responseData = data;
-                console.log('the response data: ', this.responseData);
                 switch (this.responseData.statusCode) {
                   case 200:
                     console.log(200);
@@ -127,14 +125,13 @@ export class ExperienceModalComponent implements OnInit {
 
               },
               error => {
-                this.openModal('Error', error.message, error);
                 this.isLoading = false;
+                this.openModal('Error', error.message, error);
               },
               () => {
-                this.resetForm();
                 this.isLoading = false;
+                this.resetForm();
 
-                console.log('done loading');
               }
             );
 
@@ -144,7 +141,6 @@ export class ExperienceModalComponent implements OnInit {
       this.isLoading = false;
       this.openModal('Validation error!', 'Please ensure all fields are filled in.');
     }
-    console.log("Data List: ", this.dataList, this.dataOut);
   }
 
   resetForm() {
@@ -167,7 +163,6 @@ export class ExperienceModalComponent implements OnInit {
     modalRef.componentInstance.message = message || 'Message Comes Here';
     modalRef.componentInstance.object = object || [];
     modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
-      console.log(receivedEntry);
       if (callback) {
         callback();
       }
