@@ -116,7 +116,7 @@ export interface IDisciplinaryRecord {
   record: boolean;
   nameOfInstitute: string;
   typeOfMisconduct: string;
-  dateFinalized: string;
+  dateFinalized: Date;
   awardSanction: string;
   resign: boolean;
   resignReason: string;
